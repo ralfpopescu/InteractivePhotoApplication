@@ -2,10 +2,15 @@
  * Created by ralfpopescu on 8/30/16.
  */
 
+import javax.swing.JFrame;
+import javax.swing.JMenu;
+import javax.swing.JMenuBar;
+import javax.swing.JMenuItem;
 import java.awt.EventQueue;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import java.awt.event.KeyListener;
+import java.awt.event.KeyEvent;
 import javax.swing.event.MenuEvent;
 import javax.swing.event.MenuListener;
 import javax.swing.*;
@@ -37,7 +42,8 @@ public class MainFrame extends JFrame implements MenuListener, ActionListener, K
 
         importItem = new JMenuItem("Import");
         deleteItem = new JMenuItem("Delete");
-        exitItem = new JMenuItem("Exitt");
+        exitItem = new JMenuItem("Exit");
+        exitItem.addActionListener(this);
 
         fileMenu.add(importItem);
         fileMenu.add(deleteItem);
@@ -68,7 +74,11 @@ public class MainFrame extends JFrame implements MenuListener, ActionListener, K
     }
 
     @Override
-    public void menuSelected(MenuEvent me){}
+    public void menuSelected(MenuEvent me){
+        if (me.getSource().equals(exitItem)) {
+            System.exit(0);
+        }
+    }
 
     @Override
     public void menuDeselected(MenuEvent me){}
@@ -76,5 +86,19 @@ public class MainFrame extends JFrame implements MenuListener, ActionListener, K
     @Override
     public void menuCanceled(MenuEvent me){}
 
+    @Override
+    public void keyTyped(KeyEvent ke){}
 
+    @Override
+    public void keyPressed(KeyEvent ke){}
+
+    @Override
+    public void keyReleased(KeyEvent ke){}
+
+    @Override
+    public void actionPerformed(ActionEvent e){
+        if (e.getSource().equals(exitItem)){
+            System.exit(0);
+        }
+    }
 }
