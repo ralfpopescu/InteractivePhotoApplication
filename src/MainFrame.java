@@ -45,7 +45,7 @@ public class MainFrame extends JFrame implements MenuListener, ActionListener, K
         jpnlContent.setBackground(Color.WHITE);
         jpnlMain.add(jpnlContent, BorderLayout.CENTER);
 
-        menuBar = new JMenuBar();
+        /*menuBar = new JMenuBar();
     //menu items
         fileMenu = new JMenu("File");
         viewMenu = new JMenu("View");
@@ -72,7 +72,10 @@ public class MainFrame extends JFrame implements MenuListener, ActionListener, K
         viewMenu.add(splitView);
 
         menuBar.add(fileMenu);
-        menuBar.add(viewMenu);
+        menuBar.add(viewMenu);*/
+
+        MenuBar topMenuBar = new MenuBar();
+        menuBar = topMenuBar.getMenuBar();
     //sub items
 
 
@@ -117,11 +120,36 @@ public class MainFrame extends JFrame implements MenuListener, ActionListener, K
         jpnlWest.add(familyToggle);
         jpnlWest.add(schoolToggle);
         jpnlWest.add(workToggle);
+
+        JButton backward = new JButton("<-");
+        JButton forward = new JButton("->");
+
+        backward.setMinimumSize(new Dimension(50, 25));
+        backward.setPreferredSize(new Dimension(25, 25));
+        backward.setMaximumSize(new Dimension(100, 25));
+
+
+        forward.setMinimumSize(new Dimension(50, 25));
+        forward.setPreferredSize(new Dimension(25, 25));
+        forward.setMaximumSize(new Dimension(100, 25));
+
+
+        JPanel jpnlBackwardForward = new JPanel(new FlowLayout(FlowLayout.LEFT));
+        jpnlBackwardForward.add(backward);
+        jpnlBackwardForward.add(forward);
+
+        jpnlBackwardForward.setPreferredSize(new Dimension(100, 30));
+        jpnlBackwardForward.setMaximumSize(new Dimension(100, 30));
+
+        jpnlWest.add(jpnlBackwardForward);
+
+
         jpnlMain.add(jpnlWest, BorderLayout.WEST);
 
 
+
         this.add(jpnlMain);
-        
+
 
     }
 
