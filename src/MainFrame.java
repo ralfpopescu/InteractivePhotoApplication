@@ -93,6 +93,11 @@ public class MainFrame extends JFrame implements MenuListener, ActionListener, K
         schoolToggle = new JToggleButton("School");
         workToggle = new JToggleButton("Work");
 
+        vacationToggle.setAlignmentX(Component.LEFT_ALIGNMENT);
+        familyToggle.setAlignmentX(Component.LEFT_ALIGNMENT);
+        schoolToggle.setAlignmentX(Component.LEFT_ALIGNMENT);
+        workToggle.setAlignmentX(Component.LEFT_ALIGNMENT);
+
 
         vacationToggle.setMinimumSize(new Dimension(50, 25));
         vacationToggle.setPreferredSize(new Dimension(100, 25));
@@ -121,27 +126,44 @@ public class MainFrame extends JFrame implements MenuListener, ActionListener, K
         jpnlWest.add(schoolToggle);
         jpnlWest.add(workToggle);
 
+        JRadioButton drawingMode = new JRadioButton("Draw");
+        JRadioButton textMode = new JRadioButton("Text");
+
+        ButtonGroup drawTextGroup = new ButtonGroup();
+        drawTextGroup.add(drawingMode);
+        drawTextGroup.add(textMode);
+
+        JPanel drawTextPanel = new JPanel();
+        drawTextPanel.add(drawingMode);
+        drawTextPanel.add(textMode);
+        drawTextPanel.setAlignmentX(Component.LEFT_ALIGNMENT);
+
+
         JButton backward = new JButton("<-");
         JButton forward = new JButton("->");
 
-        backward.setMinimumSize(new Dimension(50, 25));
+        backward.setMinimumSize(new Dimension(25, 25));
         backward.setPreferredSize(new Dimension(25, 25));
         backward.setMaximumSize(new Dimension(100, 25));
 
 
-        forward.setMinimumSize(new Dimension(50, 25));
+        forward.setMinimumSize(new Dimension(25, 25));
         forward.setPreferredSize(new Dimension(25, 25));
         forward.setMaximumSize(new Dimension(100, 25));
 
 
-        JPanel jpnlBackwardForward = new JPanel(new FlowLayout(FlowLayout.LEFT));
+        JPanel jpnlBackwardForward = new JPanel(new FlowLayout(FlowLayout.CENTER));
         jpnlBackwardForward.add(backward);
         jpnlBackwardForward.add(forward);
 
         jpnlBackwardForward.setPreferredSize(new Dimension(100, 30));
         jpnlBackwardForward.setMaximumSize(new Dimension(100, 30));
 
+        jpnlBackwardForward.setAlignmentX(Component.LEFT_ALIGNMENT);
+
+        jpnlWest.add(drawTextPanel);
         jpnlWest.add(jpnlBackwardForward);
+
 
 
         jpnlMain.add(jpnlWest, BorderLayout.WEST);
@@ -155,8 +177,8 @@ public class MainFrame extends JFrame implements MenuListener, ActionListener, K
 
     private void initUI() {
 
-        setTitle("Simple example");
-        setSize(300, 200);
+        setTitle("Ralf's Photo Application");
+        setSize(800, 500);
         setLocationRelativeTo(null);
         setDefaultCloseOperation(EXIT_ON_CLOSE);
     }

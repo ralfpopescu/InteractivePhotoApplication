@@ -1,17 +1,13 @@
 /**
  * Created by ralfpopescu on 9/5/16.
  */
-import javax.swing.JFrame;
+
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 import java.awt.*;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
-import java.awt.event.KeyListener;
-import java.awt.event.KeyEvent;
-import javax.swing.event.MenuEvent;
-import javax.swing.event.MenuListener;
 import javax.swing.*;
 import java.io.*;
 
@@ -44,6 +40,12 @@ public class MenuBar implements ActionListener{
         gridView = new JRadioButtonMenuItem("Grid View");
         splitView = new JRadioButtonMenuItem("Split View");
 
+
+        ButtonGroup viewButtonGroup = new ButtonGroup();
+
+        viewButtonGroup.add(photoView);
+        viewButtonGroup.add(gridView);
+        viewButtonGroup.add(splitView);
 
         viewMenu.add(photoView);
         viewMenu.add(gridView);
