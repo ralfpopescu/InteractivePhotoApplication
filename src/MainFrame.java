@@ -21,7 +21,6 @@ public class MainFrame extends JFrame implements MenuListener, ActionListener, K
     JMenuBar menuBar;
     JMenu fileMenu, viewMenu;
     JMenuItem importItem, deleteItem, exitItem;
-    JRadioButtonMenuItem photoView, gridView, splitView;
     JRadioButton drawingMode, textMode;
     JToggleButton vacationToggle, familyToggle, schoolToggle, workToggle;
     JButton forwardButton, backwardButton;
@@ -39,55 +38,33 @@ public class MainFrame extends JFrame implements MenuListener, ActionListener, K
     public MainFrame() {
 
         initUI();
+        //basic setup
 
+        //Main Borderlayout organizes all other elements
         JPanel jpnlMain = new JPanel(new BorderLayout());
+
+        //White JPanel to represent future content
         JPanel jpnlContent = new JPanel();
         jpnlContent.setBackground(Color.WHITE);
         jpnlMain.add(jpnlContent, BorderLayout.CENTER);
 
-        /*menuBar = new JMenuBar();
-    //menu items
-        fileMenu = new JMenu("File");
-        viewMenu = new JMenu("View");
+        //prevents window from being minimized to distortion
+        this.setMinimumSize(new Dimension(200,250));
 
-        importItem = new JMenuItem("Import");
-        importItem.addActionListener(this);
-
-        deleteItem = new JMenuItem("Delete");
-
-        exitItem = new JMenuItem("Exit");
-        exitItem.addActionListener(this);
-
-        fileMenu.add(importItem);
-        fileMenu.add(deleteItem);
-        fileMenu.add(exitItem);
-
-        photoView = new JRadioButtonMenuItem("Photo View");
-        gridView = new JRadioButtonMenuItem("Grid View");
-        splitView = new JRadioButtonMenuItem("Split View");
-
-
-        viewMenu.add(photoView);
-        viewMenu.add(gridView);
-        viewMenu.add(splitView);
-
-        menuBar.add(fileMenu);
-        menuBar.add(viewMenu);*/
-
+        //creates menu bar, abstracted away for functionality
         MenuBar topMenuBar = new MenuBar();
         menuBar = topMenuBar.getMenuBar();
-    //sub items
+        this.setJMenuBar(menuBar);
 
-
+        //Status bar that changes on "Draw Mode" and "Text Mode" controls
         statusLabel = new JLabel("Status:");
 
-        this.setJMenuBar(menuBar);
-        jpnlMain.add(statusLabel, BorderLayout.SOUTH);
-
+        //Toolbox JPanel on the left of the window, basic setup
         JPanel jpnlWest = new JPanel();
-        BoxLayout westBox = new BoxLayout(jpnlWest, BoxLayout.Y_AXIS);
+        BoxLayout westBox = new BoxLayout(jpnlWest, BoxLayout.Y_AXIS); //box layout for top-down structure
         jpnlWest.setLayout(westBox);
 
+        //toggle buttons for tagging, will be abstracted later for functionality
         vacationToggle = new JToggleButton("Vacation");
         familyToggle = new JToggleButton("Family");
         schoolToggle = new JToggleButton("School");
@@ -101,23 +78,23 @@ public class MainFrame extends JFrame implements MenuListener, ActionListener, K
 
         vacationToggle.setMinimumSize(new Dimension(50, 25));
         vacationToggle.setPreferredSize(new Dimension(100, 25));
-        vacationToggle.setMaximumSize(new Dimension(Short.MAX_VALUE,
-                Short.MAX_VALUE));
+        vacationToggle.setMaximumSize(new Dimension(300,
+                300));
 
         familyToggle.setMinimumSize(new Dimension(50, 25));
         familyToggle.setPreferredSize(new Dimension(100, 25));
-        familyToggle.setMaximumSize(new Dimension(Short.MAX_VALUE,
-                Short.MAX_VALUE));
+        familyToggle.setMaximumSize(new Dimension(300,
+                300));
 
         schoolToggle.setMinimumSize(new Dimension(50, 25));
         schoolToggle.setPreferredSize(new Dimension(100, 25));
-        schoolToggle.setMaximumSize(new Dimension(Short.MAX_VALUE,
-                Short.MAX_VALUE));
+        schoolToggle.setMaximumSize(new Dimension(300,
+                300));
 
         workToggle.setMinimumSize(new Dimension(50, 25));
         workToggle.setPreferredSize(new Dimension(100, 25));
-        workToggle.setMaximumSize(new Dimension(Short.MAX_VALUE,
-                Short.MAX_VALUE));
+        workToggle.setMaximumSize(new Dimension(300,
+                300));
 
 
 
@@ -126,26 +103,44 @@ public class MainFrame extends JFrame implements MenuListener, ActionListener, K
         jpnlWest.add(schoolToggle);
         jpnlWest.add(workToggle);
 
+        //Drawing/Text mode buttons
         JRadioButton drawingMode = new JRadioButton("Draw");
         JRadioButton textMode = new JRadioButton("Text");
 
+        //Action Listeners for changing status label
+        drawingMode.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                statusLabel.setText("Drawing Mode");
+
+            }
+        });
+
+        textMode.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                statusLabel.setText("Text Mode");
+
+            }
+        });
+        //adds radio buttons to button group for mutual exclusivity
         ButtonGroup drawTextGroup = new ButtonGroup();
         drawTextGroup.add(drawingMode);
         drawTextGroup.add(textMode);
 
+        //organizes draw and text mode buttons side by side
         JPanel drawTextPanel = new JPanel();
         drawTextPanel.add(drawingMode);
         drawTextPanel.add(textMode);
         drawTextPanel.setAlignmentX(Component.LEFT_ALIGNMENT);
 
-
+        //forward and backward buttons
         JButton backward = new JButton("<-");
         JButton forward = new JButton("->");
 
         backward.setMinimumSize(new Dimension(25, 25));
         backward.setPreferredSize(new Dimension(25, 25));
         backward.setMaximumSize(new Dimension(100, 25));
-
 
         forward.setMinimumSize(new Dimension(25, 25));
         forward.setPreferredSize(new Dimension(25, 25));
@@ -161,15 +156,15 @@ public class MainFrame extends JFrame implements MenuListener, ActionListener, K
 
         jpnlBackwardForward.setAlignmentX(Component.LEFT_ALIGNMENT);
 
+        //add elements to left panel
         jpnlWest.add(drawTextPanel);
         jpnlWest.add(jpnlBackwardForward);
 
-
-
+        //add left panel to main panel
         jpnlMain.add(jpnlWest, BorderLayout.WEST);
+        jpnlMain.add(statusLabel, BorderLayout.SOUTH);
 
-
-
+        //add main panel to the frame
         this.add(jpnlMain);
 
 
@@ -219,5 +214,7 @@ public class MainFrame extends JFrame implements MenuListener, ActionListener, K
                 System.out.println(selectedFile.getName());
             }
         }
+
+        }
     }
-}
+
