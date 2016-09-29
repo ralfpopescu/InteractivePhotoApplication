@@ -15,16 +15,21 @@ import javax.swing.event.MenuEvent;
 import javax.swing.event.MenuListener;
 import javax.swing.*;
 import java.io.*;
+import javax.swing.filechooser.FileNameExtensionFilter;
+import java.awt.image.BufferedImage;
+import javax.imageio.ImageIO;
 
 public class MainFrame extends JFrame implements MenuListener, ActionListener, KeyListener {
+
+    JToggleButton vacationToggle, familyToggle, schoolToggle, workToggle;
+    JLabel statusLabel;
 
     JMenuBar menuBar;
     JMenu fileMenu, viewMenu;
     JMenuItem importItem, deleteItem, exitItem;
-    JRadioButton drawingMode, textMode;
-    JToggleButton vacationToggle, familyToggle, schoolToggle, workToggle;
-    JButton forwardButton, backwardButton;
-    JLabel statusLabel;
+    JRadioButtonMenuItem photoView, gridView, splitView;
+    BufferedImage currentPhoto;
+    PhotoComponent photoComp;
 
 
     public static void main(String[] args) {
@@ -52,8 +57,43 @@ public class MainFrame extends JFrame implements MenuListener, ActionListener, K
         this.setMinimumSize(new Dimension(200,250));
 
         //creates menu bar, abstracted away for functionality
-        MenuBar topMenuBar = new MenuBar();
-        menuBar = topMenuBar.getMenuBar();
+
+
+        menuBar = new JMenuBar();
+        //menu items
+        fileMenu = new JMenu("File");
+        viewMenu = new JMenu("View");
+
+        importItem = new JMenuItem("Import");
+        importItem.addActionListener(this);
+
+        deleteItem = new JMenuItem("Delete");
+
+        exitItem = new JMenuItem("Exit");
+        exitItem.addActionListener(this);
+
+        fileMenu.add(importItem);
+        fileMenu.add(deleteItem);
+        fileMenu.add(exitItem);
+
+        photoView = new JRadioButtonMenuItem("Photo View");
+        gridView = new JRadioButtonMenuItem("Grid View");
+        splitView = new JRadioButtonMenuItem("Split View");
+
+
+        ButtonGroup viewButtonGroup = new ButtonGroup();
+
+        viewButtonGroup.add(photoView);
+        viewButtonGroup.add(gridView);
+        viewButtonGroup.add(splitView);
+
+        viewMenu.add(photoView);
+        viewMenu.add(gridView);
+        viewMenu.add(splitView);
+
+        menuBar.add(fileMenu);
+        menuBar.add(viewMenu);
+
         this.setJMenuBar(menuBar);
 
         //Status bar that changes on "Draw Mode" and "Text Mode" controls
@@ -207,11 +247,19 @@ public class MainFrame extends JFrame implements MenuListener, ActionListener, K
         }
         if(e.getSource().equals(importItem)){
             JFileChooser fileChooser = new JFileChooser();
+            fileChooser.setFileFilter(new FileNameExtensionFilter("JPEG","jpg"));
             int returnValue = fileChooser.showOpenDialog(null);
             if (returnValue == JFileChooser.APPROVE_OPTION)
             {
-                File selectedFile = fileChooser.getSelectedFile();
-                System.out.println(selectedFile.getName());
+                File file = fileChooser.getSelectedFile();
+                try {
+                    BufferedImage inImg = ImageIO.read(file);
+                } catch (IOException error) {
+
+            }
+
+
+                photoComp = new PhotoComponent(currentPhoto);
             }
         }
 

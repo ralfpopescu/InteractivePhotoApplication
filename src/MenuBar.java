@@ -16,6 +16,8 @@ public class MenuBar implements ActionListener{
     JMenu fileMenu, viewMenu;
     JMenuItem importItem, deleteItem, exitItem;
     JRadioButtonMenuItem photoView, gridView, splitView;
+    File currentPhoto;
+    PhotoComponent photoComp;
 
     public MenuBar() {
 
@@ -64,8 +66,9 @@ public class MenuBar implements ActionListener{
             JFileChooser fileChooser = new JFileChooser();
             int returnValue = fileChooser.showOpenDialog(null);
             if (returnValue == JFileChooser.APPROVE_OPTION) {
-                File selectedFile = fileChooser.getSelectedFile();
-                System.out.println(selectedFile.getName());
+                currentPhoto = fileChooser.getSelectedFile();
+
+                photoComp = new PhotoComponent(currentPhoto);
             }
         }
     }
@@ -73,5 +76,7 @@ public class MenuBar implements ActionListener{
     public JMenuBar getMenuBar(){
         return menuBar;
     }
+
+    public File getCurrentPhoto(){ return currentPhoto; }
 
 }

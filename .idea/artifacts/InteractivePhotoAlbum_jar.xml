@@ -1,0 +1,8 @@
+<component name="ArtifactManager">
+  <artifact type="jar" name="InteractivePhotoAlbum:jar">
+    <output-path>$PROJECT_DIR$/out/artifacts/InteractivePhotoAlbum_jar</output-path>
+    <root id="archive" name="InteractivePhotoAlbum.jar">
+      <element id="module-output" name="InteractivePhotoAlbum" />
+    </root>
+  </artifact>
+</component>
