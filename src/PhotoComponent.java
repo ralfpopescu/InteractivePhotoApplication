@@ -14,21 +14,16 @@ public class PhotoComponent extends JComponent {
     private ArrayList<TextRegion> textRegionList = new ArrayList<>();
 
 
-    public PhotoComponent(BufferedImage g) {
-        photo = g;
+    public PhotoComponent(BufferedImage image) {
+        photo = image;
     }
 
-    public void paintComponent(Graphics g) {
-        if (flipped) {
-            //white back
-            //draw strokeDisplayList
-            //draw TextRegions
-        }
-        else {
-            if(photo != null) {
-                g.drawImage(photo, 0, 0, null);
-            }
-        }
+    @Override
+    protected void paintComponent(Graphics g) {
+
+        super.paintComponent(g);
+        g.drawImage(photo, 0, 0, null);
+        System.out.println("woop");
 
     }
 

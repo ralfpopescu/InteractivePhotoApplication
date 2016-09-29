@@ -23,13 +23,12 @@ public class MainFrame extends JFrame implements MenuListener, ActionListener, K
 
     JToggleButton vacationToggle, familyToggle, schoolToggle, workToggle;
     JLabel statusLabel;
-
+    JPanel jpnlMain;
     JMenuBar menuBar;
     JMenu fileMenu, viewMenu;
     JMenuItem importItem, deleteItem, exitItem;
     JRadioButtonMenuItem photoView, gridView, splitView;
     BufferedImage currentPhoto;
-    PhotoComponent photoComp;
 
 
     public static void main(String[] args) {
@@ -46,12 +45,12 @@ public class MainFrame extends JFrame implements MenuListener, ActionListener, K
         //basic setup
 
         //Main Borderlayout organizes all other elements
-        JPanel jpnlMain = new JPanel(new BorderLayout());
+        jpnlMain = new JPanel(new BorderLayout());
 
         //White JPanel to represent future content
-        JPanel jpnlContent = new JPanel();
+        /*JPanel jpnlContent = new JPanel();
         jpnlContent.setBackground(Color.WHITE);
-        jpnlMain.add(jpnlContent, BorderLayout.CENTER);
+        jpnlMain.add(jpnlContent, BorderLayout.CENTER);*/
 
         //prevents window from being minimized to distortion
         this.setMinimumSize(new Dimension(200,250));
@@ -254,12 +253,20 @@ public class MainFrame extends JFrame implements MenuListener, ActionListener, K
                 File file = fileChooser.getSelectedFile();
                 try {
                     BufferedImage inImg = ImageIO.read(file);
+                    currentPhoto = inImg;
+                    System.out.println(file);
                 } catch (IOException error) {
-
+                    System.exit(0);
             }
 
+                JPanel test = new JPanel();
+                test.setBackground(Color.RED);
+                PhotoComponent photoComp = new PhotoComponent(currentPhoto);
 
-                photoComp = new PhotoComponent(currentPhoto);
+                this.jpnlMain.add(test, BorderLayout.CENTER);
+                photoComp.revalidate();
+                photoComp.repaint();
+                this.revalidate();
             }
         }
 
