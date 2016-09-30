@@ -7,10 +7,7 @@ import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 import java.awt.*;
-import java.awt.event.ActionListener;
-import java.awt.event.ActionEvent;
-import java.awt.event.KeyListener;
-import java.awt.event.KeyEvent;
+import java.awt.event.*;
 import javax.swing.event.MenuEvent;
 import javax.swing.event.MenuListener;
 import javax.swing.*;
@@ -19,7 +16,7 @@ import javax.swing.filechooser.FileNameExtensionFilter;
 import java.awt.image.BufferedImage;
 import javax.imageio.ImageIO;
 
-public class MainFrame extends JFrame implements MenuListener, ActionListener, KeyListener {
+public class MainFrame extends JFrame implements MenuListener, ActionListener, KeyListener, MouseListener {
 
     JToggleButton vacationToggle, familyToggle, schoolToggle, workToggle;
     JLabel statusLabel;
@@ -263,7 +260,8 @@ public class MainFrame extends JFrame implements MenuListener, ActionListener, K
                 test.setBackground(Color.RED);
                 PhotoComponent photoComp = new PhotoComponent(currentPhoto);
 
-                this.jpnlMain.add(test, BorderLayout.CENTER);
+                this.jpnlMain.add(photoComp, BorderLayout.CENTER);
+
                 photoComp.revalidate();
                 photoComp.repaint();
                 this.revalidate();
@@ -271,5 +269,26 @@ public class MainFrame extends JFrame implements MenuListener, ActionListener, K
         }
 
         }
+
+    public void mousePressed(MouseEvent e) {
+
+    }
+
+    public void mouseReleased(MouseEvent e) {
+
+    }
+
+    public void mouseEntered(MouseEvent e) {
+
+    }
+
+    public void mouseExited(MouseEvent e) {
+
+    }
+
+    public void mouseClicked(MouseEvent e) {
+
+
+    }
     }
 
