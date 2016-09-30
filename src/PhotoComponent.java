@@ -1,3 +1,5 @@
+import com.sun.org.apache.xpath.internal.operations.Mod;
+
 import javax.swing.*;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
@@ -20,15 +22,18 @@ public class PhotoComponent extends JComponent implements MouseListener, MouseMo
     private int photoWidth;
     private int photoHeight;
     private boolean flipped = false;
+    private boolean mode = true;
+    private ModeController modeController;
 
     private ArrayList<Point> strokeDisplayList = new ArrayList<>();
     private ArrayList<TextRegion> textRegionList = new ArrayList<>();
 
 
-    public PhotoComponent(BufferedImage image) {
+    public PhotoComponent(BufferedImage image, ModeController modeController2) {
         photo = image;
         photoWidth = photo.getWidth();
         photoHeight = photo.getHeight();
+        modeController = modeController2;
 
         try {
             paperTexture = ImageIO.read(new File("src/papertexture.jpg"));
@@ -63,8 +68,10 @@ public class PhotoComponent extends JComponent implements MouseListener, MouseMo
             for(int i=1; i<strokeDisplayList.size(); i++){
                 Point currentPoint = strokeDisplayList.get(i);
                 Point previousPoint = strokeDisplayList.get(i-1);
-                g.drawLine((int)currentPoint.getX(),(int)currentPoint.getY(),
-                        (int)previousPoint.getX(), (int)previousPoint.getY());
+                if(previousPoint.getX() != -1 && currentPoint.getX() != -1) {
+                    g.drawLine((int) currentPoint.getX(), (int) currentPoint.getY(),
+                            (int) previousPoint.getX(), (int) previousPoint.getY());
+                }
             }
         } else {
             g.drawImage(photo, 0, 0, this);
@@ -76,14 +83,16 @@ public class PhotoComponent extends JComponent implements MouseListener, MouseMo
     }
 
     public void mousePressed(MouseEvent e) {
-        if(flipped) {
+        if(flipped && modeController.getMode()) {
             strokeDisplayList.add(new Point(e.getX(), e.getY()));
             repaint();
         }
     }
 
     public void mouseReleased(MouseEvent e) {
-
+        if(flipped && modeController.getMode()) {
+            strokeDisplayList.add(new Point(-1,0));
+        }
     }
 
     public void mouseEntered(MouseEvent e) {
@@ -109,12 +118,12 @@ public class PhotoComponent extends JComponent implements MouseListener, MouseMo
             revalidate();
             repaint();
         }
-
+        System.out.println(modeController.getMode());
 
     }
 
     public void mouseDragged(MouseEvent e) {
-        if(flipped) {
+        if(flipped && modeController.getMode()) {
             strokeDisplayList.add(new Point(e.getX(), e.getY()));
             repaint();
         }

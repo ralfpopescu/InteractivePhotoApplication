@@ -26,6 +26,7 @@ public class MainFrame extends JFrame implements MenuListener, ActionListener, K
     JMenuItem importItem, deleteItem, exitItem;
     JRadioButtonMenuItem photoView, gridView, splitView;
     BufferedImage currentPhoto;
+    ModeController modeController;
 
 
     public static void main(String[] args) {
@@ -40,6 +41,8 @@ public class MainFrame extends JFrame implements MenuListener, ActionListener, K
 
         initUI();
         //basic setup
+
+        modeController = new ModeController();
 
         //Main Borderlayout organizes all other elements
         jpnlMain = new JPanel(new BorderLayout());
@@ -148,6 +151,7 @@ public class MainFrame extends JFrame implements MenuListener, ActionListener, K
             @Override
             public void actionPerformed(ActionEvent e) {
                 statusLabel.setText("Drawing Mode");
+                modeController.setMode(true);
 
             }
         });
@@ -156,6 +160,7 @@ public class MainFrame extends JFrame implements MenuListener, ActionListener, K
             @Override
             public void actionPerformed(ActionEvent e) {
                 statusLabel.setText("Text Mode");
+                modeController.setMode(false);
 
             }
         });
@@ -258,7 +263,7 @@ public class MainFrame extends JFrame implements MenuListener, ActionListener, K
 
                 JPanel test = new JPanel();
                 test.setBackground(Color.RED);
-                PhotoComponent photoComp = new PhotoComponent(currentPhoto);
+                PhotoComponent photoComp = new PhotoComponent(currentPhoto, modeController);
 
                 this.jpnlMain.add(photoComp, BorderLayout.CENTER);
 

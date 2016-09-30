@@ -27,11 +27,11 @@
   </component>
   <component name="FileEditorManager">
     <leaf>
-      <file leaf-file-name="MainFrame.java" pinned="false" current-in-tab="true">
+      <file leaf-file-name="MainFrame.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/MainFrame.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="1.472155">
-              <caret line="291" column="5" selection-start-line="291" selection-start-column="5" selection-end-line="291" selection-end-column="5" />
+            <state vertical-scroll-proportion="0.0">
+              <caret line="157" column="0" selection-start-line="157" selection-start-column="0" selection-end-line="157" selection-end-column="0" />
               <folding>
                 <element signature="n#!!doc" expanded="true" />
                 <element signature="imports" expanded="true" />
@@ -40,11 +40,28 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="PhotoComponent.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/PhotoComponent.java">
+      <file leaf-file-name="ModeController.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/ModeController.java">
           <provider selected="true" editor-type-id="text-editor">
             <state vertical-scroll-proportion="0.0">
-              <caret line="22" column="0" selection-start-line="22" selection-start-column="0" selection-end-line="22" selection-end-column="0" />
+              <caret line="16" column="5" selection-start-line="16" selection-start-column="5" selection-end-line="16" selection-end-column="5" />
+              <folding>
+                <element signature="e#129#130#0" expanded="true" />
+                <element signature="e#156#157#0" expanded="true" />
+                <element signature="e#199#200#0" expanded="true" />
+                <element signature="e#229#230#0" expanded="true" />
+                <element signature="e#260#261#0" expanded="true" />
+                <element signature="e#287#288#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="PhotoComponent.java" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/src/PhotoComponent.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state vertical-scroll-proportion="0.27360776">
+              <caret line="85" column="46" selection-start-line="85" selection-start-column="46" selection-end-line="85" selection-end-column="46" />
               <folding>
                 <element signature="imports" expanded="true" />
               </folding>
@@ -86,8 +103,9 @@
       <list>
         <option value="$PROJECT_DIR$/src/ToolBar.java" />
         <option value="$PROJECT_DIR$/src/MenuBar.java" />
-        <option value="$PROJECT_DIR$/src/MainFrame.java" />
         <option value="$PROJECT_DIR$/src/TextRegion.java" />
+        <option value="$PROJECT_DIR$/src/MainFrame.java" />
+        <option value="$PROJECT_DIR$/src/ModeController.java" />
         <option value="$PROJECT_DIR$/src/PhotoComponent.java" />
       </list>
     </option>
@@ -103,7 +121,7 @@
     <order />
   </component>
   <component name="ProjectFrameBounds">
-    <option name="x" value="-26" />
+    <option name="x" value="6" />
     <option name="y" value="23" />
     <option name="width" value="1280" />
     <option name="height" value="726" />
@@ -488,7 +506,7 @@
     <servers />
   </component>
   <component name="ToolWindowManager">
-    <frame x="-26" y="23" width="1280" height="726" extended-state="0" />
+    <frame x="6" y="23" width="1280" height="726" extended-state="6" />
     <editor active="true" />
     <layout>
       <window_info id="Palette" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
@@ -678,16 +696,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/PhotoComponent.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="22" column="0" selection-start-line="22" selection-start-column="0" selection-end-line="22" selection-end-column="0" />
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/TextRegion.java">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
@@ -698,10 +706,35 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/MainFrame.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="1.472155">
-          <caret line="291" column="5" selection-start-line="291" selection-start-column="5" selection-end-line="291" selection-end-column="5" />
+        <state vertical-scroll-proportion="0.0">
+          <caret line="157" column="0" selection-start-line="157" selection-start-column="0" selection-end-line="157" selection-end-column="0" />
           <folding>
             <element signature="n#!!doc" expanded="true" />
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/ModeController.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="16" column="5" selection-start-line="16" selection-start-column="5" selection-end-line="16" selection-end-column="5" />
+          <folding>
+            <element signature="e#129#130#0" expanded="true" />
+            <element signature="e#156#157#0" expanded="true" />
+            <element signature="e#199#200#0" expanded="true" />
+            <element signature="e#229#230#0" expanded="true" />
+            <element signature="e#260#261#0" expanded="true" />
+            <element signature="e#287#288#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/PhotoComponent.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.27360776">
+          <caret line="85" column="46" selection-start-line="85" selection-start-column="46" selection-end-line="85" selection-end-column="46" />
+          <folding>
             <element signature="imports" expanded="true" />
           </folding>
         </state>
