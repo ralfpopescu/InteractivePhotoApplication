@@ -233,7 +233,8 @@ public class MainFrame extends JFrame implements MenuListener, ActionListener, K
     public void menuCanceled(MenuEvent me){}
 
     @Override
-    public void keyTyped(KeyEvent ke){}
+    public void keyTyped(KeyEvent ke){
+    }
 
     @Override
     public void keyPressed(KeyEvent ke){}
