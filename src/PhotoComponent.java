@@ -71,7 +71,7 @@ public class PhotoComponent extends JComponent implements MouseListener, MouseMo
                 RenderingHints.VALUE_ANTIALIAS_ON);
         g2.setRenderingHints (rh);
 
-        g.setColor(Color.yellow);
+        g.setColor(Color.black);
 
         if (flipped){
             BufferedImage subPaper = paperTexture.getSubimage(0, 0, photoWidth, photoHeight);
@@ -80,9 +80,18 @@ public class PhotoComponent extends JComponent implements MouseListener, MouseMo
             for(int i=1; i<strokeDisplayList.size(); i++){
                 Point currentPoint = strokeDisplayList.get(i);
                 Point previousPoint = strokeDisplayList.get(i-1);
-                if(previousPoint.getX() != -1 && currentPoint.getX() != -1) {
-                    g.drawLine((int) currentPoint.getX(), (int) currentPoint.getY(),
-                            (int) previousPoint.getX(), (int) previousPoint.getY());
+
+                System.out.println(currentPoint.getY());
+                System.out.println(photoHeight);
+
+                if(previousPoint.getX() > photoWidth || currentPoint.getY() > photoHeight){
+                    continue;
+                } else {
+
+                    if (previousPoint.getX() != -1 && currentPoint.getX() != -1) {
+                        g.drawLine((int) currentPoint.getX(), (int) currentPoint.getY(),
+                                (int) previousPoint.getX(), (int) previousPoint.getY());
+                    }
                 }
             }
 
@@ -95,6 +104,18 @@ public class PhotoComponent extends JComponent implements MouseListener, MouseMo
                     lineLength = metrics.stringWidth(textString);
                 }
                 Point start = textRegion.getStartingPoint();
+
+
+                if(textRegion.getEndPoint().getX() > photoWidth){
+                    textRegion.setEndPoint(photoWidth, (int)textRegion.getEndPoint().getY());
+                }
+
+                if(textRegion.getEndPoint().getY() > photoHeight){
+                    textRegion.setEndPoint((int)textRegion.getEndPoint().getY(), photoHeight);
+                }
+
+                textRegion.updateHeightWidth();
+
                 int regionWidth = textRegion.getWidth();
                 int regionHeight = textRegion.getHeight();
 
@@ -222,7 +243,6 @@ public class PhotoComponent extends JComponent implements MouseListener, MouseMo
             strokeDisplayList.add(new Point(e.getX(), e.getY()));
             repaint();
         }
-        System.out.println("lol");
         if(flipped && !modeController.getMode()){
             makingTextRegion = true;
             textRegionEndPoint = e.getPoint();

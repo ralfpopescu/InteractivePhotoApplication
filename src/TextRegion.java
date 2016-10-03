@@ -23,6 +23,19 @@ public class TextRegion {
         return startingPoint;
     }
 
+    public Point getEndPoint(){
+        return endPoint;
+    }
+
+    public void setEndPoint(int x, int y){
+        endPoint.setLocation(x,y);
+    }
+
+    public void updateHeightWidth(){
+        width = (int)(endPoint.getX() - startingPoint.getX());
+        height = (int)(endPoint.getY() - startingPoint.getY());
+    }
+
     public int getWidth(){
         return width;
     }
