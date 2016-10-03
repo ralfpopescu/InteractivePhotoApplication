@@ -16,7 +16,7 @@ public class TextRegion {
         endPoint = end;
         width = (int)(end.getX() - start.getX());
         height = (int)(end.getY() - start.getY());
-        text = z;
+        text = "";
     }
 
     public Point getStartingPoint(){

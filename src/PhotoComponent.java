@@ -90,22 +90,56 @@ public class PhotoComponent extends JComponent implements MouseListener, MouseMo
             for(int i = 0; i<textRegionList.size(); i++){
                 TextRegion textRegion = textRegionList.get(i);
                 String textString = textRegion.getText();
+                System.out.println(textString);
+                int lineLength = 0;
                 if(textString != null) {
-                    int lineLength = metrics.stringWidth(textString);
+                    lineLength = metrics.stringWidth(textString);
                 }
                 Point start = textRegion.getStartingPoint();
                 int regionWidth = textRegion.getWidth();
                 int regionHeight = textRegion.getHeight();
 
+                int numberOfLines = (lineLength / regionWidth) + 1;
+
+                ArrayList<String> lines = new ArrayList<>();
+                int blockStart = 0;
+
+
+
+                    int counter = 0;
+                if(metrics.stringWidth(textString) < regionWidth){
+                    lines = new ArrayList<>();
+                    lines.add(textString);
+                } else {
+                    lines = new ArrayList<>();
+                    while (counter < textString.length()) {
+                        String sub = textString.substring(blockStart, counter);
+                        while (metrics.stringWidth(sub) < regionWidth) {
+                            sub = textString.substring(blockStart, counter);
+                            counter++;
+                        }
+                        lines.add(sub);
+                        blockStart = counter;
+
+                    }
+                }
+
+                if(textString.length() > 0) {
+                    System.out.println(lines.get(0));
+                }
+
                 int runningStart = (int)start.getX();
                 int runningEnd = (int)start.getY();
 
                 g.fillRect((int)start.getX(),(int)start.getY(), regionWidth, regionHeight);
-                if(textString != null) {
-                    g.setColor(Color.black);
-                    g.drawString(textString, runningStart,runningEnd);
-                    System.out.println("drew string");
-                }
+
+                g.setColor(Color.black);
+                    System.out.println();
+                    for(String line: lines) {
+                        g.drawString(line, runningStart, runningEnd);
+                        System.out.println("drew string");
+                    }
+
 
             }
 
@@ -191,24 +225,26 @@ public class PhotoComponent extends JComponent implements MouseListener, MouseMo
 
     @Override
     public void keyTyped(KeyEvent ke){
-        System.out.println(ke.getKeyChar());
+
         if(typing){
-            TextRegion currentTextRegion = textRegionList.get(textRegionList.size());
+            TextRegion currentTextRegion = textRegionList.get(textRegionList.size() - 1);
             char character = ke.getKeyChar();
             currentTextRegion.addCharacter(character);
+            System.out.println(ke.getKeyChar());
             repaint();
         }
     }
 
     @Override
     public void keyPressed(KeyEvent ke){
+        /*
         System.out.println(ke.getKeyChar());
         if(typing){
             TextRegion currentTextRegion = textRegionList.get(textRegionList.size() - 1);
             char character = ke.getKeyChar();
             currentTextRegion.addCharacter(character);
             repaint();
-        }
+        }*/
     }
 
     @Override
