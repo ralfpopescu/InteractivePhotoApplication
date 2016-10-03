@@ -72,7 +72,6 @@ public class PhotoComponent extends JComponent implements MouseListener, MouseMo
         g2.setRenderingHints (rh);
 
         g.setColor(Color.yellow);
-        int fontHeight = metrics.getHeight();
 
         if (flipped){
             BufferedImage subPaper = paperTexture.getSubimage(0, 0, photoWidth, photoHeight);
@@ -117,6 +116,9 @@ public class PhotoComponent extends JComponent implements MouseListener, MouseMo
                         while (metrics.stringWidth(sub) < regionWidth) {
                             sub = textString.substring(blockStart, counter);
                             counter++;
+                            if(counter > textString.length()){
+                                break;
+                            }
                         }
                         lines.add(sub);
                         blockStart = counter;
@@ -128,16 +130,24 @@ public class PhotoComponent extends JComponent implements MouseListener, MouseMo
                     System.out.println(lines.get(0));
                 }
 
-                int runningStart = (int)start.getX();
-                int runningEnd = (int)start.getY();
+                int lineStart = (int)start.getY() + 10;
+                int fontHeight = metrics.getHeight();
+                int linesDrawn = 0;
+                int maxLines = regionHeight/fontHeight;
+                System.out.println(maxLines);
 
+                g.setColor(Color.yellow);
                 g.fillRect((int)start.getX(),(int)start.getY(), regionWidth, regionHeight);
 
                 g.setColor(Color.black);
                     System.out.println();
                     for(String line: lines) {
-                        g.drawString(line, runningStart, runningEnd);
-                        System.out.println("drew string");
+                        g.drawString(line, (int)start.getX(), lineStart);
+                        lineStart = lineStart + fontHeight;
+                        if(linesDrawn >= maxLines){
+                            break;
+                        }
+                        linesDrawn++;
                     }
 
 
