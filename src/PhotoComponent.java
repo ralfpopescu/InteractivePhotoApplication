@@ -67,9 +67,9 @@ public class PhotoComponent extends JComponent implements MouseListener, MouseMo
 
         Graphics2D g2 = (Graphics2D) g;
         RenderingHints rh = g2.getRenderingHints ();
-        rh.put (RenderingHints.KEY_ANTIALIASING,
+        rh.put(RenderingHints.KEY_ANTIALIASING,
                 RenderingHints.VALUE_ANTIALIAS_ON);
-        g2.setRenderingHints (rh);
+        g2.setRenderingHints(rh);
 
         g.setColor(Color.black);
 
@@ -89,7 +89,7 @@ public class PhotoComponent extends JComponent implements MouseListener, MouseMo
                 } else {
 
                     if (previousPoint.getX() != -1 && currentPoint.getX() != -1) {
-                        g.drawLine((int) currentPoint.getX(), (int) currentPoint.getY(),
+                        g2.drawLine((int) currentPoint.getX(), (int) currentPoint.getY(),
                                 (int) previousPoint.getX(), (int) previousPoint.getY());
                     }
                 }
@@ -183,6 +183,14 @@ public class PhotoComponent extends JComponent implements MouseListener, MouseMo
         this.setFocusable(true);
         this.requestFocus();
 
+    }
+
+    public int getPhotoWidth(){
+        return photoWidth;
+    }
+
+    public int getPhotoHeight(){
+        return photoHeight;
     }
 
     public void mousePressed(MouseEvent e) {

@@ -205,6 +205,9 @@ public class MainFrame extends JFrame implements MenuListener, ActionListener, K
         jpnlMain.add(jpnlWest, BorderLayout.WEST);
         jpnlMain.add(statusLabel, BorderLayout.SOUTH);
 
+        JScrollPane scrollPane = new JScrollPane(ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS,
+                ScrollPaneConstants.HORIZONTAL_SCROLLBAR_ALWAYS);
+
         //add main panel to the frame
         this.add(jpnlMain);
 
@@ -266,7 +269,13 @@ public class MainFrame extends JFrame implements MenuListener, ActionListener, K
                 test.setBackground(Color.RED);
                 PhotoComponent photoComp = new PhotoComponent(currentPhoto, modeController);
 
-                this.jpnlMain.add(photoComp, BorderLayout.CENTER);
+                photoComp.setPreferredSize(new Dimension(photoComp.getPhotoWidth(), photoComp.getPhotoHeight()));
+
+                JScrollPane scrollPane = new JScrollPane(photoComp, ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS,
+                        ScrollPaneConstants.HORIZONTAL_SCROLLBAR_ALWAYS);
+                scrollPane.setPreferredSize(new Dimension(200,200));
+
+                this.jpnlMain.add(scrollPane, BorderLayout.CENTER);
 
                 photoComp.revalidate();
                 photoComp.repaint();
