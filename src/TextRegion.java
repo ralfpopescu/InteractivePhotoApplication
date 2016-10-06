@@ -36,6 +36,10 @@ public class TextRegion {
         height = (int)(endPoint.getY() - startingPoint.getY());
     }
 
+    public void extendHeight(int amount){
+        height = height + amount;
+    }
+
     public int getWidth(){
         return width;
     }

@@ -27,6 +27,8 @@ public class MainFrame extends JFrame implements MenuListener, ActionListener, K
     JRadioButtonMenuItem photoView, gridView, splitView;
     BufferedImage currentPhoto;
     ModeController modeController;
+    Boolean hasPicture = false;
+    JScrollPane scrollPane;
 
 
     public static void main(String[] args) {
@@ -67,6 +69,7 @@ public class MainFrame extends JFrame implements MenuListener, ActionListener, K
         importItem.addActionListener(this);
 
         deleteItem = new JMenuItem("Delete");
+        deleteItem.addActionListener(this);
 
         exitItem = new JMenuItem("Exit");
         exitItem.addActionListener(this);
@@ -271,15 +274,27 @@ public class MainFrame extends JFrame implements MenuListener, ActionListener, K
 
                 photoComp.setPreferredSize(new Dimension(photoComp.getPhotoWidth(), photoComp.getPhotoHeight()));
 
-                JScrollPane scrollPane = new JScrollPane(photoComp, ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS,
+                scrollPane = new JScrollPane(photoComp, ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS,
                         ScrollPaneConstants.HORIZONTAL_SCROLLBAR_ALWAYS);
                 scrollPane.setPreferredSize(new Dimension(200,200));
+                scrollPane.setBackground(Color.LIGHT_GRAY);
 
                 this.jpnlMain.add(scrollPane, BorderLayout.CENTER);
+
+                hasPicture = true;
 
                 photoComp.revalidate();
                 photoComp.repaint();
                 this.revalidate();
+            }
+        }
+        if(e.getSource().equals(deleteItem)){
+            if(hasPicture){
+                this.jpnlMain.remove(scrollPane);
+                hasPicture = false;
+                System.out.println("deleted");
+                this.revalidate();
+                this.repaint();
             }
         }
 

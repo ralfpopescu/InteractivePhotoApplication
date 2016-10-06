@@ -48,7 +48,7 @@ public class PhotoComponent extends JComponent implements MouseListener, MouseMo
             paperTexture = ImageIO.read(new File("src/papertexture.jpg"));
 
         } catch (IOException error) {
-            System.out.println("omg");
+            System.out.println("IO Error");
 
         }
 
@@ -75,20 +75,20 @@ public class PhotoComponent extends JComponent implements MouseListener, MouseMo
 
         if (flipped){
             BufferedImage subPaper = paperTexture.getSubimage(0, 0, photoWidth, photoHeight);
-            g.drawImage(subPaper, 0, 0, this);
+            g.drawImage(subPaper, 0, 0, this); //Draws back of photo
 
-            for(int i=1; i<strokeDisplayList.size(); i++){
+            for(int i=1; i<strokeDisplayList.size(); i++){ //draws strokes
                 Point currentPoint = strokeDisplayList.get(i);
                 Point previousPoint = strokeDisplayList.get(i-1);
 
                 System.out.println(currentPoint.getY());
                 System.out.println(photoHeight);
 
-                if(previousPoint.getX() > photoWidth || currentPoint.getY() > photoHeight){
+                if(previousPoint.getX() > photoWidth || currentPoint.getY() > photoHeight){ //makes sure we draw inside bounds
                     continue;
                 } else {
 
-                    if (previousPoint.getX() != -1 && currentPoint.getX() != -1) {
+                    if (previousPoint.getX() != -1 && currentPoint.getX() != -1) { //draws lines
                         g2.drawLine((int) currentPoint.getX(), (int) currentPoint.getY(),
                                 (int) previousPoint.getX(), (int) previousPoint.getY());
                     }
@@ -142,10 +142,11 @@ public class PhotoComponent extends JComponent implements MouseListener, MouseMo
                             }
                         }
                         lines.add(sub);
-                        blockStart = counter;
-
+                        blockStart = counter - 1;
                     }
                 }
+
+                //lines = splitBySpaces(textString, regionWidth, metrics);
 
                 if(textString.length() > 0) {
                     System.out.println(lines.get(0));
@@ -165,8 +166,13 @@ public class PhotoComponent extends JComponent implements MouseListener, MouseMo
                     for(String line: lines) {
                         g.drawString(line, (int)start.getX(), lineStart);
                         lineStart = lineStart + fontHeight;
-                        if(linesDrawn >= maxLines){
+                        if(linesDrawn >= maxLines){ //was just break
+//                            g.setColor(Color.yellow);
+//                            g.fillRect((int) start.getX(), (int) start.getY(), regionWidth, regionHeight + fontHeight);
+//
+//                            g.setColor(Color.black);
                             break;
+
                         }
                         linesDrawn++;
                     }
@@ -177,7 +183,6 @@ public class PhotoComponent extends JComponent implements MouseListener, MouseMo
 
         } else {
             g.drawImage(photo, 0, 0, this);
-            System.out.println("woop");
         }
 
         this.setFocusable(true);
@@ -193,6 +198,56 @@ public class PhotoComponent extends JComponent implements MouseListener, MouseMo
         return photoHeight;
     }
 
+    public ArrayList<String> splitBySpaces(String textString, int regionWidth, FontMetrics metrics) {
+        ArrayList<String> spaced = new ArrayList<>();
+
+        ArrayList<String> lines = new ArrayList<>();
+        int blockStart = 0;
+        char ws;
+        boolean hasWS = false;
+        int wsIndex = 0;
+
+        int counter = 0;
+        if (metrics.stringWidth(textString) < regionWidth) {
+            spaced = new ArrayList<>();
+            spaced.add(textString);
+        } else {
+            spaced = new ArrayList<>();
+            while (counter < textString.length()) {
+                String sub = textString.substring(blockStart, counter);
+                ws = textString.charAt(counter);
+
+                if(ws == ' '){
+                    hasWS = true;
+                    wsIndex = counter;
+                }
+
+                while (metrics.stringWidth(sub) < regionWidth) {
+                    sub = textString.substring(blockStart, counter);
+                    counter++;
+                    if (counter > textString.length()) {
+                        break;
+                    }
+                }
+                if(!hasWS) {
+                    spaced.add(sub);
+                    blockStart = counter - 1;
+                } else {
+                    String blockString = textString.substring(blockStart, wsIndex);
+                    spaced.add(blockString);
+                    blockStart = wsIndex;
+                    counter = wsIndex;
+
+                    hasWS = false;
+                }
+            }
+        }
+        return spaced;
+    }
+
+
+
+
     public void mousePressed(MouseEvent e) {
         if(flipped && modeController.getMode()) {
             strokeDisplayList.add(new Point(e.getX(), e.getY()));
@@ -206,7 +261,7 @@ public class PhotoComponent extends JComponent implements MouseListener, MouseMo
 
     public void mouseReleased(MouseEvent e) {
         if(flipped && modeController.getMode()) {
-            strokeDisplayList.add(new Point(-1,0));
+            strokeDisplayList.add(new Point(-1,0)); //adds negative point to "stop" strokes
         }
         if(flipped && !modeController.getMode()){
             if(makingTextRegion){
@@ -275,14 +330,7 @@ public class PhotoComponent extends JComponent implements MouseListener, MouseMo
 
     @Override
     public void keyPressed(KeyEvent ke){
-        /*
-        System.out.println(ke.getKeyChar());
-        if(typing){
-            TextRegion currentTextRegion = textRegionList.get(textRegionList.size() - 1);
-            char character = ke.getKeyChar();
-            currentTextRegion.addCharacter(character);
-            repaint();
-        }*/
+
     }
 
     @Override
