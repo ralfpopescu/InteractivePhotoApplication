@@ -255,43 +255,42 @@ public class MainFrame extends JFrame implements MenuListener, ActionListener, K
         }
         if(e.getSource().equals(importItem)){
             JFileChooser fileChooser = new JFileChooser();
-            fileChooser.setFileFilter(new FileNameExtensionFilter("JPEG","jpg"));
+            fileChooser.setFileFilter(new FileNameExtensionFilter("JPEG","jpg")); //chooses JPG files
             int returnValue = fileChooser.showOpenDialog(null);
             if (returnValue == JFileChooser.APPROVE_OPTION)
             {
                 File file = fileChooser.getSelectedFile();
                 try {
-                    BufferedImage inImg = ImageIO.read(file);
+                    BufferedImage inImg = ImageIO.read(file); //reads image
                     currentPhoto = inImg;
                     System.out.println(file);
                 } catch (IOException error) {
                     System.exit(0);
             }
 
-                JPanel test = new JPanel();
-                test.setBackground(Color.RED);
-                PhotoComponent photoComp = new PhotoComponent(currentPhoto, modeController);
+
+                PhotoComponent photoComp = new PhotoComponent(currentPhoto, modeController); //create component with photo
 
                 photoComp.setPreferredSize(new Dimension(photoComp.getPhotoWidth(), photoComp.getPhotoHeight()));
 
-                scrollPane = new JScrollPane(photoComp, ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS,
+                scrollPane = new JScrollPane(photoComp, ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS, //scrollpane to hold photo
                         ScrollPaneConstants.HORIZONTAL_SCROLLBAR_ALWAYS);
                 scrollPane.setPreferredSize(new Dimension(200,200));
-                scrollPane.setBackground(Color.LIGHT_GRAY);
+                scrollPane.setBackground(Color.LIGHT_GRAY); //background to photo
 
-                this.jpnlMain.add(scrollPane, BorderLayout.CENTER);
+                this.jpnlMain.add(scrollPane, BorderLayout.CENTER); //add component
 
-                hasPicture = true;
+                hasPicture = true; //boolean helps with deletion
 
                 photoComp.revalidate();
                 photoComp.repaint();
                 this.revalidate();
             }
         }
-        if(e.getSource().equals(deleteItem)){
+        if(e.getSource().equals(deleteItem)){ //deletes item
             if(hasPicture){
-                this.jpnlMain.remove(scrollPane);
-                hasPicture = false;
+                this.jpnlMain.remove(scrollPane); //remove entire scroll pane
+                hasPicture = false; //deleted picture so set to false
                 System.out.println("deleted");
                 this.revalidate();
                 this.repaint();

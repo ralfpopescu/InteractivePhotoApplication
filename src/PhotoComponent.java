@@ -119,7 +119,7 @@ public class PhotoComponent extends JComponent implements MouseListener, MouseMo
                 int regionWidth = textRegion.getWidth();
                 int regionHeight = textRegion.getHeight();
 
-                int numberOfLines = (lineLength / regionWidth) + 1;
+                //int numberOfLines = (lineLength / regionWidth) + 1;
 
                 ArrayList<String> lines = new ArrayList<>();
                 int blockStart = 0;
@@ -134,12 +134,16 @@ public class PhotoComponent extends JComponent implements MouseListener, MouseMo
                     lines = new ArrayList<>();
                     while (counter < textString.length()) {
                         String sub = textString.substring(blockStart, counter);
-                        while (metrics.stringWidth(sub) < regionWidth) {
+                        while (metrics.stringWidth(sub) < regionWidth - metrics.stringWidth(" -")) {
                             sub = textString.substring(blockStart, counter);
                             counter++;
                             if(counter > textString.length()){
                                 break;
                             }
+                        }
+                        char c = sub.charAt(sub.length()-1);
+                        if(c != ' ' && metrics.stringWidth(sub) > regionWidth - metrics.stringWidth(" -")){ //adding a hyphen
+                            sub = sub.concat("-");
                         }
                         lines.add(sub);
                         blockStart = counter - 1;
@@ -149,28 +153,45 @@ public class PhotoComponent extends JComponent implements MouseListener, MouseMo
                 //lines = splitBySpaces(textString, regionWidth, metrics);
 
                 if(textString.length() > 0) {
-                    System.out.println(lines.get(0));
+
+                    String lastLine = lines.get(lines.size() - 1); //makes sure there isn't a running hyphen
+                    if (lastLine.charAt(lastLine.length() - 1) == '-') {
+                        lastLine = lastLine.substring(0,lastLine.length()-2);
+                        lines.remove(lines.size()-1);
+                        lines.add(lastLine);
+                    }
                 }
 
-                int lineStart = (int)start.getY() + 10;
+                int lineStart = (int)start.getY() + 20; //a little offset to make it look cleaner
                 int fontHeight = metrics.getHeight();
                 int linesDrawn = 0;
-                int maxLines = regionHeight/fontHeight;
+
+                int textToBottom = photoHeight - (int)textRegion.getStartingPoint().getY();
+
+                //int maxLines = regionHeight/fontHeight; //lines the current region can support
+                int maxLines = textToBottom/fontHeight;
                 System.out.println(maxLines);
 
                 g.setColor(Color.yellow);
                 g.fillRect((int)start.getX(),(int)start.getY(), regionWidth, regionHeight);
+                int numOfLines = lines.size();
+                if(numOfLines*fontHeight > regionHeight ){
+                    int ysize = fontHeight*numOfLines;
+                    if(ysize > fontHeight*maxLines){
+                        ysize = fontHeight*maxLines;
+                    }
+                    g.fillRect((int)start.getX(),(int)start.getY(), regionWidth, ysize);
+                    System.out.println("drawn");
+                }
 
                 g.setColor(Color.black);
-                    System.out.println();
+
+                    int resizeAmount = 1;
                     for(String line: lines) {
                         g.drawString(line, (int)start.getX(), lineStart);
                         lineStart = lineStart + fontHeight;
-                        if(linesDrawn >= maxLines){ //was just break
-//                            g.setColor(Color.yellow);
-//                            g.fillRect((int) start.getX(), (int) start.getY(), regionWidth, regionHeight + fontHeight);
+                        if(linesDrawn >= maxLines - 1){ //was just break
 //
-//                            g.setColor(Color.black);
                             break;
 
                         }
@@ -189,6 +210,7 @@ public class PhotoComponent extends JComponent implements MouseListener, MouseMo
         this.requestFocus();
 
     }
+
 
     public int getPhotoWidth(){
         return photoWidth;
