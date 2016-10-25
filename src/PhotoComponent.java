@@ -1,4 +1,4 @@
-import com.sun.org.apache.xpath.internal.operations.Mod;
+
 
 import javax.swing.*;
 import java.awt.Graphics;
@@ -38,19 +38,19 @@ public class PhotoComponent extends JComponent implements MouseListener, MouseMo
         photo = image;
         photoWidth = photo.getWidth();
         photoHeight = photo.getHeight();
-        modeController = modeController2;
+        modeController = modeController2; //modecontroller handles mode changes
         typing = false;
         font  = new Font("SansSerif", Font.BOLD, 14);
         this.setFocusable(true);
         this.requestFocus();
 
-        try {
-            paperTexture = ImageIO.read(new File("src/papertexture.jpg"));
-
-        } catch (IOException error) {
-            System.out.println("IO Error");
-
-        }
+//        try {
+//            paperTexture = ImageIO.read(new File("src/papertexture.jpg"));
+//
+//        } catch (IOException error) {
+//            System.out.println("IO Error");
+//
+//        } used instead of white back
 
         this.addMouseListener(this);
         this.addMouseMotionListener(this);
@@ -74,21 +74,22 @@ public class PhotoComponent extends JComponent implements MouseListener, MouseMo
         g.setColor(Color.black);
 
         if (flipped){
-            BufferedImage subPaper = paperTexture.getSubimage(0, 0, photoWidth, photoHeight);
-            g.drawImage(subPaper, 0, 0, this); //Draws back of photo
+//            BufferedImage subPaper = paperTexture.getSubimage(0, 0, photoWidth, photoHeight);
+//            g.drawImage(subPaper, 0, 0, this); //Draws back of photo
+            g.setColor(Color.lightGray);
+            g.fillRect(0, 0, photoWidth, photoHeight);
+            g.setColor(Color.black);
 
             for(int i=1; i<strokeDisplayList.size(); i++){ //draws strokes
                 Point currentPoint = strokeDisplayList.get(i);
                 Point previousPoint = strokeDisplayList.get(i-1);
 
-                System.out.println(currentPoint.getY());
-                System.out.println(photoHeight);
 
                 if(previousPoint.getX() > photoWidth || currentPoint.getY() > photoHeight){ //makes sure we draw inside bounds
                     continue;
                 } else {
 
-                    if (previousPoint.getX() != -1 && currentPoint.getX() != -1) { //draws lines
+                    if (previousPoint.getX() != -1 && currentPoint.getX() != -1) { //draws lines, -1 signifies mouse releases
                         g2.drawLine((int) currentPoint.getX(), (int) currentPoint.getY(),
                                 (int) previousPoint.getX(), (int) previousPoint.getY());
                     }
@@ -98,20 +99,16 @@ public class PhotoComponent extends JComponent implements MouseListener, MouseMo
             for(int i = 0; i<textRegionList.size(); i++){
                 TextRegion textRegion = textRegionList.get(i);
                 String textString = textRegion.getText();
-                System.out.println(textString);
-                int lineLength = 0;
-                if(textString != null) {
-                    lineLength = metrics.stringWidth(textString);
-                }
+
                 Point start = textRegion.getStartingPoint();
 
 
-                if(textRegion.getEndPoint().getX() > photoWidth){
+                if(textRegion.getEndPoint().getX() > photoWidth){ //handles if you drag mouse out of bounds for region
                     textRegion.setEndPoint(photoWidth, (int)textRegion.getEndPoint().getY());
                 }
 
                 if(textRegion.getEndPoint().getY() > photoHeight){
-                    textRegion.setEndPoint((int)textRegion.getEndPoint().getY(), photoHeight);
+                    textRegion.setEndPoint((int)textRegion.getEndPoint().getX(), photoHeight);
                 }
 
                 textRegion.updateHeightWidth();
@@ -119,22 +116,22 @@ public class PhotoComponent extends JComponent implements MouseListener, MouseMo
                 int regionWidth = textRegion.getWidth();
                 int regionHeight = textRegion.getHeight();
 
-                //int numberOfLines = (lineLength / regionWidth) + 1;
 
-                ArrayList<String> lines = new ArrayList<>();
+
+                ArrayList<String> lines = new ArrayList<>(); //stores blocks of lines to draw
                 int blockStart = 0;
 
 
 
                     int counter = 0;
-                if(metrics.stringWidth(textString) < regionWidth){
+                if(metrics.stringWidth(textString) < regionWidth){ //tackles case of one line
                     lines = new ArrayList<>();
                     lines.add(textString);
                 } else {
                     lines = new ArrayList<>();
-                    while (counter < textString.length()) {
-                        String sub = textString.substring(blockStart, counter);
-                        while (metrics.stringWidth(sub) < regionWidth - metrics.stringWidth(" -")) {
+                    while (counter < textString.length()) { //goes through all text to create blocks
+                        String sub = textString.substring(blockStart, counter); //check to see if sub fits text region
+                        while (metrics.stringWidth(sub) < regionWidth - metrics.stringWidth(" -")) { //leaves space for hyphen
                             sub = textString.substring(blockStart, counter);
                             counter++;
                             if(counter > textString.length()){
@@ -170,24 +167,23 @@ public class PhotoComponent extends JComponent implements MouseListener, MouseMo
 
                 //int maxLines = regionHeight/fontHeight; //lines the current region can support
                 int maxLines = textToBottom/fontHeight;
-                System.out.println(maxLines);
 
                 g.setColor(Color.yellow);
                 g.fillRect((int)start.getX(),(int)start.getY(), regionWidth, regionHeight);
                 int numOfLines = lines.size();
-                if(numOfLines*fontHeight > regionHeight ){
+                if(numOfLines*fontHeight > regionHeight ){ //handles rectangle bounds
                     int ysize = fontHeight*numOfLines;
                     if(ysize > fontHeight*maxLines){
                         ysize = fontHeight*maxLines;
                     }
-                    g.fillRect((int)start.getX(),(int)start.getY(), regionWidth, ysize);
-                    System.out.println("drawn");
+                    g.fillRect((int) start.getX(), (int) start.getY(), regionWidth, ysize + (fontHeight / 2));
+
                 }
 
                 g.setColor(Color.black);
 
                     int resizeAmount = 1;
-                    for(String line: lines) {
+                    for(String line: lines) { //draw lines
                         g.drawString(line, (int)start.getX(), lineStart);
                         lineStart = lineStart + fontHeight;
                         if(linesDrawn >= maxLines - 1){ //was just break
@@ -211,6 +207,10 @@ public class PhotoComponent extends JComponent implements MouseListener, MouseMo
 
     }
 
+    public BufferedImage getPhoto(){
+        return photo;
+    }
+
 
     public int getPhotoWidth(){
         return photoWidth;
@@ -220,7 +220,7 @@ public class PhotoComponent extends JComponent implements MouseListener, MouseMo
         return photoHeight;
     }
 
-    public ArrayList<String> splitBySpaces(String textString, int regionWidth, FontMetrics metrics) {
+    public ArrayList<String> splitBySpaces(String textString, int regionWidth, FontMetrics metrics) { //not using this method for now
         ArrayList<String> spaced = new ArrayList<>();
 
         ArrayList<String> lines = new ArrayList<>();
@@ -306,6 +306,7 @@ public class PhotoComponent extends JComponent implements MouseListener, MouseMo
 
     public void mouseClicked(MouseEvent e) {
         if (e.getClickCount() == 2) {
+            System.out.println("double clicked");
 
         int x = e.getX();
         int y = e.getY();
@@ -319,7 +320,6 @@ public class PhotoComponent extends JComponent implements MouseListener, MouseMo
             revalidate();
             repaint();
         }
-        System.out.println(modeController.getMode());
 
     }
 
@@ -345,7 +345,6 @@ public class PhotoComponent extends JComponent implements MouseListener, MouseMo
             TextRegion currentTextRegion = textRegionList.get(textRegionList.size() - 1);
             char character = ke.getKeyChar();
             currentTextRegion.addCharacter(character);
-            System.out.println(ke.getKeyChar());
             repaint();
         }
     }

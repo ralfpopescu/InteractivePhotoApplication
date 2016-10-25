@@ -49,10 +49,6 @@ public class MainFrame extends JFrame implements MenuListener, ActionListener, K
         //Main Borderlayout organizes all other elements
         jpnlMain = new JPanel(new BorderLayout());
 
-        //White JPanel to represent future content
-        /*JPanel jpnlContent = new JPanel();
-        jpnlContent.setBackground(Color.WHITE);
-        jpnlMain.add(jpnlContent, BorderLayout.CENTER);*/
 
         //prevents window from being minimized to distortion
         this.setMinimumSize(new Dimension(200,250));
@@ -268,12 +264,12 @@ public class MainFrame extends JFrame implements MenuListener, ActionListener, K
                     System.exit(0);
             }
 
+                PhotoComponent photoComp = new PhotoComponent(currentPhoto, modeController);
+                ThumbnailComponent thumbComp = new ThumbnailComponent(photoComp); //create component with photo
 
-                PhotoComponent photoComp = new PhotoComponent(currentPhoto, modeController); //create component with photo
+                thumbComp.setPreferredSize(new Dimension((int)photoComp.getPhotoWidth(), (int)photoComp.getPhotoHeight()));
 
-                photoComp.setPreferredSize(new Dimension(photoComp.getPhotoWidth(), photoComp.getPhotoHeight()));
-
-                scrollPane = new JScrollPane(photoComp, ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS, //scrollpane to hold photo
+                scrollPane = new JScrollPane(thumbComp, ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS, //scrollpane to hold photo
                         ScrollPaneConstants.HORIZONTAL_SCROLLBAR_ALWAYS);
                 scrollPane.setPreferredSize(new Dimension(200,200));
                 scrollPane.setBackground(Color.LIGHT_GRAY); //background to photo
@@ -282,8 +278,8 @@ public class MainFrame extends JFrame implements MenuListener, ActionListener, K
 
                 hasPicture = true; //boolean helps with deletion
 
-                photoComp.revalidate();
-                photoComp.repaint();
+                thumbComp.revalidate();
+                thumbComp.repaint();
                 this.revalidate();
             }
         }
@@ -291,7 +287,6 @@ public class MainFrame extends JFrame implements MenuListener, ActionListener, K
             if(hasPicture){
                 this.jpnlMain.remove(scrollPane); //remove entire scroll pane
                 hasPicture = false; //deleted picture so set to false
-                System.out.println("deleted");
                 this.revalidate();
                 this.repaint();
             }

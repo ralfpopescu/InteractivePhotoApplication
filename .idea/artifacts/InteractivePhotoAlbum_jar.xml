@@ -3,6 +3,7 @@
     <output-path>$PROJECT_DIR$/out/artifacts/InteractivePhotoAlbum_jar</output-path>
     <root id="archive" name="InteractivePhotoAlbum.jar">
       <element id="module-output" name="InteractivePhotoAlbum" />
+      <element id="directory" name="album" />
     </root>
   </artifact>
 </component>

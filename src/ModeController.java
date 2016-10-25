@@ -3,6 +3,11 @@
  */
 public class ModeController {
     public boolean mode;
+    public ViewMode viewMode;
+
+    public enum ViewMode {
+        PHOTOVIEW, GRIDVIEW, SPLITVIEW
+    }
 
     public ModeController(){
         mode = true;
@@ -15,4 +20,14 @@ public class ModeController {
     public boolean getMode(){
         return mode;
     }
+
+    public void setViewMode(ViewMode mode){
+        viewMode = mode;
+    }
+
+    public ViewMode getViewMode(){
+        return viewMode;
+    }
+
+
 }
