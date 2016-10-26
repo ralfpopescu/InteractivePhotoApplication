@@ -3,7 +3,7 @@
  */
 public class ModeController {
     public boolean mode;
-    public ViewMode viewMode;
+    public String viewMode;
 
     public enum ViewMode {
         PHOTOVIEW, GRIDVIEW, SPLITVIEW
@@ -11,6 +11,7 @@ public class ModeController {
 
     public ModeController(){
         mode = true;
+        viewMode = "PHOTOVIEW";
     }
 
     public void setMode(boolean newMode){
@@ -21,13 +22,15 @@ public class ModeController {
         return mode;
     }
 
-    public void setViewMode(ViewMode mode){
+    public void setViewMode(String mode){
         viewMode = mode;
     }
 
-    public ViewMode getViewMode(){
+    public String getViewMode(){
         return viewMode;
     }
+
+
 
 
 }

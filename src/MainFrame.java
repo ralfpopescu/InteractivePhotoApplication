@@ -29,6 +29,8 @@ public class MainFrame extends JFrame implements MenuListener, ActionListener, K
     ModeController modeController;
     Boolean hasPicture = false;
     JScrollPane scrollPane;
+    LightTable lightTable;
+    JPanel ltPanel;
 
 
     public static void main(String[] args) {
@@ -45,9 +47,11 @@ public class MainFrame extends JFrame implements MenuListener, ActionListener, K
         //basic setup
 
         modeController = new ModeController();
+        lightTable = new LightTable(modeController);
 
         //Main Borderlayout organizes all other elements
         jpnlMain = new JPanel(new BorderLayout());
+        jpnlMain.add(lightTable, BorderLayout.CENTER);
 
 
         //prevents window from being minimized to distortion
@@ -77,6 +81,33 @@ public class MainFrame extends JFrame implements MenuListener, ActionListener, K
         photoView = new JRadioButtonMenuItem("Photo View");
         gridView = new JRadioButtonMenuItem("Grid View");
         splitView = new JRadioButtonMenuItem("Split View");
+
+        photoView.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                statusLabel.setText("Photo View Mode");
+                modeController.setViewMode("PHOTOVIEW");
+                revalidate();
+            }
+        });
+
+        gridView.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                statusLabel.setText("Grid View Mode");
+                modeController.setViewMode("GRIDVIEW");
+                revalidate();
+            }
+        });
+
+        splitView.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                statusLabel.setText("Split View Mode");
+                modeController.setViewMode("SPLITVIEW");
+                revalidate();
+            }
+        });
 
 
         ButtonGroup viewButtonGroup = new ButtonGroup();
@@ -178,6 +209,24 @@ public class MainFrame extends JFrame implements MenuListener, ActionListener, K
         JButton backward = new JButton("<-");
         JButton forward = new JButton("->");
 
+        backward.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                statusLabel.setText("Back");
+                lightTable.prev();
+                revalidate();
+            }
+        });
+
+        forward.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                statusLabel.setText("Next");
+                lightTable.next();
+                revalidate();
+            }
+        });
+
         backward.setMinimumSize(new Dimension(25, 25));
         backward.setPreferredSize(new Dimension(25, 25));
         backward.setMaximumSize(new Dimension(100, 25));
@@ -265,22 +314,23 @@ public class MainFrame extends JFrame implements MenuListener, ActionListener, K
             }
 
                 PhotoComponent photoComp = new PhotoComponent(currentPhoto, modeController);
-                ThumbnailComponent thumbComp = new ThumbnailComponent(photoComp); //create component with photo
 
-                thumbComp.setPreferredSize(new Dimension((int)photoComp.getPhotoWidth(), (int)photoComp.getPhotoHeight()));
+                lightTable.addPhoto(new PhotoComponent(currentPhoto, modeController));
 
-                scrollPane = new JScrollPane(thumbComp, ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS, //scrollpane to hold photo
+                ltPanel = lightTable.createComponent();
+
+                scrollPane = new JScrollPane(ltPanel, ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS, //scrollpane to hold photo
                         ScrollPaneConstants.HORIZONTAL_SCROLLBAR_ALWAYS);
-                scrollPane.setPreferredSize(new Dimension(200,200));
+                scrollPane.setPreferredSize(new Dimension(200, 200));
                 scrollPane.setBackground(Color.LIGHT_GRAY); //background to photo
+
 
                 this.jpnlMain.add(scrollPane, BorderLayout.CENTER); //add component
 
                 hasPicture = true; //boolean helps with deletion
 
-                thumbComp.revalidate();
-                thumbComp.repaint();
                 this.revalidate();
+                this.repaint();
             }
         }
         if(e.getSource().equals(deleteItem)){ //deletes item

@@ -220,6 +220,10 @@ public class PhotoComponent extends JComponent implements MouseListener, MouseMo
         return photoHeight;
     }
 
+    public ModeController getModeController(){
+        return modeController;
+    }
+
     public ArrayList<String> splitBySpaces(String textString, int regionWidth, FontMetrics metrics) { //not using this method for now
         ArrayList<String> spaced = new ArrayList<>();
 
