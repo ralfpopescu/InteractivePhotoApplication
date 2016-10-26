@@ -35,7 +35,7 @@ public class LightTable extends JComponent {
         index = 0;
     }
 
-    public JPanel updateComponent(){
+    public void updateComponent(){
 
         //main.add(photoComps.get(index));
 //        JPanel test = new JPanel();
@@ -77,33 +77,26 @@ public class LightTable extends JComponent {
         }
 
         if(mc.getViewMode().equals("SPLITVIEW")){
-            //BoxLayout boxLayout = new BoxLayout();
-            main = new JPanel(new BorderLayout());
-            main.setPreferredSize(new Dimension(500,500));
-            if(photoComps.size() > 0) {
-                currentPhotoComp = photoComps.get(0);
-//                currentPhotoComp.setPreferredSize(new Dimension(
-//                        currentPhotoComp.getPhotoWidth(), currentPhotoComp.getPhotoWidth()));
+            main.removeAll();
+            JPanel border = new JPanel(new BorderLayout());
+            JPanel flow = new JPanel(new FlowLayout());
 
-
-                JPanel photo = new JPanel();
-                photo.add(currentPhotoComp, BorderLayout.CENTER);
-
-                ThumbnailComponent tn = new ThumbnailComponent(currentPhotoComp);
-                tn.setPreferredSize(new Dimension(
-                        (int) tn.getPhotoWidth(), (int) tn.getPhotoWidth()));
-                JPanel tns = new JPanel();
-                tns.add(tn);
-
-                main.add(photo, BorderLayout.CENTER);
-                main.add(tns, BorderLayout.SOUTH);
-                revalidate();
+            border.add(photoComps.get(0), BorderLayout.CENTER);
+            for(int i = 0; i <thumbnails.size(); i++){
+                System.out.println("getting thumbs");
+                ThumbnailComponent j = thumbnails.get(i);
+                flow.add(j);
             }
+
+            main.add(border);
+            main.add(flow);
+            revalidate();
+            repaint();
 
 
         }
 
-        return main;
+
 
     }
 

@@ -109,6 +109,7 @@ public class MainFrame extends JFrame implements MenuListener, ActionListener, K
             public void actionPerformed(ActionEvent e) {
                 statusLabel.setText("Split View Mode");
                 modeController.setViewMode("SPLITVIEW");
+                lightTable.updateComponent();
                 revalidate();
             }
         });
