@@ -2,26 +2,30 @@ import javax.swing.*;
 import javax.swing.border.Border;
 import java.awt.*;
 import java.awt.event.KeyListener;
+import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
 import java.util.ArrayList;
+import javax.swing.BorderFactory;
 
 
 /**
  * Created by ralfpopescu on 10/11/16.
  */
-public class LightTable extends JComponent {
+public class LightTable extends JComponent implements MouseListener{
 
     ArrayList<PhotoComponent> photoComps = new ArrayList<>();
     ArrayList<ThumbnailComponent> thumbnails = new ArrayList<>();
     ArrayList<Graphics2D> importedPhotos = new ArrayList<>();
     Graphics2D currentPhoto;
     PhotoComponent currentPhotoComp;
+    int currentPhotoIndex;
     String mode;
     ModeController mc;
     JPanel main;
     JPanel splitThumbnails;
     int index;
+    Border border;
 
     public LightTable(ModeController modeController){
         mc = modeController;
@@ -37,24 +41,10 @@ public class LightTable extends JComponent {
 
     public void updateComponent(){
 
-        //main.add(photoComps.get(index));
-//        JPanel test = new JPanel();
-//
-//        PhotoComponent pc = new PhotoComponent(photoComps.get(index).getPhoto(),
-//                photoComps.get(index).getModeController());
-//        test.add(pc);
-//        test.setPreferredSize(new Dimension(200, 200));
-//        test.setSize(new Dimension(200, 200));
-//        main.add(test, BorderLayout.CENTER);
-//        revalidate();
-        //repaint();
 
         if(mc.getViewMode().equals("PHOTOVIEW")){
             main.removeAll();
-            for(int i = 0; i <photoComps.size(); i++){
-                PhotoComponent j = photoComps.get(i);
-                main.add(j);
-            }
+            main.add(currentPhotoComp);
             revalidate();
             repaint();
 
@@ -79,17 +69,25 @@ public class LightTable extends JComponent {
         if(mc.getViewMode().equals("SPLITVIEW")){
             main.removeAll();
             JPanel border = new JPanel(new BorderLayout());
-            JPanel flow = new JPanel(new FlowLayout());
+            JPanel flow = new JPanel(new FlowLayout(FlowLayout.LEADING, 10, 10));
+            flow.addMouseListener(this);
 
-            border.add(photoComps.get(0), BorderLayout.CENTER);
+            border.add(currentPhotoComp, BorderLayout.CENTER);
             for(int i = 0; i <thumbnails.size(); i++){
                 System.out.println("getting thumbs");
                 ThumbnailComponent j = thumbnails.get(i);
+                JPanel thumbpanel = new JPanel();
+
+                thumbpanel.setPreferredSize(j.getPreferredSize());
+                thumbpanel.setSize(j.getSize());
+
+                //thumbpanel.addMouseListener(this);
+                thumbpanel.add(j);
+
                 flow.add(j);
             }
-
+            border.add(flow, BorderLayout.SOUTH);
             main.add(border);
-            main.add(flow);
             revalidate();
             repaint();
 
@@ -103,7 +101,16 @@ public class LightTable extends JComponent {
     public void addPhoto(PhotoComponent photoToAdd){
         System.out.println(photoToAdd);
         photoComps.add(photoToAdd);
-        thumbnails.add(new ThumbnailComponent(photoToAdd));
+
+        ThumbnailComponent thumbnail = new ThumbnailComponent(photoToAdd);
+        //thumbnail.addMouseListener(this);
+
+        thumbnails.add(thumbnail);
+
+        if(currentPhotoComp == null){
+            currentPhotoComp = photoToAdd;
+        }
+
         updateComponent();
         //main.add(photoToAdd);
         revalidate();
@@ -126,6 +133,8 @@ public class LightTable extends JComponent {
             index = 0;
         }
         System.out.println(index);
+        currentPhotoComp = photoComps.get(index);
+        updateComponent();
 
     }
 
@@ -133,11 +142,48 @@ public class LightTable extends JComponent {
         if(index > 0){
             index--;
         } else {
-            index = photoComps.size();
+            index = photoComps.size() - 1;
         }
+        System.out.println(index);
+        currentPhotoComp = photoComps.get(index);
+        updateComponent();
     }
 
     public ArrayList<ThumbnailComponent> getThumbnails(){
         return thumbnails;
+    }
+
+    public void mousePressed(MouseEvent e) {
+
+    }
+
+    public void mouseReleased(MouseEvent e) {
+
+    }
+
+    public void mouseEntered(MouseEvent e) {
+
+    }
+
+    public void mouseExited(MouseEvent e) {
+
+    }
+
+    public void mouseClicked(MouseEvent e) {
+        for(int j = 0; j<thumbnails.size(); j++){
+            ThumbnailComponent child = thumbnails.get(j);
+            if(child.getBounds().contains(e.getPoint())){
+                for(int k = 0; k<thumbnails.size(); k++) {
+                    thumbnails.get(k).deselect();
+                }
+                child.select();
+                System.out.println(child.getBounds());
+                currentPhotoComp = photoComps.get(j);
+                updateComponent();
+                break;
+            }
+
+        }
+
     }
 }
