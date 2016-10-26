@@ -48,6 +48,8 @@ public class MainFrame extends JFrame implements MenuListener, ActionListener, K
 
         modeController = new ModeController();
         lightTable = new LightTable(modeController);
+        lightTable.setPreferredSize(new Dimension(500, 500));
+        lightTable.setSize(new Dimension(200, 200));
 
         //Main Borderlayout organizes all other elements
         jpnlMain = new JPanel(new BorderLayout());
@@ -87,6 +89,7 @@ public class MainFrame extends JFrame implements MenuListener, ActionListener, K
             public void actionPerformed(ActionEvent e) {
                 statusLabel.setText("Photo View Mode");
                 modeController.setViewMode("PHOTOVIEW");
+                lightTable.updateComponent();
                 revalidate();
             }
         });
@@ -96,6 +99,7 @@ public class MainFrame extends JFrame implements MenuListener, ActionListener, K
             public void actionPerformed(ActionEvent e) {
                 statusLabel.setText("Grid View Mode");
                 modeController.setViewMode("GRIDVIEW");
+                lightTable.updateComponent();
                 revalidate();
             }
         });
@@ -257,6 +261,15 @@ public class MainFrame extends JFrame implements MenuListener, ActionListener, K
                 ScrollPaneConstants.HORIZONTAL_SCROLLBAR_ALWAYS);
 
         //add main panel to the frame
+
+        scrollPane = new JScrollPane(lightTable, ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS, //scrollpane to hold photo
+                ScrollPaneConstants.HORIZONTAL_SCROLLBAR_ALWAYS);
+        scrollPane.setPreferredSize(new Dimension(200, 200));
+        scrollPane.setBackground(Color.LIGHT_GRAY); //background to photo
+
+
+        this.jpnlMain.add(scrollPane, BorderLayout.CENTER); //add component
+
         this.add(jpnlMain);
 
 
@@ -317,15 +330,8 @@ public class MainFrame extends JFrame implements MenuListener, ActionListener, K
 
                 lightTable.addPhoto(new PhotoComponent(currentPhoto, modeController));
 
-                ltPanel = lightTable.createComponent();
+                revalidate();
 
-                scrollPane = new JScrollPane(ltPanel, ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS, //scrollpane to hold photo
-                        ScrollPaneConstants.HORIZONTAL_SCROLLBAR_ALWAYS);
-                scrollPane.setPreferredSize(new Dimension(200, 200));
-                scrollPane.setBackground(Color.LIGHT_GRAY); //background to photo
-
-
-                this.jpnlMain.add(scrollPane, BorderLayout.CENTER); //add component
 
                 hasPicture = true; //boolean helps with deletion
 

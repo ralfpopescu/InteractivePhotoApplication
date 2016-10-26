@@ -26,49 +26,54 @@ public class LightTable extends JComponent {
     public LightTable(ModeController modeController){
         mc = modeController;
         mode = "PHOTOVIEW";
-        main = new JPanel(new BorderLayout());
+
+        main = new JPanel(new FlowLayout());
+        main.setPreferredSize(new Dimension(600, 600));
+        main.setSize(new Dimension(600, 600));
+        main.setBackground(Color.BLACK);
+        this.add(main);
         index = 0;
     }
 
     public JPanel updateComponent(){
 
+        //main.add(photoComps.get(index));
+//        JPanel test = new JPanel();
+//
+//        PhotoComponent pc = new PhotoComponent(photoComps.get(index).getPhoto(),
+//                photoComps.get(index).getModeController());
+//        test.add(pc);
+//        test.setPreferredSize(new Dimension(200, 200));
+//        test.setSize(new Dimension(200, 200));
+//        main.add(test, BorderLayout.CENTER);
+//        revalidate();
+        //repaint();
+
         if(mc.getViewMode().equals("PHOTOVIEW")){
-                main = new JPanel(new BorderLayout());
-                main.setPreferredSize(new Dimension(500,500));
-
-
-                PhotoComponent pc1 = photoComps.get(index);
-                PhotoComponent pc = new PhotoComponent(pc1.getPhoto(), pc1.getModeController());
-
-                System.out.println(pc);
-                pc.setPreferredSize(new Dimension(
-                        pc.getPhotoWidth(), pc.getPhotoWidth()));
-
-
-                JPanel photo = new JPanel();
-                photo.add(pc, BorderLayout.CENTER);
-
-                ThumbnailComponent tn = new ThumbnailComponent(pc);
-                tn.setPreferredSize(new Dimension(
-                        (int)tn.getPhotoWidth(), (int)tn.getPhotoWidth()));
-                JPanel tns = new JPanel();
-                tns.add(tn);
-
-                main.add(photo, BorderLayout.CENTER);
-                main.add(tns, BorderLayout.SOUTH);
-                revalidate();
-
+            main.removeAll();
+            for(int i = 0; i <photoComps.size(); i++){
+                PhotoComponent j = photoComps.get(i);
+                main.add(j);
+            }
+            revalidate();
+            repaint();
 
 
         }
 
         if(mc.getViewMode().equals("GRIDVIEW")){
             //add all thumbnails
-            GridLayout grid = new GridLayout();
-            for(int i =0; i<thumbnails.size();i++){
-                String name = "tn" + i;
-                grid.addLayoutComponent("name", thumbnails.get(i));
+            main.removeAll();
+            JPanel flow = new JPanel(new FlowLayout());
+            for(int i = 0; i <thumbnails.size(); i++){
+                System.out.println("getting thumbs");
+                ThumbnailComponent j = thumbnails.get(i);
+                flow.add(j);
             }
+            main.add(flow);
+            revalidate();
+            repaint();
+
         }
 
         if(mc.getViewMode().equals("SPLITVIEW")){
@@ -106,6 +111,10 @@ public class LightTable extends JComponent {
         System.out.println(photoToAdd);
         photoComps.add(photoToAdd);
         thumbnails.add(new ThumbnailComponent(photoToAdd));
+        updateComponent();
+        //main.add(photoToAdd);
+        revalidate();
+
 
     }
 
@@ -124,6 +133,7 @@ public class LightTable extends JComponent {
             index = 0;
         }
         System.out.println(index);
+
     }
 
     public void prev(){

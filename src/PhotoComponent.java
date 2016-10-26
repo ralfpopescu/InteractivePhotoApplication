@@ -44,17 +44,13 @@ public class PhotoComponent extends JComponent implements MouseListener, MouseMo
         this.setFocusable(true);
         this.requestFocus();
 
-//        try {
-//            paperTexture = ImageIO.read(new File("src/papertexture.jpg"));
-//
-//        } catch (IOException error) {
-//            System.out.println("IO Error");
-//
-//        } used instead of white back
 
         this.addMouseListener(this);
         this.addMouseMotionListener(this);
         this.addKeyListener(this);
+
+        this.setPreferredSize(new Dimension(photoWidth, photoHeight));
+        this.setSize(new Dimension(photoWidth, photoHeight));
 
     }
 

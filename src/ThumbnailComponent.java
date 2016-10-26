@@ -15,6 +15,12 @@ public class ThumbnailComponent extends JComponent {
     public ThumbnailComponent(PhotoComponent pC){
         photoComponent = pC;
         photo = pC.getPhoto();
+
+        photoWidth = (int)(photo.getWidth() * .2);
+        photoHeight = (int)(photo.getHeight() * .2);
+
+        this.setPreferredSize(new Dimension(photoWidth, photoHeight));
+        this.setSize(new Dimension(photoWidth, photoHeight));
     }
 
     public void paintComponent(Graphics g){
@@ -29,11 +35,11 @@ public class ThumbnailComponent extends JComponent {
     }
 
     public double getPhotoWidth(){
-        return photo.getWidth() * .2;
+        return photoWidth;
     }
 
     public double getPhotoHeight(){
-        return photo.getHeight() * .2;
+        return photoHeight;
     }
 
 }
