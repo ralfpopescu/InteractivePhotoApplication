@@ -69,7 +69,9 @@ public class LightTable extends JComponent implements MouseListener{
         if(mc.getViewMode().equals("GRIDVIEW")){
             //add all thumbnails
             main.removeAll();
-            JPanel flow = new JPanel(new GridLayout());
+            JPanel flow = new JPanel(new GridLayout(3, 3, 10, 10));
+            flow.addMouseListener(this);
+            flow.setPreferredSize(new Dimension(500,500));
             for(int i = 0; i <thumbnails.size(); i++){
                 System.out.println("getting thumbs");
                 ThumbnailComponent j = thumbnails.get(i);
@@ -229,6 +231,9 @@ public class LightTable extends JComponent implements MouseListener{
     }
 
     public void mouseClicked(MouseEvent e) {
+        if (e.getClickCount() == 2){
+            mc.setViewMode("PHOTOVIEW");
+        }
         for(int j = 0; j<thumbnails.size(); j++){
             ThumbnailComponent child = thumbnails.get(j);
             if(child.getBounds().contains(e.getPoint())){

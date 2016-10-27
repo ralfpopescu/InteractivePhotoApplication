@@ -15,6 +15,7 @@ public class ThumbnailComponent extends JComponent {
     int photoWidth;
     boolean selected;
     private final int desiredHeight = 100;
+    private float scaleFactor;
 
     public ThumbnailComponent(PhotoComponent pC){
         photoComponent = pC;
@@ -22,7 +23,9 @@ public class ThumbnailComponent extends JComponent {
         selected = false;
 
 
-        float scaleFactor = (float)desiredHeight / (float)photoComponent.getPhotoHeight();
+        scaleFactor = (float)desiredHeight / (float)photoComponent.getPhotoHeight();
+
+        System.out.println(scaleFactor);
 
         photoWidth = (int)(photo.getWidth() * scaleFactor);
         photoHeight = (int)(photo.getHeight() * scaleFactor);
@@ -41,7 +44,7 @@ public class ThumbnailComponent extends JComponent {
         super.paintComponent(g);
 
         Graphics2D g2 = (Graphics2D)g;
-        g2.scale(.2, .2);
+        g2.scale(scaleFactor, scaleFactor);
         if (!selected) {
             g2.drawImage(photo, 0, 0, this);
         } else {
