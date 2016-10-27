@@ -14,16 +14,20 @@ public class ThumbnailComponent extends JComponent {
     int photoHeight;
     int photoWidth;
     boolean selected;
+    private final int desiredHeight = 100;
 
     public ThumbnailComponent(PhotoComponent pC){
         photoComponent = pC;
         photo = pC.getPhoto();
         selected = false;
 
-        photoWidth = (int)(photo.getWidth() * .2);
-        photoHeight = (int)(photo.getHeight() * .2);
 
-        float scaleFactor = .5f;
+        float scaleFactor = (float)desiredHeight / (float)photoComponent.getPhotoHeight();
+
+        photoWidth = (int)(photo.getWidth() * scaleFactor);
+        photoHeight = (int)(photo.getHeight() * scaleFactor);
+
+
         RescaleOp op = new RescaleOp(scaleFactor, 100, null);
         selectedPhoto = op.filter(photo, null);
 

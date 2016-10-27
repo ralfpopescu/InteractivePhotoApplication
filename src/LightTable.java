@@ -34,7 +34,7 @@ public class LightTable extends JComponent implements MouseListener{
         main = new JPanel(new FlowLayout());
         main.setPreferredSize(new Dimension(600, 600));
         main.setSize(new Dimension(600, 600));
-        main.setBackground(Color.BLACK);
+        //main.setBackground(Color.BLACK);
         this.add(main);
         index = 0;
     }
@@ -44,7 +44,14 @@ public class LightTable extends JComponent implements MouseListener{
 
         if(mc.getViewMode().equals("PHOTOVIEW")){
             main.removeAll();
-            main.add(currentPhotoComp);
+            JScrollPane photoScroll = new JScrollPane(currentPhotoComp, ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS, //scrollpane to hold photo
+                    ScrollPaneConstants.HORIZONTAL_SCROLLBAR_ALWAYS);
+            photoScroll.setMaximumSize(new Dimension(400, 400));
+            photoScroll.setPreferredSize(new Dimension(400, 400));
+            photoScroll.setSize(new Dimension(400, 400));
+
+            //photoScroll.add(currentPhotoComp);
+            main.add(photoScroll);
             revalidate();
             repaint();
 
@@ -54,7 +61,7 @@ public class LightTable extends JComponent implements MouseListener{
         if(mc.getViewMode().equals("GRIDVIEW")){
             //add all thumbnails
             main.removeAll();
-            JPanel flow = new JPanel(new FlowLayout());
+            JPanel flow = new JPanel(new GridLayout(5,0));
             for(int i = 0; i <thumbnails.size(); i++){
                 System.out.println("getting thumbs");
                 ThumbnailComponent j = thumbnails.get(i);
@@ -70,9 +77,19 @@ public class LightTable extends JComponent implements MouseListener{
             main.removeAll();
             JPanel border = new JPanel(new BorderLayout());
             JPanel flow = new JPanel(new FlowLayout(FlowLayout.LEADING, 10, 10));
+
+
+
             flow.addMouseListener(this);
 
-            border.add(currentPhotoComp, BorderLayout.CENTER);
+            JScrollPane photoScroll = new JScrollPane(currentPhotoComp, ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS, //scrollpane to hold photo
+                    ScrollPaneConstants.HORIZONTAL_SCROLLBAR_ALWAYS);
+            photoScroll.setMaximumSize(new Dimension(300, 300));
+            photoScroll.setPreferredSize(new Dimension(300, 300));
+            photoScroll.setSize(new Dimension(300, 300));
+
+            border.add(photoScroll, BorderLayout.CENTER);
+
             for(int i = 0; i <thumbnails.size(); i++){
                 System.out.println("getting thumbs");
                 ThumbnailComponent j = thumbnails.get(i);
@@ -83,10 +100,17 @@ public class LightTable extends JComponent implements MouseListener{
 
                 //thumbpanel.addMouseListener(this);
                 thumbpanel.add(j);
+                //tnScroll.add(j);
 
                 flow.add(j);
             }
-            border.add(flow, BorderLayout.SOUTH);
+            JScrollPane tnScroll = new JScrollPane(flow, ScrollPaneConstants.VERTICAL_SCROLLBAR_NEVER,
+                    ScrollPaneConstants.HORIZONTAL_SCROLLBAR_ALWAYS);
+            tnScroll.setPreferredSize(new Dimension(600, 110));
+            tnScroll.setSize(new Dimension(600, 110));
+            //flow.add(tnScroll);
+            //border.add(flow, BorderLayout.SOUTH);
+            border.add(tnScroll, BorderLayout.SOUTH);
             main.add(border);
             revalidate();
             repaint();
@@ -109,6 +133,7 @@ public class LightTable extends JComponent implements MouseListener{
 
         if(currentPhotoComp == null){
             currentPhotoComp = photoToAdd;
+            currentPhotoComp.setMaximumSize(new Dimension(400,400));
         }
 
         updateComponent();
@@ -179,6 +204,7 @@ public class LightTable extends JComponent implements MouseListener{
                 child.select();
                 System.out.println(child.getBounds());
                 currentPhotoComp = photoComps.get(j);
+                currentPhotoComp.setMaximumSize(new Dimension(400,400));
                 updateComponent();
                 break;
             }
