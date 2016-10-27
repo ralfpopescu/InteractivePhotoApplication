@@ -43,6 +43,9 @@ public class LightTable extends JComponent implements MouseListener{
 
 
         if(mc.getViewMode().equals("PHOTOVIEW")){
+
+
+
             main.removeAll();
             JScrollPane photoScroll = new JScrollPane(currentPhotoComp, ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS, //scrollpane to hold photo
                     ScrollPaneConstants.HORIZONTAL_SCROLLBAR_ALWAYS);
@@ -52,6 +55,11 @@ public class LightTable extends JComponent implements MouseListener{
 
             //photoScroll.add(currentPhotoComp);
             main.add(photoScroll);
+
+            if(photoComps.size() == 0){
+                main.removeAll();
+            }
+
             revalidate();
             repaint();
 
@@ -61,7 +69,7 @@ public class LightTable extends JComponent implements MouseListener{
         if(mc.getViewMode().equals("GRIDVIEW")){
             //add all thumbnails
             main.removeAll();
-            JPanel flow = new JPanel(new GridLayout(5,0));
+            JPanel flow = new JPanel(new GridLayout());
             for(int i = 0; i <thumbnails.size(); i++){
                 System.out.println("getting thumbs");
                 ThumbnailComponent j = thumbnails.get(i);
@@ -133,7 +141,7 @@ public class LightTable extends JComponent implements MouseListener{
 
         if(currentPhotoComp == null){
             currentPhotoComp = photoToAdd;
-            currentPhotoComp.setMaximumSize(new Dimension(400,400));
+            currentPhotoComp.setMaximumSize(new Dimension(400, 400));
         }
 
         updateComponent();
@@ -174,6 +182,32 @@ public class LightTable extends JComponent implements MouseListener{
         updateComponent();
     }
 
+    public void delete(){
+        if(photoComps.size() > 0){
+            System.out.println(photoComps.size());
+            if(photoComps.size() == 1){
+                main.removeAll();
+                photoComps.clear();
+                thumbnails.clear();
+                index = 0;
+                updateComponent();
+            } else {
+                //int indexOf = photoComps.indexOf(currentPhotoComp);
+                photoComps.remove(index);
+                thumbnails.remove(index);
+                if(index < photoComps.size() - 1) {
+                    index++;
+                } else {
+                    index = 0;
+                }
+                currentPhotoComp = photoComps.get(index);
+            }
+
+        }
+        updateComponent();
+
+    }
+
     public ArrayList<ThumbnailComponent> getThumbnails(){
         return thumbnails;
     }
@@ -204,6 +238,7 @@ public class LightTable extends JComponent implements MouseListener{
                 child.select();
                 System.out.println(child.getBounds());
                 currentPhotoComp = photoComps.get(j);
+                index = j;
                 currentPhotoComp.setMaximumSize(new Dimension(400,400));
                 updateComponent();
                 break;

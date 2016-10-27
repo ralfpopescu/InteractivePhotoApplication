@@ -341,12 +341,7 @@ public class MainFrame extends JFrame implements MenuListener, ActionListener, K
             }
         }
         if(e.getSource().equals(deleteItem)){ //deletes item
-            if(hasPicture){
-                this.jpnlMain.remove(scrollPane); //remove entire scroll pane
-                hasPicture = false; //deleted picture so set to false
-                this.revalidate();
-                this.repaint();
-            }
+            lightTable.delete();
         }
 
         }
