@@ -28,18 +28,17 @@ public class LightTable extends JComponent implements MouseListener{
     Border border;
 
     public LightTable(ModeController modeController){
-        mc = modeController;
+        mc = modeController; //setup
         mode = "PHOTOVIEW";
 
         main = new JPanel(new FlowLayout());
         main.setPreferredSize(new Dimension(600, 600));
         main.setSize(new Dimension(600, 600));
-        //main.setBackground(Color.BLACK);
         this.add(main);
-        index = 0;
+        index = 0; //keeps track of currentPhotoComp index
     }
 
-    public void updateComponent(){
+    public void updateComponent(){ //"repainting"
 
 
         if(mc.getViewMode().equals("PHOTOVIEW")){
@@ -47,14 +46,14 @@ public class LightTable extends JComponent implements MouseListener{
 
 
             main.removeAll();
-            JScrollPane photoScroll = new JScrollPane(currentPhotoComp, ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS, //scrollpane to hold photo
+            JScrollPane photoScroll = new JScrollPane(currentPhotoComp,
+                    ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS, //scrollpane to hold photo
                     ScrollPaneConstants.HORIZONTAL_SCROLLBAR_ALWAYS);
             photoScroll.setMaximumSize(new Dimension(400, 400));
             photoScroll.setPreferredSize(new Dimension(400, 400));
             photoScroll.setSize(new Dimension(400, 400));
 
-            //photoScroll.add(currentPhotoComp);
-            main.add(photoScroll);
+            main.add(photoScroll); //basic photo component
 
             if(photoComps.size() == 0){
                 main.removeAll();
@@ -67,15 +66,21 @@ public class LightTable extends JComponent implements MouseListener{
         }
 
         if(mc.getViewMode().equals("GRIDVIEW")){
+
+
             //add all thumbnails
             main.removeAll();
             JPanel flow = new JPanel(new GridLayout(3, 3, 10, 10));
             flow.addMouseListener(this);
-            flow.setPreferredSize(new Dimension(500,500));
-            for(int i = 0; i <thumbnails.size(); i++){
-                System.out.println("getting thumbs");
+            flow.setPreferredSize(new Dimension(500, 500));
+            for(int i = 0; i <thumbnails.size(); i++){ //adds all thumbnails
                 ThumbnailComponent j = thumbnails.get(i);
+                j.deselect();
                 flow.add(j);
+            }
+            int indexOf = photoComps.indexOf(currentPhotoComp);
+            if(indexOf >= 0) {
+                thumbnails.get(indexOf).select(); //select highlights photo
             }
             main.add(flow);
             revalidate();
@@ -92,25 +97,23 @@ public class LightTable extends JComponent implements MouseListener{
 
             flow.addMouseListener(this);
 
-            JScrollPane photoScroll = new JScrollPane(currentPhotoComp, ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS, //scrollpane to hold photo
+            JScrollPane photoScroll = new JScrollPane(currentPhotoComp,
+                    ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS, //scrollpane to hold photo
                     ScrollPaneConstants.HORIZONTAL_SCROLLBAR_ALWAYS);
             photoScroll.setMaximumSize(new Dimension(300, 300));
             photoScroll.setPreferredSize(new Dimension(300, 300));
             photoScroll.setSize(new Dimension(300, 300));
 
-            border.add(photoScroll, BorderLayout.CENTER);
+            border.add(photoScroll, BorderLayout.CENTER); //big photo
 
-            for(int i = 0; i <thumbnails.size(); i++){
-                System.out.println("getting thumbs");
+            for(int i = 0; i <thumbnails.size(); i++){ //adds all thumbnails
                 ThumbnailComponent j = thumbnails.get(i);
                 JPanel thumbpanel = new JPanel();
 
                 thumbpanel.setPreferredSize(j.getPreferredSize());
                 thumbpanel.setSize(j.getSize());
 
-                //thumbpanel.addMouseListener(this);
                 thumbpanel.add(j);
-                //tnScroll.add(j);
 
                 flow.add(j);
             }
@@ -118,10 +121,22 @@ public class LightTable extends JComponent implements MouseListener{
                     ScrollPaneConstants.HORIZONTAL_SCROLLBAR_ALWAYS);
             tnScroll.setPreferredSize(new Dimension(600, 110));
             tnScroll.setSize(new Dimension(600, 110));
-            //flow.add(tnScroll);
-            //border.add(flow, BorderLayout.SOUTH);
-            border.add(tnScroll, BorderLayout.SOUTH);
+
+            for(ThumbnailComponent tn: thumbnails){ //deselects all thumbnails so we can select just one
+                tn.deselect();
+            }
+            int indexOf = photoComps.indexOf(currentPhotoComp);
+            if(indexOf >= 0) {
+                thumbnails.get(indexOf).select();
+            }
+
+            border.add(tnScroll, BorderLayout.SOUTH); //adds to bottom of screen
             main.add(border);
+
+            if(photoComps.size() == 0){
+                main.removeAll();
+            }
+
             revalidate();
             repaint();
 
@@ -133,33 +148,23 @@ public class LightTable extends JComponent implements MouseListener{
     }
 
     public void addPhoto(PhotoComponent photoToAdd){
-        System.out.println(photoToAdd);
         photoComps.add(photoToAdd);
 
-        ThumbnailComponent thumbnail = new ThumbnailComponent(photoToAdd);
-        //thumbnail.addMouseListener(this);
+        ThumbnailComponent thumbnail = new ThumbnailComponent(photoToAdd); //makes thumbnail
 
         thumbnails.add(thumbnail);
 
-        if(currentPhotoComp == null){
+        if(currentPhotoComp == null){ //edge case if no photo already
             currentPhotoComp = photoToAdd;
             currentPhotoComp.setMaximumSize(new Dimension(400, 400));
         }
 
         updateComponent();
-        //main.add(photoToAdd);
         revalidate();
 
 
     }
 
-    public void setCurrentPhoto(){
-
-    }
-
-    public void getCurrentPhoto(){
-
-    }
 
     public void next(){
         if(index < photoComps.size() - 1){
@@ -167,7 +172,6 @@ public class LightTable extends JComponent implements MouseListener{
         } else {
             index = 0;
         }
-        System.out.println(index);
         currentPhotoComp = photoComps.get(index);
         updateComponent();
 
@@ -179,26 +183,24 @@ public class LightTable extends JComponent implements MouseListener{
         } else {
             index = photoComps.size() - 1;
         }
-        System.out.println(index);
         currentPhotoComp = photoComps.get(index);
         updateComponent();
     }
 
     public void delete(){
-        if(photoComps.size() > 0){
+        if(photoComps.size() > 0){ //makes sure there is photo first
             System.out.println(photoComps.size());
-            if(photoComps.size() == 1){
+            if(photoComps.size() == 1){ //edge case
                 main.removeAll();
                 photoComps.clear();
                 thumbnails.clear();
                 index = 0;
                 updateComponent();
-            } else {
-                //int indexOf = photoComps.indexOf(currentPhotoComp);
+            } else { //removes components and sets current photo to the next index
                 photoComps.remove(index);
                 thumbnails.remove(index);
                 if(index < photoComps.size() - 1) {
-                    index++;
+                    //index++;
                 } else {
                     index = 0;
                 }
@@ -234,7 +236,7 @@ public class LightTable extends JComponent implements MouseListener{
         if (e.getClickCount() == 2){
             mc.setViewMode("PHOTOVIEW");
         }
-        for(int j = 0; j<thumbnails.size(); j++){
+        for(int j = 0; j<thumbnails.size(); j++){ //for every thumbnail we see if clicked, then select
             ThumbnailComponent child = thumbnails.get(j);
             if(child.getBounds().contains(e.getPoint())){
                 for(int k = 0; k<thumbnails.size(); k++) {

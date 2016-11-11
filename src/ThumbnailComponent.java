@@ -23,15 +23,15 @@ public class ThumbnailComponent extends JComponent {
         selected = false;
 
 
-        scaleFactor = (float)desiredHeight / (float)photoComponent.getPhotoHeight();
+        scaleFactor = (float)desiredHeight / (float)photoComponent.getPhotoHeight(); //scales to desired height
 
         System.out.println(scaleFactor);
 
-        photoWidth = (int)(photo.getWidth() * scaleFactor);
+        photoWidth = (int)(photo.getWidth() * scaleFactor); //sets photo dimensions accordingly
         photoHeight = (int)(photo.getHeight() * scaleFactor);
 
 
-        RescaleOp op = new RescaleOp(scaleFactor, 100, null);
+        RescaleOp op = new RescaleOp(scaleFactor, 100, null); //filters photo for "selected"
         selectedPhoto = op.filter(photo, null);
 
 
