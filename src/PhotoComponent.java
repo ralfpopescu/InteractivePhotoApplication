@@ -33,6 +33,10 @@ public class PhotoComponent extends JComponent implements MouseListener, MouseMo
     private ArrayList<Point> strokeDisplayList = new ArrayList<>();
     private ArrayList<TextRegion> textRegionList = new ArrayList<>();
 
+    private ArrayList<Point> gestureList = new ArrayList<>();
+
+    private Siger siger;
+
 
     public PhotoComponent(BufferedImage image, ModeController modeController2) {
         photo = image;
@@ -51,6 +55,8 @@ public class PhotoComponent extends JComponent implements MouseListener, MouseMo
 
         this.setPreferredSize(new Dimension(photoWidth, photoHeight));
         this.setSize(new Dimension(photoWidth, photoHeight));
+
+        siger = new Siger();
 
     }
 
@@ -279,6 +285,10 @@ public class PhotoComponent extends JComponent implements MouseListener, MouseMo
             textRegionStartingPoint = e.getPoint();
             typing = false;
         }
+
+        if(!flipped){
+            gestureList.add(new Point(e.getX(), e.getY()));
+        }
     }
 
     public void mouseReleased(MouseEvent e) {
@@ -331,6 +341,9 @@ public class PhotoComponent extends JComponent implements MouseListener, MouseMo
         if(flipped && !modeController.getMode()){
             makingTextRegion = true;
             textRegionEndPoint = e.getPoint();
+        }
+        if(!flipped){
+
         }
     }
 
