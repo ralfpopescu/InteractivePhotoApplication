@@ -304,6 +304,15 @@ public class PhotoComponent extends JComponent implements MouseListener, MouseMo
                 repaint();
             }
         }
+
+        if(!flipped){
+            ArrayList<Integer> points = siger.createGestureString(gestureList);
+            System.out.println(points);
+            points = siger.stripSmalls(points);
+            points = siger.stripDuplicates(points);
+            System.out.println(points);
+            gestureList.clear();
+        }
     }
 
     public void mouseEntered(MouseEvent e) {
@@ -343,7 +352,7 @@ public class PhotoComponent extends JComponent implements MouseListener, MouseMo
             textRegionEndPoint = e.getPoint();
         }
         if(!flipped){
-
+            gestureList.add(new Point(e.getX(), e.getY()));
         }
     }
 

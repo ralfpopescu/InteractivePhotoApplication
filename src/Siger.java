@@ -24,7 +24,7 @@ public class Siger {
 
     }
 
-    public String createGestureString(ArrayList<Point> points){
+    public ArrayList<Integer> createGestureString(ArrayList<Point> points){
         String gestureString = null;
         ArrayList<Integer> gestureDirectionList = new ArrayList<>();
 
@@ -35,15 +35,15 @@ public class Siger {
             gestureDirectionList.add(identifyDirection(p1,p2));
         }
 
-        return gestureString;
+        return gestureDirectionList;
     }
 
     public int identifyDirection(Point p1, Point p2) {
         int direction = 0;
         double p1_x = p1.getX();
         double p1_y = p1.getY();
-        double p2_x = p1.getX();
-        double p2_y = p1.getY();
+        double p2_x = p2.getX();
+        double p2_y = p2.getY();
 
         double delta_x = p2_x - p1_x;
         double delta_y = p2_y - p1_y;
@@ -134,21 +134,37 @@ public class Siger {
                 break;
             }
 
-
-            int nextDirection = directions.get(count + 1);
+            count++;
+            int nextDirection = directions.get(count);
 
             noDups.add(currentDirection);
 
-            while(currentDirection == nextDirection){
-                count++;
-                currentDirection = directions.get(count);
+            while(currentDirection == nextDirection && count < directions.size()-1){
                 nextDirection = directions.get(count);
+                count++;
             }
 
         }
 
         return noDups;
 
+    }
+
+    public ArrayList<Integer> stripSmalls(ArrayList<Integer> points){
+        ArrayList<Integer> noSmalls = points;
+
+        noSmalls.remove(0);
+
+        for (int i = 0; i < points.size() - 1; i++){
+            int p1 = points.get(i);
+            int p2 = points.get(i + 1);
+
+            if(p1 != p2){
+                noSmalls.remove(i);
+                noSmalls.remove(i+1);
+            }
+        }
+        return noSmalls;
     }
 
     public double[] getExtremesNESW(ArrayList<Point> points){
