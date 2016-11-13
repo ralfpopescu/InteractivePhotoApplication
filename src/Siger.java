@@ -20,6 +20,8 @@ public class Siger {
     public static final int GS = 10;
     public static final int GW = 11;
 
+    public static final int ratio = 7;
+
     public Siger(){
 
     }
@@ -52,38 +54,38 @@ public class Siger {
         double y_over_x = Math.abs(delta_y/delta_x);
 
         //if delta y is negative and ratio is about 5
-        if(delta_y < 0 && y_over_x > 5){
+        if(delta_y < 0 && y_over_x > ratio){
             direction = N;
         }
 
         //if delta y is negative
-        if(delta_y < 0 && y_over_x < 5 && delta_x > 0){
+        if(delta_y < 0 && y_over_x < ratio && delta_x > 0){
             direction = NE;
         }
 
-        if(delta_y < 0 && y_over_x < 5 && delta_x > 0){
+        if(delta_y < 0 && y_over_x < ratio && delta_x > 0){
             direction = NW;
         }
 
         //if delta y is positive
-        if(delta_y > 0 && y_over_x > 5){
+        if(delta_y > 0 && y_over_x > ratio){
             direction = S;
         }
 
         //if delta y is positive
-        if(delta_y > 0 && y_over_x < 5 && delta_x > 0){
+        if(delta_y > 0 && y_over_x < ratio && delta_x > 0){
             direction = SE;
         }
 
-        if(delta_y > 0 && y_over_x < 5 && delta_x < 0) {
+        if(delta_y > 0 && y_over_x < ratio && delta_x < 0) {
             direction = SW;
         }
 
-        if(delta_x < 0 && x_over_y > 5) {
+        if(delta_x < 0 && x_over_y > ratio) {
             direction = W;
         }
 
-        if(delta_x > 0 && x_over_y > 5) {
+        if(delta_x > 0 && x_over_y > ratio) {
             direction = E;
         }
 
@@ -150,22 +152,37 @@ public class Siger {
 
     }
 
-    public ArrayList<Integer> stripSmalls(ArrayList<Integer> points){
-        ArrayList<Integer> noSmalls = points;
+    public ArrayList<Integer> stripSmalls(ArrayList<Integer> noSmalls){
 
         noSmalls.remove(0);
 
-        for (int i = 0; i < points.size() - 1; i++){
-            int p1 = points.get(i);
-            int p2 = points.get(i + 1);
+        int i = 0;
 
-            if(p1 != p2){
-                noSmalls.remove(i);
-                noSmalls.remove(i+1);
+        while(i < noSmalls.size() - 2){
+            int current = noSmalls.get(i);
+            int next = noSmalls.get(i);
+            int count = 0;
+
+            while(i + count < noSmalls.size()-1 && current == next){
+                count++;
+                next = noSmalls.get(i + count);
+            }
+
+            if(count < 4) {
+                for(int j = 0; j < count; j++){
+                    noSmalls.remove(i);
+                }
+            } else {
+                i = i + count;
             }
         }
+
+
+        noSmalls.remove(noSmalls.size() - 1);
+
         return noSmalls;
     }
+
 
     public double[] getExtremesNESW(ArrayList<Point> points){
         //N, E, S, W
