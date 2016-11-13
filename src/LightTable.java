@@ -16,18 +16,14 @@ public class LightTable extends JComponent implements MouseListener{
 
     ArrayList<PhotoComponent> photoComps = new ArrayList<>();
     ArrayList<ThumbnailComponent> thumbnails = new ArrayList<>();
-    ArrayList<Graphics2D> importedPhotos = new ArrayList<>();
-    Graphics2D currentPhoto;
     PhotoComponent currentPhotoComp;
-    int currentPhotoIndex;
     String mode;
     ModeController mc;
     JPanel main;
-    JPanel splitThumbnails;
     int index;
-    Border border;
+    TagController tagController;
 
-    public LightTable(ModeController modeController){
+    public LightTable(ModeController modeController, TagController tc){
         mc = modeController; //setup
         mode = "PHOTOVIEW";
 
@@ -36,6 +32,8 @@ public class LightTable extends JComponent implements MouseListener{
         main.setSize(new Dimension(600, 600));
         this.add(main);
         index = 0; //keeps track of currentPhotoComp index
+
+        tagController = tc;
     }
 
     public void updateComponent(){ //"repainting"
@@ -214,6 +212,20 @@ public class LightTable extends JComponent implements MouseListener{
 
     public ArrayList<ThumbnailComponent> getThumbnails(){
         return thumbnails;
+    }
+
+    public void refresh(){
+        tagController.updateTags(getTags());
+        super.revalidate();
+        super.repaint();
+    }
+
+    public boolean[] getTags(){
+        if(currentPhotoComp != null) {
+            return currentPhotoComp.getTags();
+        } else {
+            return null;
+        }
     }
 
     public void mousePressed(MouseEvent e) {

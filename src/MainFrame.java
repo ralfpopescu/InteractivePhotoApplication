@@ -31,6 +31,7 @@ public class MainFrame extends JFrame implements MenuListener, ActionListener, K
     JScrollPane scrollPane;
     LightTable lightTable;
     JPanel ltPanel;
+    TagController tagController;
 
 
     public static void main(String[] args) {
@@ -46,8 +47,42 @@ public class MainFrame extends JFrame implements MenuListener, ActionListener, K
         initUI();
         //basic setup
 
+        //toggle buttons for tagging, will be abstracted later for functionality
+        vacationToggle = new JToggleButton("Vacation");
+        familyToggle = new JToggleButton("Family");
+        schoolToggle = new JToggleButton("School");
+        workToggle = new JToggleButton("Work");
+
+        vacationToggle.setAlignmentX(Component.LEFT_ALIGNMENT);
+        familyToggle.setAlignmentX(Component.LEFT_ALIGNMENT);
+        schoolToggle.setAlignmentX(Component.LEFT_ALIGNMENT);
+        workToggle.setAlignmentX(Component.LEFT_ALIGNMENT);
+
+
+        vacationToggle.setMinimumSize(new Dimension(50, 25));
+        vacationToggle.setPreferredSize(new Dimension(100, 25));
+        vacationToggle.setMaximumSize(new Dimension(300,
+                300));
+
+        familyToggle.setMinimumSize(new Dimension(50, 25));
+        familyToggle.setPreferredSize(new Dimension(100, 25));
+        familyToggle.setMaximumSize(new Dimension(300,
+                300));
+
+        schoolToggle.setMinimumSize(new Dimension(50, 25));
+        schoolToggle.setPreferredSize(new Dimension(100, 25));
+        schoolToggle.setMaximumSize(new Dimension(300,
+                300));
+
+        workToggle.setMinimumSize(new Dimension(50, 25));
+        workToggle.setPreferredSize(new Dimension(100, 25));
+        workToggle.setMaximumSize(new Dimension(300,
+                300));
+
+        tagController = new TagController(vacationToggle, familyToggle, workToggle, schoolToggle);
+
         modeController = new ModeController();
-        lightTable = new LightTable(modeController);
+        lightTable = new LightTable(modeController, tagController);
         lightTable.setPreferredSize(new Dimension(500, 500));
         lightTable.setSize(new Dimension(200, 200));
 
@@ -137,38 +172,6 @@ public class MainFrame extends JFrame implements MenuListener, ActionListener, K
         JPanel jpnlWest = new JPanel();
         BoxLayout westBox = new BoxLayout(jpnlWest, BoxLayout.Y_AXIS); //box layout for top-down structure
         jpnlWest.setLayout(westBox);
-
-        //toggle buttons for tagging, will be abstracted later for functionality
-        vacationToggle = new JToggleButton("Vacation");
-        familyToggle = new JToggleButton("Family");
-        schoolToggle = new JToggleButton("School");
-        workToggle = new JToggleButton("Work");
-
-        vacationToggle.setAlignmentX(Component.LEFT_ALIGNMENT);
-        familyToggle.setAlignmentX(Component.LEFT_ALIGNMENT);
-        schoolToggle.setAlignmentX(Component.LEFT_ALIGNMENT);
-        workToggle.setAlignmentX(Component.LEFT_ALIGNMENT);
-
-
-        vacationToggle.setMinimumSize(new Dimension(50, 25));
-        vacationToggle.setPreferredSize(new Dimension(100, 25));
-        vacationToggle.setMaximumSize(new Dimension(300,
-                300));
-
-        familyToggle.setMinimumSize(new Dimension(50, 25));
-        familyToggle.setPreferredSize(new Dimension(100, 25));
-        familyToggle.setMaximumSize(new Dimension(300,
-                300));
-
-        schoolToggle.setMinimumSize(new Dimension(50, 25));
-        schoolToggle.setPreferredSize(new Dimension(100, 25));
-        schoolToggle.setMaximumSize(new Dimension(300,
-                300));
-
-        workToggle.setMinimumSize(new Dimension(50, 25));
-        workToggle.setPreferredSize(new Dimension(100, 25));
-        workToggle.setMaximumSize(new Dimension(300,
-                300));
 
 
 
@@ -291,6 +294,8 @@ public class MainFrame extends JFrame implements MenuListener, ActionListener, K
         }
     }
 
+    //public
+
     @Override
     public void menuDeselected(MenuEvent me){}
 
@@ -327,9 +332,9 @@ public class MainFrame extends JFrame implements MenuListener, ActionListener, K
                     System.exit(0);
             }
 
-                PhotoComponent photoComp = new PhotoComponent(currentPhoto, modeController);
+                PhotoComponent photoComp = new PhotoComponent(currentPhoto, modeController, lightTable);
 
-                lightTable.addPhoto(new PhotoComponent(currentPhoto, modeController));
+                lightTable.addPhoto(new PhotoComponent(currentPhoto, modeController, lightTable));
 
                 revalidate();
 
@@ -364,6 +369,16 @@ public class MainFrame extends JFrame implements MenuListener, ActionListener, K
 
     public void mouseClicked(MouseEvent e) {
 
+
+    }
+    public void updateTags(){
+        boolean[] tags = lightTable.getTags();
+        if(tags != null) {
+            vacationToggle.setSelected(tags[0]);
+            workToggle.setSelected(tags[1]);
+            schoolToggle.setSelected(tags[2]);
+            familyToggle.setSelected(tags[3]);
+        }
 
     }
     }

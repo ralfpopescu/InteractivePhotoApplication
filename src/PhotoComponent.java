@@ -29,6 +29,12 @@ public class PhotoComponent extends JComponent implements MouseListener, MouseMo
     private boolean typing;
     private Font font;
     private FontMetrics metrics;
+    public LightTable lightTable;
+
+    boolean vacationTag;
+    boolean schoolTag;
+    boolean workTag;
+    boolean familyTag;
 
     private ArrayList<Point> strokeDisplayList = new ArrayList<>();
     private ArrayList<TextRegion> textRegionList = new ArrayList<>();
@@ -38,7 +44,7 @@ public class PhotoComponent extends JComponent implements MouseListener, MouseMo
     private Siger siger;
 
 
-    public PhotoComponent(BufferedImage image, ModeController modeController2) {
+    public PhotoComponent(BufferedImage image, ModeController modeController2, LightTable lt) {
         photo = image;
         photoWidth = photo.getWidth();
         photoHeight = photo.getHeight();
@@ -57,6 +63,12 @@ public class PhotoComponent extends JComponent implements MouseListener, MouseMo
         this.setSize(new Dimension(photoWidth, photoHeight));
 
         siger = new Siger();
+        lightTable = lt;
+
+        vacationTag = false;
+        schoolTag = false;
+        workTag = false;
+        familyTag = false;
 
     }
 
@@ -273,7 +285,14 @@ public class PhotoComponent extends JComponent implements MouseListener, MouseMo
         return spaced;
     }
 
-
+    public boolean[] getTags(){
+        boolean[] array = new boolean[4];
+        array[0] = workTag;
+        array[1] = vacationTag;
+        array[2] = schoolTag;
+        array[3] = familyTag;
+        return array;
+    }
 
 
     public void mousePressed(MouseEvent e) {
@@ -312,6 +331,34 @@ public class PhotoComponent extends JComponent implements MouseListener, MouseMo
             String template = siger.matchTemplate(points);
             System.out.println(template);
             gestureList.clear();
+
+            if(template.equals("UNREC")){
+                System.out.println("unrecognized gesture");
+            }
+
+            if(template.equals("RIGHTANGLE")){
+                lightTable.next();
+            }
+            if(template.equals("LEFTANGLE")){
+                lightTable.prev();
+            }
+            if(template.equals("PIGTAIL")){
+                lightTable.delete();
+            }
+
+            if(template.equals("FAMILY")){
+                familyTag = !familyTag;
+            }
+            if(template.equals("WORK")){
+                workTag = !workTag;
+            }
+            if(template.equals("VACATION")){
+                vacationTag = !vacationTag;
+            }
+            if(template.equals("SCHOOL")){
+                schoolTag = !schoolTag;
+            }
+            lightTable.refresh();
         }
     }
 

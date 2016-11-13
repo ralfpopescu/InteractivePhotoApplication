@@ -111,7 +111,7 @@ public class Siger {
     }
 
     public String matchTemplate(ArrayList<Integer> n){
-        String template = null;
+        String template = "UNREC";
         int[] nums = new int[n.size()];
 
         for(int i = 0; i < n.size(); i++){
@@ -140,16 +140,16 @@ public class Siger {
             template = "PIGTAIL";
         }
         if(Arrays.equals(nums,up)){
-            template = "UP";
+            template = "FAMILY";
         }
         if(Arrays.equals(nums,v)){
-            template = "v";
+            template = "WORK";
         }
         if(Arrays.equals(nums,z)){
-            template = "z";
+            template = "VACATION";
         }
         if(Arrays.equals(nums,down)){
-            template = "down";
+            template = "SCHOOL";
         }
 
 
