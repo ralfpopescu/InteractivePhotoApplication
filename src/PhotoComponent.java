@@ -307,10 +307,10 @@ public class PhotoComponent extends JComponent implements MouseListener, MouseMo
 
         if(!flipped){
             ArrayList<Integer> points = siger.createGestureString(gestureList);
-            System.out.println(points);
             points = siger.stripSmalls(points);
             points = siger.stripDuplicates(points);
-            System.out.println(points);
+            String template = siger.matchTemplate(points);
+            System.out.println(template);
             gestureList.clear();
         }
     }

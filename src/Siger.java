@@ -1,5 +1,6 @@
 import java.util.ArrayList;
 import java.awt.*;
+import java.util.Arrays;
 
 /**
  * Created by ralfpopescu on 11/10/16.
@@ -100,18 +101,57 @@ public class Siger {
     public void createTemplates() {
         int[] rightAngle = {SW, SE};
         int[] leftAngle = {SE, SW};
-        int[] pigtail = {SE, S, SW, W, NW, N, NE};
+        int[] pigtail = {3, 5, 0, 7};
 
         int[] up = {N};
         int[] v = {SE, NE};
         int[] z = {E, SW, E};
         int[] down = {S};
 
-        int[] circle = {SE, S, SW, W, NW, N, NE};
     }
 
-    public String matchTemplate(){
+    public String matchTemplate(ArrayList<Integer> n){
         String template = null;
+        int[] nums = new int[n.size()];
+
+        for(int i = 0; i < n.size(); i++){
+            nums[i] = n.get(i);
+            System.out.println(nums[i]);
+        }
+
+
+
+        int[] rightAngle = {3, 5};
+        int[] leftAngle = {5, 3};
+        int[] pigtail = {3, 5, 0, 7};
+
+        int[] up = {N};
+        int[] v = {SE, NE};
+        int[] z = {E, SW, E};
+        int[] down = {S};
+
+        if(Arrays.equals(nums,rightAngle)){
+            template = "RIGHTANGLE";
+        }
+        if(Arrays.equals(nums,leftAngle)){
+            template = "LEFTANGLE";
+        }
+        if(Arrays.equals(nums,pigtail)){
+            template = "PIGTAIL";
+        }
+        if(Arrays.equals(nums,up)){
+            template = "UP";
+        }
+        if(Arrays.equals(nums,v)){
+            template = "v";
+        }
+        if(Arrays.equals(nums,z)){
+            template = "z";
+        }
+        if(Arrays.equals(nums,down)){
+            template = "down";
+        }
+
 
         System.out.println(template);
         return template;
