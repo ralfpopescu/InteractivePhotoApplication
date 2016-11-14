@@ -93,6 +93,8 @@ public class PhotoComponent extends JComponent implements MouseListener, MouseMo
             g.setColor(Color.lightGray);
             g.fillRect(0, 0, photoWidth, photoHeight);
             g.setColor(Color.black);
+            ArrayList<Point> selectedStrokes = selectStrokesInBox();
+            ArrayList<TextRegion> selectedTextRegions = selectTextRegionsInBox();
 
             for(int i=1; i<strokeDisplayList.size(); i++){ //draws strokes
                 Point currentPoint = strokeDisplayList.get(i);
@@ -104,6 +106,14 @@ public class PhotoComponent extends JComponent implements MouseListener, MouseMo
                 } else {
 
                     if (previousPoint.getX() != -1 && currentPoint.getX() != -1) { //draws lines, -1 signifies mouse releases
+
+                        if(modeController.dragging() && selectedStrokes.contains(currentPoint)) {
+                            g2.setColor(Color.yellow);
+                        } else {
+                            g2.setColor(Color.black);
+                        }
+
+
                         g2.drawLine((int) currentPoint.getX(), (int) currentPoint.getY(),
                                 (int) previousPoint.getX(), (int) previousPoint.getY());
                     }
@@ -241,32 +251,36 @@ public class PhotoComponent extends JComponent implements MouseListener, MouseMo
     public ArrayList<Point> selectStrokesInBox(){
         ArrayList<Point> selectedStrokes = new ArrayList<>();
 
-        for(Point p: strokeDisplayList){
-            double x = p.getX();
-            double y = p.getY();
+        if(extremePoints != null) {
+            for (Point p : strokeDisplayList) {
+                double x = p.getX();
+                double y = p.getY();
 
-            if(x < extremePoints[1] && x > extremePoints[3]
-                    && y < extremePoints[2] && y > extremePoints[0]){
-                selectedStrokes.add(p);
+                if (x < extremePoints[1] && x > extremePoints[3]
+                        && y < extremePoints[2] && y > extremePoints[0]) {
+                    selectedStrokes.add(p);
+                }
+
             }
-
         }
         return selectedStrokes;
     }
 
     public ArrayList<TextRegion> selectTextRegionsInBox(){
         ArrayList<TextRegion> selectedTextRegions = new ArrayList<>();
-        for(TextRegion t: textRegionList){
-            double x_s = t.getStartingPoint().getX();
-            double y_s = t.getStartingPoint().getY();
-            double x_e = t.getEndPoint().getX();
-            double y_e = t.getEndPoint().getY();
+        if(extremePoints != null) {
+            for (TextRegion t : textRegionList) {
+                double x_s = t.getStartingPoint().getX();
+                double y_s = t.getStartingPoint().getY();
+                double x_e = t.getEndPoint().getX();
+                double y_e = t.getEndPoint().getY();
 
-            if(x_e < extremePoints[1] && x_s > extremePoints[3] &&
-                    y_e < extremePoints[2] && y_s > extremePoints[0]){
-                selectedTextRegions.add(t);
+                if (x_e < extremePoints[1] && x_s > extremePoints[3] &&
+                        y_e < extremePoints[2] && y_s > extremePoints[0]) {
+                    selectedTextRegions.add(t);
+                }
+
             }
-
         }
         return selectedTextRegions;
     }
@@ -355,7 +369,11 @@ public class PhotoComponent extends JComponent implements MouseListener, MouseMo
             extremePoints = siger.getExtremesNESW(boundingBox);
             int[] boundingRect = siger.makeBoundingBox(extremePoints);
 
+            modeController.setDragging(!modeController.dragging());
+
             System.out.println("right click");
+
+            repaint();
 
             //boundingBox.clear();
         }
