@@ -43,7 +43,6 @@ public class ModeController {
     }
 
     public boolean dragging(){
-        System.out.println(dragging);
         return dragging;
     }
 
