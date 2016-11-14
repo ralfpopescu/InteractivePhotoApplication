@@ -126,7 +126,7 @@ public class Siger {
         int[] pigtail = {3, 5, 0, 7};
 
         int[] up = {N};
-        int[] v = {SE, NE};
+        int[] v = {3, 7};
         int[] z = {E, SW, E};
         int[] down = {S};
 
@@ -219,8 +219,9 @@ public class Siger {
             }
         }
 
-
-        noSmalls.remove(noSmalls.size() - 1);
+        if(noSmalls.size() > 0) {
+            noSmalls.remove(noSmalls.size() - 1);
+        }
 
         return noSmalls;
     }
@@ -228,7 +229,7 @@ public class Siger {
 
     public double[] getExtremesNESW(ArrayList<Point> points){
         //N, E, S, W
-        double Nex = 0, Sex = 0, Eex = 0, Wex = 0;
+        double Nex = 999999, Sex = 0, Eex = 0, Wex = 999999;
         double[] extremesNESW = new double[4];
 
         for(Point p: points){
@@ -245,7 +246,7 @@ public class Siger {
                 Nex = y;
             }
             if(y > Sex){
-                Eex = y;
+                Sex = y;
             }
         }
 
@@ -253,6 +254,11 @@ public class Siger {
         extremesNESW[1] = Eex;
         extremesNESW[2] = Sex;
         extremesNESW[3] = Wex;
+
+        System.out.println(Nex);
+        System.out.println(Eex);
+        System.out.println(Sex);
+        System.out.println(Wex);
 
 
         return extremesNESW;

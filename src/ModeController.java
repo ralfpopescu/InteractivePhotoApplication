@@ -5,6 +5,7 @@ public class ModeController {
     public boolean mode;
     public boolean selectMode;
     public String viewMode;
+    public boolean dragging;
 
     public enum ViewMode {
         PHOTOVIEW, GRIDVIEW, SPLITVIEW
@@ -13,6 +14,7 @@ public class ModeController {
     public ModeController(){
         mode = true;
         selectMode = false;
+        dragging = false;
         viewMode = "PHOTOVIEW";
     }
 
@@ -38,6 +40,14 @@ public class ModeController {
 
     public void setSelectMode(boolean x){
         selectMode = x;
+    }
+
+    public boolean dragging(){
+        return dragging;
+    }
+
+    public void setDragging(boolean x){
+        dragging = x;
     }
 
 

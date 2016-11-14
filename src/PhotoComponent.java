@@ -41,6 +41,7 @@ public class PhotoComponent extends JComponent implements MouseListener, MouseMo
 
     private ArrayList<Point> gestureList = new ArrayList<>();
     private ArrayList<Point> boundingBox = new ArrayList<>();
+    double[] extremePoints;
 
     private Siger siger;
 
@@ -89,8 +90,6 @@ public class PhotoComponent extends JComponent implements MouseListener, MouseMo
         g.setColor(Color.black);
 
         if (flipped){
-//            BufferedImage subPaper = paperTexture.getSubimage(0, 0, photoWidth, photoHeight);
-//            g.drawImage(subPaper, 0, 0, this); //Draws back of photo
             g.setColor(Color.lightGray);
             g.fillRect(0, 0, photoWidth, photoHeight);
             g.setColor(Color.black);
@@ -239,51 +238,37 @@ public class PhotoComponent extends JComponent implements MouseListener, MouseMo
         return modeController;
     }
 
-    public ArrayList<String> splitBySpaces(String textString, int regionWidth, FontMetrics metrics) { //not using this method for now
-        ArrayList<String> spaced = new ArrayList<>();
+    public ArrayList<Point> selectStrokesInBox(){
+        ArrayList<Point> selectedStrokes = new ArrayList<>();
 
-        ArrayList<String> lines = new ArrayList<>();
-        int blockStart = 0;
-        char ws;
-        boolean hasWS = false;
-        int wsIndex = 0;
+        for(Point p: strokeDisplayList){
+            double x = p.getX();
+            double y = p.getY();
 
-        int counter = 0;
-        if (metrics.stringWidth(textString) < regionWidth) {
-            spaced = new ArrayList<>();
-            spaced.add(textString);
-        } else {
-            spaced = new ArrayList<>();
-            while (counter < textString.length()) {
-                String sub = textString.substring(blockStart, counter);
-                ws = textString.charAt(counter);
-
-                if(ws == ' '){
-                    hasWS = true;
-                    wsIndex = counter;
-                }
-
-                while (metrics.stringWidth(sub) < regionWidth) {
-                    sub = textString.substring(blockStart, counter);
-                    counter++;
-                    if (counter > textString.length()) {
-                        break;
-                    }
-                }
-                if(!hasWS) {
-                    spaced.add(sub);
-                    blockStart = counter - 1;
-                } else {
-                    String blockString = textString.substring(blockStart, wsIndex);
-                    spaced.add(blockString);
-                    blockStart = wsIndex;
-                    counter = wsIndex;
-
-                    hasWS = false;
-                }
+            if(x < extremePoints[1] && x > extremePoints[3]
+                    && y < extremePoints[2] && y > extremePoints[0]){
+                selectedStrokes.add(p);
             }
+
         }
-        return spaced;
+        return selectedStrokes;
+    }
+
+    public ArrayList<TextRegion> selectTextRegionsInBox(){
+        ArrayList<TextRegion> selectedTextRegions = new ArrayList<>();
+        for(TextRegion t: textRegionList){
+            double x_s = t.getStartingPoint().getX();
+            double y_s = t.getStartingPoint().getY();
+            double x_e = t.getEndPoint().getX();
+            double y_e = t.getEndPoint().getY();
+
+            if(x_e < extremePoints[1] && x_s > extremePoints[3] &&
+                    y_e < extremePoints[2] && y_s > extremePoints[0]){
+                selectedTextRegions.add(t);
+            }
+
+        }
+        return selectedTextRegions;
     }
 
     public boolean[] getTags(){
@@ -311,7 +296,7 @@ public class PhotoComponent extends JComponent implements MouseListener, MouseMo
         }
         if(flipped && modeController.getSelectMode()){
             boundingBox.add(new Point(e.getX(), e.getY()));
-            System.out.println("right click");
+
         }
     }
 
@@ -367,12 +352,12 @@ public class PhotoComponent extends JComponent implements MouseListener, MouseMo
         }
         if(modeController.getSelectMode() && flipped){
 
-            double[] extremePoints = siger.getExtremesNESW(boundingBox);
+            extremePoints = siger.getExtremesNESW(boundingBox);
             int[] boundingRect = siger.makeBoundingBox(extremePoints);
-            getGraphics().drawRect(boundingRect[0], boundingRect[1], boundingRect[2], boundingRect[3]);
 
+            System.out.println("right click");
 
-            boundingBox.clear();
+            //boundingBox.clear();
         }
     }
 
@@ -404,18 +389,18 @@ public class PhotoComponent extends JComponent implements MouseListener, MouseMo
     }
 
     public void mouseDragged(MouseEvent e) {
-        if(flipped && modeController.getMode()) {
+        if(flipped && modeController.getMode() && !modeController.getSelectMode()) {
             strokeDisplayList.add(new Point(e.getX(), e.getY()));
             repaint();
         }
-        if(flipped && !modeController.getMode()){
+        if(flipped && !modeController.getMode() && !modeController.getSelectMode()){
             makingTextRegion = true;
             textRegionEndPoint = e.getPoint();
         }
         if(!flipped){
             gestureList.add(new Point(e.getX(), e.getY()));
         }
-        if(e.getButton() == MouseEvent.BUTTON2 && flipped){
+        if(modeController.getSelectMode() && flipped){
             boundingBox.add(new Point(e.getX(), e.getY()));
         }
     }
