@@ -23,11 +23,15 @@ public class TextRegion {
         return startingPoint;
     }
 
+    public void setStartingPoint(double x, double y){
+        startingPoint.setLocation(x,y);
+    }
+
     public Point getEndPoint(){
         return endPoint;
     }
 
-    public void setEndPoint(int x, int y){
+    public void setEndPoint(double x, double y){
         endPoint.setLocation(x,y);
     }
 

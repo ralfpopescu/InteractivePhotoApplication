@@ -9,6 +9,7 @@ import java.awt.event.*;
 import java.awt.Color;
 import java.awt.image.BufferedImage;
 import javax.imageio.ImageIO;
+import javax.xml.soap.Text;
 import java.io.*;
 import java.awt.*;
 
@@ -108,10 +109,16 @@ public class PhotoComponent extends JComponent implements MouseListener, MouseMo
 
                     if (previousPoint.getX() != -1 && currentPoint.getX() != -1) { //draws lines, -1 signifies mouse releases
 
-                        if(modeController.dragging() && selectedStrokes.contains(currentPoint)) {
+                        if(modeController.dragging() && selectedStrokes.contains(currentPoint)) { //in dragging mode
                             g2.setColor(Color.yellow);
                         } else {
                             g2.setColor(Color.black);
+                        }
+
+                        if(modeController.getSelectMode() && !modeController.dragging()){
+                            for(Point p: boundingBox){
+                                g2.drawLine((int)p.getX(),(int)p.getY(),(int)p.getX(),(int)p.getY());
+                            }
                         }
 
 
@@ -383,7 +390,7 @@ public class PhotoComponent extends JComponent implements MouseListener, MouseMo
 
             repaint();
 
-            //boundingBox.clear();
+            boundingBox.clear();
         }
     }
 
@@ -435,11 +442,13 @@ public class PhotoComponent extends JComponent implements MouseListener, MouseMo
                 drag = new Point(e.getX(), e.getY());
 
                 movePoints(xDistanceFromPrev, yDistanceFromPrev);
+                moveTextRegions(xDistanceFromPrev, yDistanceFromPrev);
 
                 repaint();
 
-            } else {
+            } else { //otherwise we are creating the selection bounding box
                 boundingBox.add(new Point(e.getX(), e.getY()));
+                repaint();
             }
         }
     }
@@ -474,6 +483,26 @@ public class PhotoComponent extends JComponent implements MouseListener, MouseMo
         for(Point p: strokeDisplayList){
             if(selectedStrokes.contains(p)){
                 p.setLocation(p.getX()+delta_x, p.getY() + delta_y);
+            }
+        }
+    }
+
+    public void moveTextRegions(double delta_x, double delta_y){
+        ArrayList<TextRegion> selectedTRs = selectTextRegionsInBox();
+
+
+        for(TextRegion t: textRegionList){
+            if(selectedTRs.contains(t)){
+                Point end = t.getEndPoint();
+                Point start = t.getStartingPoint();
+
+                double endx = end.getX();
+                double endy = end.getY();
+                double startx = start.getX();
+                double starty = start.getY();
+
+                t.setEndPoint(endx + delta_x, endy + delta_y);
+                t.setStartingPoint(startx + delta_x, starty + delta_y);
             }
         }
     }
