@@ -40,6 +40,7 @@ public class PhotoComponent extends JComponent implements MouseListener, MouseMo
     private ArrayList<TextRegion> textRegionList = new ArrayList<>();
 
     private ArrayList<Point> gestureList = new ArrayList<>();
+    private ArrayList<Point> boundingBox = new ArrayList<>();
 
     private Siger siger;
 
@@ -296,11 +297,11 @@ public class PhotoComponent extends JComponent implements MouseListener, MouseMo
 
 
     public void mousePressed(MouseEvent e) {
-        if(flipped && modeController.getMode()) {
+        if(flipped && modeController.getMode() && !modeController.getSelectMode()) {
             strokeDisplayList.add(new Point(e.getX(), e.getY()));
             repaint();
         }
-        if(!modeController.getMode() && flipped){
+        if(!modeController.getMode() && flipped && !modeController.getSelectMode()){
             textRegionStartingPoint = e.getPoint();
             typing = false;
         }
@@ -308,13 +309,17 @@ public class PhotoComponent extends JComponent implements MouseListener, MouseMo
         if(!flipped){
             gestureList.add(new Point(e.getX(), e.getY()));
         }
+        if(flipped && modeController.getSelectMode()){
+            boundingBox.add(new Point(e.getX(), e.getY()));
+            System.out.println("right click");
+        }
     }
 
     public void mouseReleased(MouseEvent e) {
-        if(flipped && modeController.getMode()) {
+        if(flipped && modeController.getMode() && !modeController.getSelectMode()) {
             strokeDisplayList.add(new Point(-1,0)); //adds negative point to "stop" strokes
         }
-        if(flipped && !modeController.getMode()){
+        if(flipped && !modeController.getMode() && !modeController.getSelectMode()){
             if(makingTextRegion){
                 textRegionEndPoint = e.getPoint();
                 textRegionList.add(new TextRegion(textRegionStartingPoint, textRegionEndPoint, null));
@@ -360,6 +365,15 @@ public class PhotoComponent extends JComponent implements MouseListener, MouseMo
             }
             lightTable.refresh();
         }
+        if(modeController.getSelectMode() && flipped){
+
+            double[] extremePoints = siger.getExtremesNESW(boundingBox);
+            int[] boundingRect = siger.makeBoundingBox(extremePoints);
+            getGraphics().drawRect(boundingRect[0], boundingRect[1], boundingRect[2], boundingRect[3]);
+
+
+            boundingBox.clear();
+        }
     }
 
     public void mouseEntered(MouseEvent e) {
@@ -400,6 +414,9 @@ public class PhotoComponent extends JComponent implements MouseListener, MouseMo
         }
         if(!flipped){
             gestureList.add(new Point(e.getX(), e.getY()));
+        }
+        if(e.getButton() == MouseEvent.BUTTON2 && flipped){
+            boundingBox.add(new Point(e.getX(), e.getY()));
         }
     }
 

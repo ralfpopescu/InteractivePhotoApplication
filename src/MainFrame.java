@@ -183,6 +183,7 @@ public class MainFrame extends JFrame implements MenuListener, ActionListener, K
         //Drawing/Text mode buttons
         JRadioButton drawingMode = new JRadioButton("Draw");
         JRadioButton textMode = new JRadioButton("Text");
+        JRadioButton selectMode = new JRadioButton("Select");
 
         //Action Listeners for changing status label
         drawingMode.addActionListener(new ActionListener() {
@@ -190,6 +191,7 @@ public class MainFrame extends JFrame implements MenuListener, ActionListener, K
             public void actionPerformed(ActionEvent e) {
                 statusLabel.setText("Drawing Mode");
                 modeController.setMode(true);
+                modeController.setSelectMode(false);
 
             }
         });
@@ -199,18 +201,31 @@ public class MainFrame extends JFrame implements MenuListener, ActionListener, K
             public void actionPerformed(ActionEvent e) {
                 statusLabel.setText("Text Mode");
                 modeController.setMode(false);
+                modeController.setSelectMode(false);
 
             }
         });
+
+        selectMode.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                statusLabel.setText("Select Mode");
+                modeController.setSelectMode(true);
+
+            }
+        });
+
         //adds radio buttons to button group for mutual exclusivity
         ButtonGroup drawTextGroup = new ButtonGroup();
         drawTextGroup.add(drawingMode);
         drawTextGroup.add(textMode);
+        drawTextGroup.add(selectMode);
 
         //organizes draw and text mode buttons side by side
         JPanel drawTextPanel = new JPanel();
         drawTextPanel.add(drawingMode);
         drawTextPanel.add(textMode);
+        drawTextPanel.add(selectMode);
         drawTextPanel.setAlignmentX(Component.LEFT_ALIGNMENT);
 
         //forward and backward buttons

@@ -194,7 +194,9 @@ public class Siger {
 
     public ArrayList<Integer> stripSmalls(ArrayList<Integer> noSmalls){
 
-        noSmalls.remove(0);
+        if(noSmalls.size() > 0) {
+            noSmalls.remove(0);
+        }
 
         int i = 0;
 
@@ -255,5 +257,15 @@ public class Siger {
 
         return extremesNESW;
 
+    }
+
+    public int[] makeBoundingBox(double[] extremes){
+        int[] boundingBox = new int[4];
+        boundingBox[0] = (int)extremes[3];
+        boundingBox[1] = (int)extremes[0];
+        boundingBox[2] = (int)extremes[3] - (int)extremes[1];
+        boundingBox[3] = (int)extremes[2] - (int)extremes[0];
+
+        return boundingBox;
     }
 }

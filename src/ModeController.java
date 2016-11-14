@@ -3,6 +3,7 @@
  */
 public class ModeController {
     public boolean mode;
+    public boolean selectMode;
     public String viewMode;
 
     public enum ViewMode {
@@ -11,6 +12,7 @@ public class ModeController {
 
     public ModeController(){
         mode = true;
+        selectMode = false;
         viewMode = "PHOTOVIEW";
     }
 
@@ -28,6 +30,14 @@ public class ModeController {
 
     public String getViewMode(){
         return viewMode;
+    }
+
+    public boolean getSelectMode(){
+        return selectMode;
+    }
+
+    public void setSelectMode(boolean x){
+        selectMode = x;
     }
 
 
