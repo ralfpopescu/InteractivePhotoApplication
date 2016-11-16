@@ -232,6 +232,11 @@ public class PhotoComponent extends JComponent implements MouseListener, MouseMo
 
         } else {
             g.drawImage(photo, 0, 0, this);
+            if(modeController.getSelectMode()){
+                for(Point p: gestureList){
+                    g2.drawLine((int)p.getX(),(int)p.getY(),(int)p.getX(),(int)p.getY());
+                }
+            }
         }
 
         this.setFocusable(true);
@@ -432,6 +437,7 @@ public class PhotoComponent extends JComponent implements MouseListener, MouseMo
         }
         if(!flipped){
             gestureList.add(new Point(e.getX(), e.getY()));
+            repaint();
         }
         if(modeController.getSelectMode() && flipped){
             if(modeController.dragging()) {
