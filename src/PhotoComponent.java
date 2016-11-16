@@ -43,7 +43,9 @@ public class PhotoComponent extends JComponent implements MouseListener, MouseMo
     private ArrayList<Point> gestureList = new ArrayList<>();
     private ArrayList<Point> boundingBox = new ArrayList<>();
     private ArrayList<Point> outOfBoundsBuffer = new ArrayList<>();
+
     private ArrayList<Point> selectedStrokesBuffer = new ArrayList<>();
+    private ArrayList<TextRegion> selectedTRsBuffer = new ArrayList<>();
 
     private Point drag;
     double[] extremePoints;
@@ -229,18 +231,16 @@ public class PhotoComponent extends JComponent implements MouseListener, MouseMo
                         }
                         linesDrawn++;
                     }
-
-
             }
 
 
         } else {
             g.drawImage(photo, 0, 0, this);
-            if(modeController.getSelectMode()){
+           // if(modeController.getSelectMode()){
                 for(Point p: gestureList){
                     g2.drawLine((int)p.getX(),(int)p.getY(),(int)p.getX(),(int)p.getY());
                 }
-            }
+           // }
         }
 
         this.setFocusable(true);
@@ -395,8 +395,10 @@ public class PhotoComponent extends JComponent implements MouseListener, MouseMo
 
             if(!modeController.dragging()){
                 selectedStrokesBuffer = selectStrokesInBox();
+                selectedTRsBuffer = selectTextRegionsInBox();
             } else {
                 selectedStrokesBuffer.clear();
+                selectedTRsBuffer.clear();
             }
 
             modeController.setDragging(!modeController.dragging());
@@ -460,7 +462,7 @@ public class PhotoComponent extends JComponent implements MouseListener, MouseMo
                 drag = new Point(e.getX(), e.getY());
 
                 movePoints(xDistanceFromPrev, yDistanceFromPrev, selectedStrokesBuffer);
-                moveTextRegions(xDistanceFromPrev, yDistanceFromPrev);
+                moveTextRegions(xDistanceFromPrev, yDistanceFromPrev, selectedTRsBuffer);
 
                 repaint();
 
@@ -510,8 +512,7 @@ public class PhotoComponent extends JComponent implements MouseListener, MouseMo
         }
     }
 
-    public void moveTextRegions(double delta_x, double delta_y){
-        ArrayList<TextRegion> selectedTRs = selectTextRegionsInBox();
+    public void moveTextRegions(double delta_x, double delta_y, ArrayList<TextRegion> selectedTRs){
 
 
         for(TextRegion t: textRegionList){
