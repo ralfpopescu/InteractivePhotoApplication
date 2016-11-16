@@ -42,6 +42,9 @@ public class PhotoComponent extends JComponent implements MouseListener, MouseMo
 
     private ArrayList<Point> gestureList = new ArrayList<>();
     private ArrayList<Point> boundingBox = new ArrayList<>();
+    private ArrayList<Point> outOfBoundsBuffer = new ArrayList<>();
+    private ArrayList<Point> selectedStrokesBuffer = new ArrayList<>();
+
     private Point drag;
     double[] extremePoints;
 
@@ -109,7 +112,8 @@ public class PhotoComponent extends JComponent implements MouseListener, MouseMo
 
                     if (previousPoint.getX() != -1 && currentPoint.getX() != -1) { //draws lines, -1 signifies mouse releases
 
-                        if(modeController.dragging() && selectedStrokes.contains(currentPoint)) { //in dragging mode
+                        if((modeController.dragging() && selectedStrokes.contains(currentPoint)) ||
+                                outOfBoundsBuffer.contains(currentPoint)) { //in dragging mode
                             g2.setColor(Color.yellow);
                         } else {
                             g2.setColor(Color.black);
@@ -389,7 +393,15 @@ public class PhotoComponent extends JComponent implements MouseListener, MouseMo
             extremePoints = siger.getExtremesNESW(boundingBox);
             int[] boundingRect = siger.makeBoundingBox(extremePoints);
 
+            if(!modeController.dragging()){
+                selectedStrokesBuffer = selectStrokesInBox();
+            } else {
+                selectedStrokesBuffer.clear();
+            }
+
             modeController.setDragging(!modeController.dragging());
+
+
 
             System.out.println("right click");
 
@@ -447,7 +459,7 @@ public class PhotoComponent extends JComponent implements MouseListener, MouseMo
 
                 drag = new Point(e.getX(), e.getY());
 
-                movePoints(xDistanceFromPrev, yDistanceFromPrev);
+                movePoints(xDistanceFromPrev, yDistanceFromPrev, selectedStrokesBuffer);
                 moveTextRegions(xDistanceFromPrev, yDistanceFromPrev);
 
                 repaint();
@@ -482,13 +494,18 @@ public class PhotoComponent extends JComponent implements MouseListener, MouseMo
     @Override
     public void keyReleased(KeyEvent ke){}
 
-    public void movePoints(double delta_x, double delta_y){
-        ArrayList<Point> selectedStrokes = selectStrokesInBox();
+    public void movePoints(double delta_x, double delta_y, ArrayList<Point> selectedStrokes){
+        //ArrayList<Point> selectedStrokes = selectStrokesInBox();
+        outOfBoundsBuffer.clear();
+
+        //System.out.println(delta_x + " " + delta_y);
 
 
-        for(Point p: strokeDisplayList){
+        for(int i = 0; i < strokeDisplayList.size(); i++){
+            Point p = strokeDisplayList.get(i);
             if(selectedStrokes.contains(p)){
-                p.setLocation(p.getX()+delta_x, p.getY() + delta_y);
+                p.setLocation(p.getX() + delta_x, p.getY() + delta_y);
+                outOfBoundsBuffer.add(p);
             }
         }
     }
