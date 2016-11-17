@@ -79,7 +79,10 @@ public class MainFrame extends JFrame implements MenuListener, ActionListener, K
         workToggle.setMaximumSize(new Dimension(300,
                 300));
 
-        tagController = new TagController(vacationToggle, familyToggle, workToggle, schoolToggle);
+        //Status bar that changes on "Draw Mode" and "Text Mode" controls
+        statusLabel = new JLabel("Status:");
+
+        tagController = new TagController(vacationToggle, familyToggle, workToggle, schoolToggle, statusLabel);
 
         modeController = new ModeController();
         lightTable = new LightTable(modeController, tagController);
@@ -165,8 +168,7 @@ public class MainFrame extends JFrame implements MenuListener, ActionListener, K
 
         this.setJMenuBar(menuBar);
 
-        //Status bar that changes on "Draw Mode" and "Text Mode" controls
-        statusLabel = new JLabel("Status:");
+
 
         //Toolbox JPanel on the left of the window, basic setup
         JPanel jpnlWest = new JPanel();

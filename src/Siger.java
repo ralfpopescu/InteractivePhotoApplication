@@ -37,11 +37,10 @@ public class Siger {
 
             gestureDirectionList.add(identifyDirection(p1,p2));
         }
-
         return gestureDirectionList;
     }
 
-    public int identifyDirection(Point p1, Point p2) {
+    public int identifyDirection(Point p1, Point p2) { //identifies direction between two points
         int direction = 0;
         double p1_x = p1.getX();
         double p1_y = p1.getY();
@@ -51,7 +50,7 @@ public class Siger {
         double delta_x = p2_x - p1_x;
         double delta_y = p2_y - p1_y;
 
-        double x_over_y = Math.abs(delta_x/delta_y);
+        double x_over_y = Math.abs(delta_x/delta_y); //ratio decides if cardinal direction or in between
         double y_over_x = Math.abs(delta_y/delta_x);
 
         //if delta y is negative and ratio is about 5
@@ -94,36 +93,24 @@ public class Siger {
 
     }
 
-    public String interpretGesture(){
-        return "";
-    }
 
-    public void createTemplates() {
-        int[] rightAngle = {SW, SE};
-        int[] leftAngle = {SE, SW};
-        int[] pigtail = {3, 5, 0, 7};
 
-        int[] up = {N};
-        int[] v = {SE, NE};
-        int[] z = {E, SW, E};
-        int[] down = {S};
-
-    }
-
-    public String matchTemplate(ArrayList<Integer> n){
+    public String matchTemplate(ArrayList<Integer> n){ // matches a list of numbers with a gesture
         String template = "UNREC";
         int[] nums = new int[n.size()];
 
+
+
         for(int i = 0; i < n.size(); i++){
             nums[i] = n.get(i);
-            System.out.println(nums[i]);
         }
 
-
+        System.out.println(n);
 
         int[] rightAngle = {3, 5};
         int[] leftAngle = {5, 3};
         int[] pigtail = {3, 5, 0, 7};
+        int[] pigtail2 = {3,7,0,4};
 
         int[] up = {N};
         int[] v = {3, 7};
@@ -136,7 +123,7 @@ public class Siger {
         if(Arrays.equals(nums,leftAngle)){
             template = "LEFTANGLE";
         }
-        if(Arrays.equals(nums,pigtail)){
+        if(Arrays.equals(nums,pigtail) || isPigtail(n)){
             template = "PIGTAIL";
         }
         if(Arrays.equals(nums,up)){
@@ -153,11 +140,10 @@ public class Siger {
         }
 
 
-        System.out.println(template);
         return template;
     }
 
-    public ArrayList<Integer> stripDuplicates(ArrayList<Integer> directions){
+    public ArrayList<Integer> stripDuplicates(ArrayList<Integer> directions){ //strips away numbers in succession
         int currentDirection;
         int count = 0;
         ArrayList<Integer> noDups = new ArrayList<>();
@@ -192,7 +178,7 @@ public class Siger {
 
     }
 
-    public ArrayList<Integer> stripSmalls(ArrayList<Integer> noSmalls){
+    public ArrayList<Integer> stripSmalls(ArrayList<Integer> noSmalls){ //gets rid of little numbers inbetween strokes
 
         if(noSmalls.size() > 0) {
             noSmalls.remove(0);
@@ -205,12 +191,12 @@ public class Siger {
             int next = noSmalls.get(i);
             int count = 0;
 
-            while(i + count < noSmalls.size()-1 && current == next){
+            while(i + count < noSmalls.size()-1 && current == next){ //counting successive numbers
                 count++;
                 next = noSmalls.get(i + count);
             }
 
-            if(count < 4) {
+            if(count < 4) { //decide that 3 or less numbers are insignificant
                 for(int j = 0; j < count; j++){
                     noSmalls.remove(i);
                 }
@@ -227,7 +213,7 @@ public class Siger {
     }
 
 
-    public double[] getExtremesNESW(ArrayList<Point> points){
+    public double[] getExtremesNESW(ArrayList<Point> points){ //gets the most left/right/up/down points to create a bounding box
         //N, E, S, W
         double Nex = 999999, Sex = 0, Eex = 0, Wex = 999999;
         double[] extremesNESW = new double[4];
@@ -265,7 +251,7 @@ public class Siger {
 
     }
 
-    public int[] makeBoundingBox(double[] extremes){
+    public int[] makeBoundingBox(double[] extremes){ //makes array out of extreme points to represent box
         int[] boundingBox = new int[4];
         boundingBox[0] = (int)extremes[3];
         boundingBox[1] = (int)extremes[0];
@@ -273,5 +259,21 @@ public class Siger {
         boundingBox[3] = (int)extremes[2] - (int)extremes[0];
 
         return boundingBox;
+    }
+
+    public boolean isPigtail(ArrayList<Integer> n){ //decides if deletion gesture
+        return ((n.contains(3) && n.contains(7) && n.contains(0) && n.contains(4)) ||
+                (n.contains(4) && n.contains(7) && n.contains(0) && n.contains(5)));
+    }
+
+    public boolean annotationDelete(ArrayList<Point> n){
+        ArrayList<Integer> x = new ArrayList<>();
+        x = createGestureString(n);
+        x = stripSmalls(x);
+        x = stripDuplicates(x);
+        String s = matchTemplate(x);
+
+        return(s.equals("PIGTAIL"));
+
     }
 }

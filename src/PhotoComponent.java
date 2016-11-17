@@ -113,10 +113,10 @@ public class PhotoComponent extends JComponent implements MouseListener, MouseMo
                 } else {
 
                     if (previousPoint.getX() != -1 && currentPoint.getX() != -1) { //draws lines, -1 signifies mouse releases
-
+                        //out of bounds buffer for handling outside of bounding box
                         if((modeController.dragging() && selectedStrokes.contains(currentPoint)) ||
                                 outOfBoundsBuffer.contains(currentPoint)) { //in dragging mode
-                            g2.setColor(Color.yellow);
+                            g2.setColor(Color.yellow); //set color to a different color if selected
                         } else {
                             g2.setColor(Color.black);
                         }
@@ -207,6 +207,9 @@ public class PhotoComponent extends JComponent implements MouseListener, MouseMo
                 int maxLines = textToBottom/fontHeight;
 
                 g.setColor(Color.yellow);
+                if(selectedTRsBuffer.contains(textRegion) && modeController.dragging()){
+                    g.setColor(Color.orange);
+                }
                 g.fillRect((int)start.getX(),(int)start.getY(), regionWidth, regionHeight);
                 int numOfLines = lines.size();
                 if(numOfLines*fontHeight > regionHeight ){ //handles rectangle bounds
@@ -272,7 +275,7 @@ public class PhotoComponent extends JComponent implements MouseListener, MouseMo
             for (Point p : strokeDisplayList) {
                 double x = p.getX();
                 double y = p.getY();
-
+                //if within bounds of extreme points we select
                 if (x < extremePoints[1] && x > extremePoints[3]
                         && y < extremePoints[2] && y > extremePoints[0]) {
                     selectedStrokes.add(p);
@@ -283,7 +286,7 @@ public class PhotoComponent extends JComponent implements MouseListener, MouseMo
         return selectedStrokes;
     }
 
-    public ArrayList<TextRegion> selectTextRegionsInBox(){
+    public ArrayList<TextRegion> selectTextRegionsInBox(){ //use bounding box to select content
         ArrayList<TextRegion> selectedTextRegions = new ArrayList<>();
         if(extremePoints != null) {
             for (TextRegion t : textRegionList) {
@@ -291,7 +294,7 @@ public class PhotoComponent extends JComponent implements MouseListener, MouseMo
                 double y_s = t.getStartingPoint().getY();
                 double x_e = t.getEndPoint().getX();
                 double y_e = t.getEndPoint().getY();
-
+                //if within bounds of extreme points we select
                 if (x_e < extremePoints[1] && x_s > extremePoints[3] &&
                         y_e < extremePoints[2] && y_s > extremePoints[0]) {
                     selectedTextRegions.add(t);
@@ -302,7 +305,7 @@ public class PhotoComponent extends JComponent implements MouseListener, MouseMo
         return selectedTextRegions;
     }
 
-    public boolean[] getTags(){
+    public boolean[] getTags(){ //compile tags for use in updating
         boolean[] array = new boolean[4];
         array[0] = workTag;
         array[1] = vacationTag;
@@ -330,9 +333,9 @@ public class PhotoComponent extends JComponent implements MouseListener, MouseMo
                 drag = new Point(e.getX(), e.getY());
             } else {
                 if(boundingBox.size()>0){
-                    boundingBox.clear();
+                    boundingBox.clear(); //clear bounding box if not dragging and there's something in it
                 }
-                boundingBox.add(new Point(e.getX(), e.getY()));
+                boundingBox.add(new Point(e.getX(), e.getY())); //start bounding box
             }
 
         }
@@ -386,7 +389,8 @@ public class PhotoComponent extends JComponent implements MouseListener, MouseMo
             if(template.equals("SCHOOL")){
                 schoolTag = !schoolTag;
             }
-            lightTable.refresh();
+            lightTable.refresh(); //sets tags and status
+            lightTable.setGestureStatus(template);
         }
         if(modeController.getSelectMode() && flipped){
 
@@ -394,22 +398,24 @@ public class PhotoComponent extends JComponent implements MouseListener, MouseMo
             int[] boundingRect = siger.makeBoundingBox(extremePoints);
 
             if(!modeController.dragging()){
-                selectedStrokesBuffer = selectStrokesInBox();
+                selectedStrokesBuffer = selectStrokesInBox(); //selecting content in box to drag if we haven't dragged yet
                 selectedTRsBuffer = selectTextRegionsInBox();
             } else {
-                selectedStrokesBuffer.clear();
+                if(siger.annotationDelete(boundingBox)){
+                    strokeDisplayList.removeAll(selectedStrokesBuffer);
+                    textRegionList.removeAll(selectedTRsBuffer);
+                }
+
+                selectedStrokesBuffer.clear(); //we clear selection if we have dragged
                 selectedTRsBuffer.clear();
             }
 
             modeController.setDragging(!modeController.dragging());
 
 
-
-            System.out.println("right click");
-
             repaint();
 
-            boundingBox.clear();
+            boundingBox.clear(); //make room for a new bounding box
         }
     }
 
@@ -454,12 +460,12 @@ public class PhotoComponent extends JComponent implements MouseListener, MouseMo
             repaint();
         }
         if(modeController.getSelectMode() && flipped){
-            if(modeController.dragging()) {
+            if(modeController.dragging()) { //if we are dragging
 
-                double xDistanceFromPrev = e.getX() - drag.getX();
+                double xDistanceFromPrev = e.getX() - drag.getX(); //determine distance to drag
                 double yDistanceFromPrev = e.getY() - drag.getY();
 
-                drag = new Point(e.getX(), e.getY());
+                drag = new Point(e.getX(), e.getY()); //keeps track of previous point to determine distance
 
                 movePoints(xDistanceFromPrev, yDistanceFromPrev, selectedStrokesBuffer);
                 moveTextRegions(xDistanceFromPrev, yDistanceFromPrev, selectedTRsBuffer);
@@ -496,7 +502,7 @@ public class PhotoComponent extends JComponent implements MouseListener, MouseMo
     @Override
     public void keyReleased(KeyEvent ke){}
 
-    public void movePoints(double delta_x, double delta_y, ArrayList<Point> selectedStrokes){
+    public void movePoints(double delta_x, double delta_y, ArrayList<Point> selectedStrokes){ //move points for dragging feature
         //ArrayList<Point> selectedStrokes = selectStrokesInBox();
         outOfBoundsBuffer.clear();
 
@@ -513,7 +519,7 @@ public class PhotoComponent extends JComponent implements MouseListener, MouseMo
     }
 
     public void moveTextRegions(double delta_x, double delta_y, ArrayList<TextRegion> selectedTRs){
-
+        //move text regions for dragging feature
 
         for(TextRegion t: textRegionList){
             if(selectedTRs.contains(t)){
@@ -525,7 +531,7 @@ public class PhotoComponent extends JComponent implements MouseListener, MouseMo
                 double startx = start.getX();
                 double starty = start.getY();
 
-                t.setEndPoint(endx + delta_x, endy + delta_y);
+                t.setEndPoint(endx + delta_x, endy + delta_y); //simply set end/start points to redraw
                 t.setStartingPoint(startx + delta_x, starty + delta_y);
             }
         }

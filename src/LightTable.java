@@ -228,6 +228,10 @@ public class LightTable extends JComponent implements MouseListener{
         }
     }
 
+    public void setGestureStatus(String stat){
+        tagController.setGestureStatus(stat);
+    }
+
     public void mousePressed(MouseEvent e) {
 
     }
