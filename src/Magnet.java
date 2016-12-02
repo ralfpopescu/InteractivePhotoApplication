@@ -1,4 +1,5 @@
 import javax.swing.*;
+import java.awt.*;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
@@ -16,6 +17,12 @@ public class Magnet extends JLabel implements MouseListener, MouseMotionListener
         type = t;
         xloc = 0;
         yloc = 0;
+        this.setText(t);
+        this.setOpaque(true);
+        this.setBackground(Color.cyan);
+
+        this.setPreferredSize(new Dimension(50, 50));
+        this.setSize(new Dimension(50,50));
     }
 
     public void mousePressed(MouseEvent e) {

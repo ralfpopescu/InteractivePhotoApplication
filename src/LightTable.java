@@ -7,6 +7,7 @@ import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
 import java.util.ArrayList;
 import javax.swing.BorderFactory;
+import java.util.Random;
 
 
 /**
@@ -70,28 +71,48 @@ public class LightTable extends JComponent implements MouseListener{
                 main.removeAll();
                 JPanel panel = new JPanel();
                 panel.setLayout(null);
+                Random rng = new Random();
+                panel.setPreferredSize(new Dimension(500, 500));
 
 
                 for (int i = 0; i < thumbnails.size(); i++) { //adds all thumbnails
                     ThumbnailComponent j = thumbnails.get(i);
                     Dimension size = j.getPreferredSize();
 
-
                     j.setSize(size);
-
-
                     j.deselect();
                     panel.add(j);
 
-                    panel.setPreferredSize(new Dimension(500,500));
-
                     j.setSize(size);
 
-                    j.setBounds(25, 25, 25, 25);
-                    j.setLocation(100, 100);
+                    double rx = rng.nextDouble();
+                    double ry = rng.nextDouble();
 
-                    System.out.print(j.getLocation());
-                    System.out.print(j.getSize());
+                    int randomx = (int)(rx * 400); //randomly positions thumbnails on magnet mode
+                    int randomy = (int)(ry * 400);
+
+                    j.setBounds(25, 25, 25, 25);
+                    j.setLocation(randomx, randomy);
+
+
+
+                }
+
+                for (Magnet mag: magnets){
+                    double rx = rng.nextDouble();
+                    double ry = rng.nextDouble();
+
+                    int randomx = (int)(rx * 400); //randomly positions thumbnails on magnet mode
+                    int randomy = (int)(ry * 400);
+
+                    mag.setBounds(40, 20, 40, 20);
+                    mag.setLocation(randomx, randomy);
+                    mag.setSize(50,50);
+
+                    panel.add(mag);
+
+                    System.out.println("added");
+
 
                 }
 
@@ -271,6 +292,7 @@ public class LightTable extends JComponent implements MouseListener{
 
     public void addMagnet(String type){
         magnets.add(new Magnet(type));
+        updateComponent();
     }
 
     public void mousePressed(MouseEvent e) {
