@@ -84,39 +84,37 @@ public class LightTable extends JComponent implements MouseListener{
                     panel.add(j);
 
                     j.setSize(size);
+                    if(mc.getInitialMagModeSwitch()) { //makes sure we only randomize on initial mode switch
+                        double rx = rng.nextDouble();
+                        double ry = rng.nextDouble();
 
-                    double rx = rng.nextDouble();
-                    double ry = rng.nextDouble();
+                        int randomx = (int) (rx * 400); //randomly positions thumbnails on magnet mode
+                        int randomy = (int) (ry * 400);
 
-                    int randomx = (int)(rx * 400); //randomly positions thumbnails on magnet mode
-                    int randomy = (int)(ry * 400);
+                        //j.setBounds(25, 25, 25, 25);
+                        j.setLocation(randomx, randomy);
 
-                    j.setBounds(25, 25, 25, 25);
-                    j.setLocation(randomx, randomy);
-
-
-
+                    }
                 }
 
                 for (Magnet mag: magnets){
-                    double rx = rng.nextDouble();
-                    double ry = rng.nextDouble();
+                    mag.setSize(50,25);
 
-                    int randomx = (int)(rx * 400); //randomly positions thumbnails on magnet mode
-                    int randomy = (int)(ry * 400);
+                    if(mc.getInitialMagModeSwitch()) {
+                        double rx = rng.nextDouble();
+                        double ry = rng.nextDouble();
 
-                    mag.setBounds(40, 20, 40, 20);
-                    mag.setLocation(randomx, randomy);
-                    mag.setSize(50,50);
+                        int randomx = (int) (rx * 400); //randomly positions thumbnails on magnet mode
+                        int randomy = (int) (ry * 400);
 
+                        mag.setLocation(randomx, randomy);
+
+                    }
                     panel.add(mag);
-
-                    System.out.println("added");
-
-
                 }
 
                 main.add(panel);
+                mc.setInitialMagModeSwitch(false); //turn off initial switch, only turns on again if you switch magnet mode or add magnet
                 revalidate();
                 repaint();
 
@@ -292,6 +290,7 @@ public class LightTable extends JComponent implements MouseListener{
 
     public void addMagnet(String type){
         magnets.add(new Magnet(type));
+        mc.setInitialMagModeSwitch(true);
         updateComponent();
     }
 

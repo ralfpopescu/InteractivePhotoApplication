@@ -12,6 +12,7 @@ public class Magnet extends JLabel implements MouseListener, MouseMotionListener
     String type;
     int xloc;
     int yloc;
+    Point drag;
 
     public Magnet (String t){
         type = t;
@@ -22,11 +23,14 @@ public class Magnet extends JLabel implements MouseListener, MouseMotionListener
         this.setBackground(Color.cyan);
 
         this.setPreferredSize(new Dimension(50, 50));
-        this.setSize(new Dimension(50,50));
+        this.setSize(new Dimension(50, 50));
+        this.addMouseListener(this);
+        this.addMouseMotionListener(this);
     }
 
     public void mousePressed(MouseEvent e) {
-
+        drag = new Point(e.getX(),e.getY());
+        System.out.println("m");
     }
 
     public void mouseReleased(MouseEvent e) {
@@ -47,6 +51,14 @@ public class Magnet extends JLabel implements MouseListener, MouseMotionListener
     }
 
     public void mouseDragged(MouseEvent e) {
+        int anchorX = drag.x;
+        int anchorY = drag.y;
+
+        Point parentOnScreen = getParent().getLocationOnScreen();
+        Point mouseOnScreen = e.getLocationOnScreen();
+        Point position = new Point(mouseOnScreen.x - parentOnScreen.x -
+                anchorX, mouseOnScreen.y - parentOnScreen.y - anchorY);
+        setLocation(position);
 
     }
 
@@ -55,7 +67,7 @@ public class Magnet extends JLabel implements MouseListener, MouseMotionListener
     }
 
     public void moveMagnet(int delta_x, int delta_y){
-
+        this.setLocation(this.getX() + delta_x, this.getY() + delta_y);
     }
 
     public int getXLoc(){
