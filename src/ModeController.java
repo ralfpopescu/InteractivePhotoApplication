@@ -6,6 +6,7 @@ public class ModeController {
     public boolean selectMode;
     public String viewMode;
     public boolean dragging;
+    public boolean magnetMode;
 
     public enum ViewMode {
         PHOTOVIEW, GRIDVIEW, SPLITVIEW
@@ -15,6 +16,7 @@ public class ModeController {
         mode = true;
         selectMode = false;
         dragging = false;
+        magnetMode = false;
         viewMode = "PHOTOVIEW";
     }
 
@@ -48,6 +50,17 @@ public class ModeController {
 
     public void setDragging(boolean x){
         dragging = x;
+    }
+
+    public void setMagnetMode(boolean x){
+        magnetMode = x;
+        System.out.println(x);
+
+    }
+
+    public boolean getMagnetMode(){
+        return magnetMode;
+
     }
 
 

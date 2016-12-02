@@ -19,6 +19,7 @@ import javax.imageio.ImageIO;
 public class MainFrame extends JFrame implements MenuListener, ActionListener, KeyListener, MouseListener {
 
     JToggleButton vacationToggle, familyToggle, schoolToggle, workToggle;
+    JButton vacMag, famMag, schoolMag, workMag;
     JLabel statusLabel;
     JPanel jpnlMain;
     JMenuBar menuBar;
@@ -187,6 +188,8 @@ public class MainFrame extends JFrame implements MenuListener, ActionListener, K
         JRadioButton textMode = new JRadioButton("Text");
         JRadioButton selectMode = new JRadioButton("Select");
 
+        JRadioButton magnetMode = new JRadioButton("Magnet");
+
         //Action Listeners for changing status label
         drawingMode.addActionListener(new ActionListener() {
             @Override
@@ -217,18 +220,81 @@ public class MainFrame extends JFrame implements MenuListener, ActionListener, K
             }
         });
 
+        magnetMode.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                modeController.setMagnetMode(!modeController.getMagnetMode());
+                lightTable.updateComponent();
+
+            }
+        });
+
         //adds radio buttons to button group for mutual exclusivity
         ButtonGroup drawTextGroup = new ButtonGroup();
         drawTextGroup.add(drawingMode);
         drawTextGroup.add(textMode);
         drawTextGroup.add(selectMode);
 
+
+
         //organizes draw and text mode buttons side by side
-        JPanel drawTextPanel = new JPanel();
-        drawTextPanel.add(drawingMode);
-        drawTextPanel.add(textMode);
-        drawTextPanel.add(selectMode);
+        JPanel drawTextPanel = new JPanel(new BorderLayout());
+        JPanel dtPane = new JPanel();
+        dtPane.add(drawingMode);
+        dtPane.add(textMode, BorderLayout.NORTH);
+        dtPane.add(selectMode, BorderLayout.NORTH);
+        dtPane.add(magnetMode, BorderLayout.NORTH);
+        dtPane.setAlignmentX(Component.LEFT_ALIGNMENT);
         drawTextPanel.setAlignmentX(Component.LEFT_ALIGNMENT);
+
+        drawTextPanel.add(dtPane, BorderLayout.NORTH);
+
+        //magnet buttons
+        vacMag = new JButton("Vac Mag");
+        famMag = new JButton("Fam Mag");
+        schoolMag = new JButton("School Mag");
+        workMag = new JButton("Work Mag");
+
+        vacMag.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                lightTable.addMagnet("VACATION");
+
+            }
+        });
+
+        famMag.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                lightTable.addMagnet("FAMILY");
+
+            }
+        });
+
+        workMag.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                lightTable.addMagnet("WORK");
+
+            }
+        });
+
+        schoolMag.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                lightTable.addMagnet("SCHOOL");
+
+            }
+        });
+
+        JPanel magPane = new JPanel();
+        magPane.add(vacMag);
+        magPane.add(famMag);
+        magPane.add(workMag);
+        magPane.add(schoolMag);
+
+        drawTextPanel.add(magPane, BorderLayout.CENTER);
+
 
         //forward and backward buttons
         JButton backward = new JButton("<-");
@@ -292,6 +358,11 @@ public class MainFrame extends JFrame implements MenuListener, ActionListener, K
         this.jpnlMain.add(scrollPane, BorderLayout.CENTER); //add component
 
         this.add(jpnlMain);
+
+        /*if(modeController.getMagnetMode()){
+            this.pack();
+            this.setVisible(true);
+        }*/
 
 
     }

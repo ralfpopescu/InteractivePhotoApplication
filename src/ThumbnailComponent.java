@@ -1,18 +1,26 @@
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
+import java.awt.event.MouseMotionListener;
 import java.awt.image.BufferedImage;
 import java.awt.image.RescaleOp;
+import java.util.ArrayList;
 
 /**
  * Created by ralfpopescu on 10/11/16.
  */
-public class ThumbnailComponent extends JComponent {
+public class ThumbnailComponent extends JComponent implements MouseListener, MouseMotionListener {
 
     PhotoComponent photoComponent;
     BufferedImage photo;
     BufferedImage selectedPhoto;
     int photoHeight;
     int photoWidth;
+
+    int xloc;
+    int yloc;
+
     boolean selected;
     private final int desiredHeight = 100;
     private float scaleFactor;
@@ -37,6 +45,9 @@ public class ThumbnailComponent extends JComponent {
 
         this.setPreferredSize(new Dimension(photoWidth, photoHeight));
         this.setSize(new Dimension(photoWidth, photoHeight));
+
+        xloc = 0;
+        yloc = 0;
     }
 
     public void paintComponent(Graphics g){
@@ -68,5 +79,38 @@ public class ThumbnailComponent extends JComponent {
     public void deselect(){
         selected = false;
     }
+
+
+
+    public void mousePressed(MouseEvent e) {
+
+    }
+
+    public void mouseReleased(MouseEvent e) {
+
+    }
+
+    public void mouseEntered(MouseEvent e) {
+
+    }
+
+    public void mouseExited(MouseEvent e) {
+
+    }
+
+    public void mouseClicked(MouseEvent e) {
+
+
+    }
+
+    public void mouseDragged(MouseEvent e) {
+
+    }
+
+    public void mouseMoved(MouseEvent e) {
+
+    }
+
+
 
 }
