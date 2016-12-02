@@ -25,6 +25,11 @@ public class ThumbnailComponent extends JComponent implements MouseListener, Mou
     private final int desiredHeight = 100;
     private float scaleFactor;
 
+    boolean vacationTag;
+    boolean schoolTag;
+    boolean workTag;
+    boolean familyTag;
+
     public ThumbnailComponent(PhotoComponent pC){
         photoComponent = pC;
         photo = pC.getPhoto();
@@ -79,6 +84,22 @@ public class ThumbnailComponent extends JComponent implements MouseListener, Mou
     public void deselect(){
         selected = false;
     }
+
+    public void updateTag(String tag, boolean x){
+        if(tag.equals("VACATION")){
+            vacationTag = x;
+        }
+        if(tag.equals("WORK")){
+            workTag = x;
+        }
+        if(tag.equals("SCHOOL")){
+            schoolTag = x;
+        }
+        if(tag.equals("FAMILY")){
+            familyTag = x;
+        }
+    }
+
 
 
 

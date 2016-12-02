@@ -272,6 +272,7 @@ public class LightTable extends JComponent implements MouseListener{
 
     public void refresh(){
         tagController.updateTags(getTags());
+        transferTagsToThumbnails();
         super.revalidate();
         super.repaint();
     }
@@ -289,9 +290,38 @@ public class LightTable extends JComponent implements MouseListener{
     }
 
     public void addMagnet(String type){
-        magnets.add(new Magnet(type));
-        mc.setInitialMagModeSwitch(true);
-        updateComponent();
+
+        boolean contains = false;
+        int index = 0;
+        for(int i = 0; i<magnets.size(); i++){
+            Magnet mag = magnets.get(i);
+            if(mag.type.equals(type)){
+                contains = true;
+                index = i;
+            }
+        }
+        if(!contains) {
+            magnets.add(new Magnet(type));
+            mc.setInitialMagModeSwitch(true);
+            updateComponent();
+        } else {
+            magnets.remove(index);
+            updateComponent();
+        }
+    }
+
+    public void transferTagsToThumbnails(){
+        for(int i =0; i < photoComps.size(); i++){
+            ThumbnailComponent tn = thumbnails.get(i);
+            PhotoComponent pc = photoComps.get(i);
+
+            boolean[] tags = pc.getTags();
+
+            tn.workTag = tags[0];
+            tn.vacationTag = tags[1];
+            tn.schoolTag = tags[2];
+            tn.familyTag = tags[3];
+        }
     }
 
     public void mousePressed(MouseEvent e) {
