@@ -13,8 +13,9 @@ public class Magnet extends JLabel implements MouseListener, MouseMotionListener
     int xloc;
     int yloc;
     Point drag;
+    LightTable lightTable;
 
-    public Magnet (String t){
+    public Magnet (String t, LightTable lt){
         type = t;
         xloc = 0;
         yloc = 0;
@@ -26,6 +27,7 @@ public class Magnet extends JLabel implements MouseListener, MouseMotionListener
         this.setSize(new Dimension(50, 50));
         this.addMouseListener(this);
         this.addMouseMotionListener(this);
+        lightTable = lt;
     }
 
     public String getType(){
@@ -38,6 +40,7 @@ public class Magnet extends JLabel implements MouseListener, MouseMotionListener
     }
 
     public void mouseReleased(MouseEvent e) {
+        lightTable.attraction();
 
     }
 

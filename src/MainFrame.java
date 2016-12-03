@@ -254,7 +254,6 @@ public class MainFrame extends JFrame implements MenuListener, ActionListener, K
         famMag = new JButton("Fam Mag");
         schoolMag = new JButton("School Mag");
         workMag = new JButton("Work Mag");
-        Magnet test = new Magnet("VACATION");
 
         vacMag.addActionListener(new ActionListener() {
             @Override

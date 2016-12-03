@@ -301,7 +301,7 @@ public class LightTable extends JComponent implements MouseListener{
             }
         }
         if(!contains) {
-            magnets.add(new Magnet(type));
+            magnets.add(new Magnet(type, this));
             mc.setInitialMagModeSwitch(true);
             updateComponent();
         } else {
@@ -321,6 +321,14 @@ public class LightTable extends JComponent implements MouseListener{
             tn.vacationTag = tags[1];
             tn.schoolTag = tags[2];
             tn.familyTag = tags[3];
+        }
+    }
+
+    public void attraction(){
+        for(int i = 0; i<thumbnails.size(); i++){
+            ThumbnailComponent tn = thumbnails.get(i);
+            Point newPos = tn.calculateUltimatePosition(magnets);
+            tn.setLocation((int)newPos.getX(),(int)newPos.getY());
         }
     }
 
