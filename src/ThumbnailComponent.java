@@ -30,6 +30,8 @@ public class ThumbnailComponent extends JComponent implements MouseListener, Mou
     boolean workTag;
     boolean familyTag;
 
+    Point drag;
+
     public ThumbnailComponent(PhotoComponent pC){
         photoComponent = pC;
         photo = pC.getPhoto();
@@ -50,6 +52,8 @@ public class ThumbnailComponent extends JComponent implements MouseListener, Mou
 
         this.setPreferredSize(new Dimension(photoWidth, photoHeight));
         this.setSize(new Dimension(photoWidth, photoHeight));
+        this.addMouseListener(this);
+        this.addMouseMotionListener(this);
 
         xloc = 0;
         yloc = 0;
@@ -100,11 +104,52 @@ public class ThumbnailComponent extends JComponent implements MouseListener, Mou
         }
     }
 
+    public Point calculateUltimatePosition(ArrayList<Magnet> magnets){
+        Point ult_pos = null;
+        ArrayList<Magnet> magnetsThatMatter = new ArrayList<>();
+
+        for(int i =0; i<magnets.size();i++){
+            Magnet mag = magnets.get(i);
+            if(mag.getType().equals("SCHOOL") && schoolTag){
+                magnetsThatMatter.add(mag);
+            }
+            if(mag.getType().equals("VACATION") && vacationTag){
+                magnetsThatMatter.add(mag);
+            }
+            if(mag.getType().equals("WORK") && workTag){
+                magnetsThatMatter.add(mag);
+            }
+            if(mag.getType().equals("FAMILY") && familyTag){
+                magnetsThatMatter.add(mag);
+            }
+
+        }
+
+        int final_x = 0;
+        int final_y = 0;
+
+        if(magnetsThatMatter.size() > 0) { //calculate average x and y
+            for (int j = 0; j < magnetsThatMatter.size(); j++) {
+                Magnet mag = magnetsThatMatter.get(j);
+                final_x += mag.getX();
+                final_y += mag.getY();
+            }
+            final_x = final_x/magnetsThatMatter.size();
+            final_y = final_y/magnetsThatMatter.size();
+
+            return new Point(final_x,final_y);
+        } else {
+            return this.getLocation();
+        }
+
+
+    }
 
 
 
     public void mousePressed(MouseEvent e) {
-
+        drag = new Point(e.getX(),e.getY());
+        System.out.println("m");
     }
 
     public void mouseReleased(MouseEvent e) {
@@ -125,6 +170,14 @@ public class ThumbnailComponent extends JComponent implements MouseListener, Mou
     }
 
     public void mouseDragged(MouseEvent e) {
+        int anchorX = drag.x;
+        int anchorY = drag.y;
+
+        Point parentOnScreen = getParent().getLocationOnScreen();
+        Point mouseOnScreen = e.getLocationOnScreen();
+        Point position = new Point(mouseOnScreen.x - parentOnScreen.x -
+                anchorX, mouseOnScreen.y - parentOnScreen.y - anchorY);
+        setLocation(position);
 
     }
 
