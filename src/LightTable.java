@@ -1,19 +1,17 @@
 import javax.swing.*;
 import javax.swing.border.Border;
 import java.awt.*;
-import java.awt.event.KeyListener;
-import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
-import java.awt.event.MouseMotionListener;
+import java.awt.event.*;
 import java.util.ArrayList;
 import javax.swing.BorderFactory;
 import java.util.Random;
+import javax.swing.Timer;
 
 
 /**
  * Created by ralfpopescu on 10/11/16.
  */
-public class LightTable extends JComponent implements MouseListener{
+public class LightTable extends JComponent implements MouseListener, ActionListener{
 
     ArrayList<PhotoComponent> photoComps = new ArrayList<>();
     ArrayList<ThumbnailComponent> thumbnails = new ArrayList<>();
@@ -24,6 +22,8 @@ public class LightTable extends JComponent implements MouseListener{
     JPanel main;
     int index;
     TagController tagController;
+    Timer timer;
+    int speed;
 
     public LightTable(ModeController modeController, TagController tc){
         mc = modeController; //setup
@@ -33,7 +33,11 @@ public class LightTable extends JComponent implements MouseListener{
         main.setPreferredSize(new Dimension(600, 600));
         main.setSize(new Dimension(600, 600));
         this.add(main);
+        speed = 100;
         index = 0; //keeps track of currentPhotoComp index
+        timer = new Timer(speed, this);
+        //timer.setInitialDelay(pause);
+        timer.start();
 
         tagController = tc;
     }
@@ -325,11 +329,56 @@ public class LightTable extends JComponent implements MouseListener{
     }
 
     public void attraction(){
-        for(int i = 0; i<thumbnails.size(); i++){
+        /*for(int i = 0; i<thumbnails.size(); i++){
             ThumbnailComponent tn = thumbnails.get(i);
             Point newPos = tn.calculateUltimatePosition(magnets);
             tn.setLocation((int)newPos.getX(),(int)newPos.getY());
+        }*/
+        timer.start();
+    }
+
+    public void moveTowardsEndPoint(){
+        for(int i = 0; i<thumbnails.size(); i++){
+            ThumbnailComponent tn = thumbnails.get(i);
+            Point newPos = tn.calculateUltimatePosition(magnets);
+
+            double delta_x = (newPos.getX() - tn.getX());
+            double delta_y = (newPos.getY() - tn.getY());
+
+            if(delta_x > 2){
+                if(Math.abs(delta_x) < Math.abs(delta_y)) {
+                    tn.setLocation(tn.getX() + 2, tn.getY());
+                } else {
+                    tn.setLocation(tn.getX() + 1, tn.getY());
+                }
+            }
+            if(delta_x < 2){
+                if(Math.abs(delta_x) < Math.abs(delta_y)) {
+                    tn.setLocation(tn.getX() - 2, tn.getY());
+                } else {
+                    tn.setLocation(tn.getX() - 1, tn.getY());
+                }
+            }
+            if(delta_y > 2){
+                if(Math.abs(delta_x) < Math.abs(delta_y)) {
+                    tn.setLocation(tn.getX(), tn.getY() + 2);
+                } else {
+                    tn.setLocation(tn.getX(), tn.getY() + 1);
+                }
+            }
+            if(delta_y < 2){
+                if(Math.abs(delta_x) < Math.abs(delta_y)) {
+                    tn.setLocation(tn.getX(), tn.getY() - 2);
+                } else {
+                    tn.setLocation(tn.getX(), tn.getY() - 1);
+                }
+            }
+
         }
+    }
+
+    public void actionPerformed(ActionEvent e){
+        moveTowardsEndPoint();
     }
 
     public void mousePressed(MouseEvent e) {
