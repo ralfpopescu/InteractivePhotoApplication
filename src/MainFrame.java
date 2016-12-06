@@ -80,6 +80,7 @@ public class MainFrame extends JFrame implements MenuListener, ActionListener, K
         workToggle.setMaximumSize(new Dimension(300,
                 300));
 
+
         //Status bar that changes on "Draw Mode" and "Text Mode" controls
         statusLabel = new JLabel("Status:");
 
@@ -89,6 +90,35 @@ public class MainFrame extends JFrame implements MenuListener, ActionListener, K
         lightTable = new LightTable(modeController, tagController);
         lightTable.setPreferredSize(new Dimension(500, 500));
         lightTable.setSize(new Dimension(200, 200));
+
+        vacationToggle.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                lightTable.setVacationTag(!lightTable.getVacationTag());
+                lightTable.transferTagsToThumbnails();
+            }
+        });
+        workToggle.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                lightTable.setWorkTag(!lightTable.getWorkTag());
+                lightTable.transferTagsToThumbnails();
+            }
+        });
+        familyToggle.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                lightTable.setFamilyTag(!lightTable.getFamilyTag());
+                lightTable.transferTagsToThumbnails();
+            }
+        });
+        schoolToggle.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                lightTable.setSchoolTag(!lightTable.getSchoolTag());
+                lightTable.transferTagsToThumbnails();
+            }
+        });
 
         //Main Borderlayout organizes all other elements
         jpnlMain = new JPanel(new BorderLayout());

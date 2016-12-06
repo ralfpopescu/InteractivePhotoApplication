@@ -537,6 +537,32 @@ public class PhotoComponent extends JComponent implements MouseListener, MouseMo
         }
     }
 
+    public void setVacationTag(boolean x){
+        vacationTag = x;
+    }
+    public boolean getVacationTag(){
+        return vacationTag;
+    }
+    public void setSchoolTag(boolean x){
+        schoolTag = x;
+    }
+    public boolean getSchoolTag(){
+        return schoolTag;
+    }
+    public void setWorkTag(boolean x){
+        workTag = x;
+    }
+    public boolean getworkTag(){
+        return workTag;
+    }
+    public void setFamilyTag(boolean x){
+        familyTag = x;
+    }
+    public boolean getFamilyTag(){
+        return familyTag;
+    }
+
+
 
 }
 

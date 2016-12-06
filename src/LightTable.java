@@ -33,11 +33,11 @@ public class LightTable extends JComponent implements MouseListener, ActionListe
         main.setPreferredSize(new Dimension(600, 600));
         main.setSize(new Dimension(600, 600));
         this.add(main);
-        speed = 100;
+        speed = 30;
         index = 0; //keeps track of currentPhotoComp index
         timer = new Timer(speed, this);
         //timer.setInitialDelay(pause);
-        timer.start();
+
 
         tagController = tc;
     }
@@ -275,7 +275,7 @@ public class LightTable extends JComponent implements MouseListener, ActionListe
     }
 
     public void refresh(){
-        tagController.updateTags(getTags());
+        tagController.updateTags(getTags(), this);
         transferTagsToThumbnails();
         super.revalidate();
         super.repaint();
@@ -345,40 +345,51 @@ public class LightTable extends JComponent implements MouseListener, ActionListe
             double delta_x = (newPos.getX() - tn.getX());
             double delta_y = (newPos.getY() - tn.getY());
 
+            System.out.println(newPos.getX() + " " + newPos.getY());
+
+            if(newPos.equals(tn.getLocation())){
+                return;
+            }
+
             if(delta_x > 2){
                 if(Math.abs(delta_x) < Math.abs(delta_y)) {
-                    tn.setLocation(tn.getX() + 2, tn.getY());
+                    tn.setLocation(tn.getX() + 3, tn.getY());
                 } else {
-                    tn.setLocation(tn.getX() + 1, tn.getY());
+                    tn.setLocation(tn.getX() + 2, tn.getY());
                 }
             }
             if(delta_x < 2){
                 if(Math.abs(delta_x) < Math.abs(delta_y)) {
-                    tn.setLocation(tn.getX() - 2, tn.getY());
+                    tn.setLocation(tn.getX() - 3, tn.getY());
                 } else {
-                    tn.setLocation(tn.getX() - 1, tn.getY());
+                    tn.setLocation(tn.getX() - 2, tn.getY());
                 }
             }
             if(delta_y > 2){
                 if(Math.abs(delta_x) < Math.abs(delta_y)) {
-                    tn.setLocation(tn.getX(), tn.getY() + 2);
+                    tn.setLocation(tn.getX(), tn.getY() + 3);
                 } else {
-                    tn.setLocation(tn.getX(), tn.getY() + 1);
+                    tn.setLocation(tn.getX(), tn.getY() + 2);
                 }
             }
             if(delta_y < 2){
                 if(Math.abs(delta_x) < Math.abs(delta_y)) {
-                    tn.setLocation(tn.getX(), tn.getY() - 2);
+                    tn.setLocation(tn.getX(), tn.getY() - 3);
                 } else {
-                    tn.setLocation(tn.getX(), tn.getY() - 1);
+                    tn.setLocation(tn.getX(), tn.getY() - 2);
                 }
             }
 
         }
+
     }
 
     public void actionPerformed(ActionEvent e){
-        moveTowardsEndPoint();
+        if(mc.getMagnetMode()) {
+            moveTowardsEndPoint();
+        } else {
+            timer.stop();
+        }
     }
 
     public void mousePressed(MouseEvent e) {
@@ -418,5 +429,49 @@ public class LightTable extends JComponent implements MouseListener, ActionListe
 
         }
 
+    }
+    public void setVacationTag(boolean x){
+        if(currentPhotoComp != null) {
+            currentPhotoComp.setVacationTag(x);
+        }
+    }
+    public boolean getVacationTag(){
+        if(currentPhotoComp != null) {
+            return currentPhotoComp.getVacationTag();
+        }
+        return false;
+    }
+    public void setSchoolTag(boolean x){
+        if(currentPhotoComp != null) {
+            currentPhotoComp.setSchoolTag(x);
+        }
+    }
+    public boolean getSchoolTag(){
+        if(currentPhotoComp != null) {
+            return currentPhotoComp.getSchoolTag();
+        }
+        return false;
+    }
+    public void setWorkTag(boolean x){
+        if(currentPhotoComp != null) {
+            currentPhotoComp.setWorkTag(x);
+        }
+    }
+    public boolean getWorkTag(){
+        if(currentPhotoComp != null) {
+            return currentPhotoComp.getworkTag();
+        }
+        return false;
+    }
+    public void setFamilyTag(boolean x){
+        if(currentPhotoComp != null) {
+            currentPhotoComp.setFamilyTag(x);
+        }
+    }
+    public boolean getFamilyTag(){
+        if(currentPhotoComp != null) {
+            return currentPhotoComp.getFamilyTag();
+        }
+        return false;
     }
 }

@@ -89,42 +89,38 @@ public class ThumbnailComponent extends JComponent implements MouseListener, Mou
         selected = false;
     }
 
-    public void updateTag(String tag, boolean x){
-        if(tag.equals("VACATION")){
-            vacationTag = x;
-        }
-        if(tag.equals("WORK")){
-            workTag = x;
-        }
-        if(tag.equals("SCHOOL")){
-            schoolTag = x;
-        }
-        if(tag.equals("FAMILY")){
-            familyTag = x;
-        }
-    }
 
     public Point calculateUltimatePosition(ArrayList<Magnet> magnets){
+        System.out.println(schoolTag + "" + vacationTag + workTag + familyTag);
         Point ult_pos = null;
         ArrayList<Magnet> magnetsThatMatter = new ArrayList<>();
+        String matters = "";
+        for (Magnet m: magnets){
+            System.out.println(m.getType());
+        }
 
         for(int i =0; i<magnets.size();i++){
             Magnet mag = magnets.get(i);
             if(mag.getType().equals("SCHOOL") && schoolTag){
                 magnetsThatMatter.add(mag);
+                matters += mag.getType();
             }
             if(mag.getType().equals("VACATION") && vacationTag){
                 magnetsThatMatter.add(mag);
+                matters += mag.getType();
+
             }
             if(mag.getType().equals("WORK") && workTag){
                 magnetsThatMatter.add(mag);
+                matters += mag.getType();
             }
             if(mag.getType().equals("FAMILY") && familyTag){
                 magnetsThatMatter.add(mag);
+                matters += mag.getType();
             }
 
         }
-
+        System.out.println(matters);
         int final_x = 0;
         int final_y = 0;
 
@@ -149,7 +145,7 @@ public class ThumbnailComponent extends JComponent implements MouseListener, Mou
 
     public void mousePressed(MouseEvent e) {
         drag = new Point(e.getX(),e.getY());
-        System.out.println("m");
+        //System.out.println("m");
     }
 
     public void mouseReleased(MouseEvent e) {
