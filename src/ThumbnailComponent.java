@@ -91,13 +91,13 @@ public class ThumbnailComponent extends JComponent implements MouseListener, Mou
 
 
     public Point calculateUltimatePosition(ArrayList<Magnet> magnets){
-        System.out.println(schoolTag + "" + vacationTag + workTag + familyTag);
+        //System.out.println(schoolTag + "" + vacationTag + workTag + familyTag);
         Point ult_pos = null;
         ArrayList<Magnet> magnetsThatMatter = new ArrayList<>();
         String matters = "";
-        for (Magnet m: magnets){
-            System.out.println(m.getType());
-        }
+//        for (Magnet m: magnets){
+//            System.out.println(m.getType());
+//        }
 
         for(int i =0; i<magnets.size();i++){
             Magnet mag = magnets.get(i);
@@ -120,7 +120,7 @@ public class ThumbnailComponent extends JComponent implements MouseListener, Mou
             }
 
         }
-        System.out.println(matters);
+        //System.out.println(matters);
         int final_x = 0;
         int final_y = 0;
 

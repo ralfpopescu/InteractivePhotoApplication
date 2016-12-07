@@ -83,6 +83,7 @@ public class LightTable extends JComponent implements MouseListener, ActionListe
                     mag.setSize(50,25);
 
                     if(mc.getInitialMagModeSwitch()) {
+                        timer.start();
                         double rx = rng.nextDouble();
                         double ry = rng.nextDouble();
 
@@ -235,6 +236,7 @@ public class LightTable extends JComponent implements MouseListener, ActionListe
             index = 0;
         }
         currentPhotoComp = photoComps.get(index);
+        refresh();
         updateComponent();
 
     }
@@ -246,12 +248,13 @@ public class LightTable extends JComponent implements MouseListener, ActionListe
             index = photoComps.size() - 1;
         }
         currentPhotoComp = photoComps.get(index);
+        refresh();
         updateComponent();
     }
 
     public void delete(){
         if(photoComps.size() > 0){ //makes sure there is photo first
-            System.out.println(photoComps.size());
+            //System.out.println(photoComps.size());
             if(photoComps.size() == 1){ //edge case
                 main.removeAll();
                 photoComps.clear();
@@ -316,7 +319,7 @@ public class LightTable extends JComponent implements MouseListener, ActionListe
             magnets.remove(index);
             updateComponent();
         }
-        timer.start();
+        //timer.start();
     }
 
     public void transferTagsToThumbnails(){
@@ -326,19 +329,14 @@ public class LightTable extends JComponent implements MouseListener, ActionListe
 
             boolean[] tags = pc.getTags();
 
-            tn.workTag = tags[0];
-            tn.vacationTag = tags[1];
-            tn.schoolTag = tags[2];
-            tn.familyTag = tags[3];
+            tn.workTag = pc.getworkTag();
+            tn.vacationTag = pc.getVacationTag();
+            tn.schoolTag = pc.getSchoolTag();
+            tn.familyTag = pc.getFamilyTag();
         }
     }
 
     public void attraction(){
-        /*for(int i = 0; i<thumbnails.size(); i++){
-            ThumbnailComponent tn = thumbnails.get(i);
-            Point newPos = tn.calculateUltimatePosition(magnets);
-            tn.setLocation((int)newPos.getX(),(int)newPos.getY());
-        }*/
         timer.start();
     }
 
@@ -350,13 +348,13 @@ public class LightTable extends JComponent implements MouseListener, ActionListe
             double delta_x = (newPos.getX() - tn.getX());
             double delta_y = (newPos.getY() - tn.getY());
 
-            System.out.println(newPos.getX() + " " + newPos.getY());
+            //System.out.println(newPos.getX() + " " + newPos.getY());
 
             if(newPos.equals(tn.getLocation())){
-                return;
+                continue;
             }
             if(Math.abs(delta_x) < 5 && Math.abs(delta_y) < 5){
-                return;
+                continue;
             }
 
             if(delta_x > 4){

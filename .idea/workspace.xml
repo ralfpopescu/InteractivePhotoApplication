@@ -31,7 +31,7 @@
         <entry file="file://$PROJECT_DIR$/src/MainFrame.java">
           <provider selected="true" editor-type-id="text-editor">
             <state vertical-scroll-proportion="0.0">
-              <caret line="405" column="5" selection-start-line="405" selection-start-column="5" selection-end-line="405" selection-end-column="5" />
+              <caret line="84" column="44" selection-start-line="84" selection-start-column="44" selection-end-line="84" selection-end-column="44" />
               <folding>
                 <element signature="n#!!doc" expanded="true" />
                 <element signature="imports" expanded="true" />
@@ -44,7 +44,7 @@
         <entry file="file://$PROJECT_DIR$/src/TagController.java">
           <provider selected="true" editor-type-id="text-editor">
             <state vertical-scroll-proportion="0.0">
-              <caret line="28" column="42" selection-start-line="28" selection-start-column="42" selection-end-line="28" selection-end-column="42" />
+              <caret line="15" column="30" selection-start-line="15" selection-start-column="30" selection-end-line="15" selection-end-column="30" />
               <folding />
             </state>
           </provider>
@@ -74,7 +74,7 @@
       <file leaf-file-name="PhotoComponent.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/PhotoComponent.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="-6.645161">
+            <state vertical-scroll-proportion="-15.354838">
               <caret line="559" column="5" selection-start-line="559" selection-start-column="5" selection-end-line="559" selection-end-column="5" />
               <folding>
                 <element signature="e#9546#9547#0" expanded="true" />
@@ -123,13 +123,15 @@
         <entry file="file://$PROJECT_DIR$/src/LightTable.java">
           <provider selected="true" editor-type-id="text-editor">
             <state vertical-scroll-proportion="0.61538464">
-              <caret line="360" column="0" selection-start-line="360" selection-start-column="0" selection-end-line="360" selection-end-column="0" />
+              <caret line="358" column="0" selection-start-line="358" selection-start-column="0" selection-end-line="358" selection-end-column="0" />
               <folding>
                 <element signature="imports" expanded="true" />
-                <element signature="e#8748#8749#0" expanded="true" />
-                <element signature="e#8781#8782#0" expanded="true" />
-                <element signature="e#9180#9181#0" expanded="true" />
-                <element signature="e#9232#9233#0" expanded="true" />
+                <element signature="e#8827#8828#0" expanded="true" />
+                <element signature="e#8860#8861#0" expanded="true" />
+                <element signature="e#9259#9260#0" expanded="true" />
+                <element signature="e#9311#9312#0" expanded="true" />
+                <element signature="e#10373#10374#0" expanded="true" />
+                <element signature="e#10402#10403#0" expanded="true" />
               </folding>
             </state>
           </provider>
@@ -139,7 +141,7 @@
         <entry file="file://$PROJECT_DIR$/src/ThumbnailComponent.java">
           <provider selected="true" editor-type-id="text-editor">
             <state vertical-scroll-proportion="0.0">
-              <caret line="132" column="55" selection-start-line="132" selection-start-column="55" selection-end-line="132" selection-end-column="55" />
+              <caret line="86" column="0" selection-start-line="86" selection-start-column="0" selection-end-line="86" selection-end-column="0" />
               <folding>
                 <element signature="e#1978#1979#0" expanded="true" />
                 <element signature="e#2011#2012#0" expanded="true" />
@@ -158,17 +160,17 @@
         <entry file="file://$PROJECT_DIR$/src/Magnet.java">
           <provider selected="true" editor-type-id="text-editor">
             <state vertical-scroll-proportion="0.0">
-              <caret line="42" column="32" selection-start-line="42" selection-start-column="32" selection-end-line="42" selection-end-column="32" />
+              <caret line="42" column="10" selection-start-line="42" selection-start-column="10" selection-end-line="42" selection-end-column="10" />
               <folding>
                 <element signature="imports" expanded="true" />
                 <element signature="e#809#810#0" expanded="true" />
                 <element signature="e#836#837#0" expanded="true" />
-                <element signature="e#1728#1729#0" expanded="true" />
-                <element signature="e#1806#1807#0" expanded="true" />
-                <element signature="e#1833#1834#0" expanded="true" />
-                <element signature="e#1860#1861#0" expanded="true" />
-                <element signature="e#1887#1888#0" expanded="true" />
-                <element signature="e#1914#1915#0" expanded="true" />
+                <element signature="e#1734#1735#0" expanded="true" />
+                <element signature="e#1812#1813#0" expanded="true" />
+                <element signature="e#1839#1840#0" expanded="true" />
+                <element signature="e#1866#1867#0" expanded="true" />
+                <element signature="e#1893#1894#0" expanded="true" />
+                <element signature="e#1920#1921#0" expanded="true" />
               </folding>
             </state>
           </provider>
@@ -212,11 +214,11 @@
         <option value="$PROJECT_DIR$/src/TextRegion.java" />
         <option value="$PROJECT_DIR$/src/Siger.java" />
         <option value="$PROJECT_DIR$/src/ModeController.java" />
-        <option value="$PROJECT_DIR$/src/Magnet.java" />
-        <option value="$PROJECT_DIR$/src/TagController.java" />
         <option value="$PROJECT_DIR$/src/PhotoComponent.java" />
+        <option value="$PROJECT_DIR$/src/TagController.java" />
         <option value="$PROJECT_DIR$/src/MainFrame.java" />
         <option value="$PROJECT_DIR$/src/ThumbnailComponent.java" />
+        <option value="$PROJECT_DIR$/src/Magnet.java" />
         <option value="$PROJECT_DIR$/src/LightTable.java" />
       </list>
     </option>
@@ -735,10 +737,12 @@
           <caret line="7" column="65" selection-start-line="7" selection-start-column="65" selection-end-line="7" selection-end-column="65" />
           <folding>
             <element signature="imports" expanded="true" />
-            <element signature="e#8748#8749#0" expanded="true" />
-            <element signature="e#8781#8782#0" expanded="true" />
-            <element signature="e#9180#9181#0" expanded="true" />
-            <element signature="e#9232#9233#0" expanded="true" />
+            <element signature="e#8827#8828#0" expanded="true" />
+            <element signature="e#8860#8861#0" expanded="true" />
+            <element signature="e#9259#9260#0" expanded="true" />
+            <element signature="e#9311#9312#0" expanded="true" />
+            <element signature="e#10373#10374#0" expanded="true" />
+            <element signature="e#10402#10403#0" expanded="true" />
           </folding>
         </state>
       </provider>
@@ -830,10 +834,12 @@
           <caret line="7" column="65" selection-start-line="7" selection-start-column="65" selection-end-line="7" selection-end-column="65" />
           <folding>
             <element signature="imports" expanded="true" />
-            <element signature="e#8748#8749#0" expanded="true" />
-            <element signature="e#8781#8782#0" expanded="true" />
-            <element signature="e#9180#9181#0" expanded="true" />
-            <element signature="e#9232#9233#0" expanded="true" />
+            <element signature="e#8827#8828#0" expanded="true" />
+            <element signature="e#8860#8861#0" expanded="true" />
+            <element signature="e#9259#9260#0" expanded="true" />
+            <element signature="e#9311#9312#0" expanded="true" />
+            <element signature="e#10373#10374#0" expanded="true" />
+            <element signature="e#10402#10403#0" expanded="true" />
           </folding>
         </state>
       </provider>
@@ -1351,14 +1357,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/TagController.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="28" column="42" selection-start-line="28" selection-start-column="42" selection-end-line="28" selection-end-column="42" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/TextRegion.java">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
@@ -1372,7 +1370,7 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/PhotoComponent.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-6.645161">
+        <state vertical-scroll-proportion="-15.354838">
           <caret line="559" column="5" selection-start-line="559" selection-start-column="5" selection-end-line="559" selection-end-column="5" />
           <folding>
             <element signature="e#9546#9547#0" expanded="true" />
@@ -1403,39 +1401,10 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/MainFrame.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="405" column="5" selection-start-line="405" selection-start-column="5" selection-end-line="405" selection-end-column="5" />
-          <folding>
-            <element signature="n#!!doc" expanded="true" />
-            <element signature="imports" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/Magnet.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="42" column="32" selection-start-line="42" selection-start-column="32" selection-end-line="42" selection-end-column="32" />
-          <folding>
-            <element signature="imports" expanded="true" />
-            <element signature="e#809#810#0" expanded="true" />
-            <element signature="e#836#837#0" expanded="true" />
-            <element signature="e#1728#1729#0" expanded="true" />
-            <element signature="e#1806#1807#0" expanded="true" />
-            <element signature="e#1833#1834#0" expanded="true" />
-            <element signature="e#1860#1861#0" expanded="true" />
-            <element signature="e#1887#1888#0" expanded="true" />
-            <element signature="e#1914#1915#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/ThumbnailComponent.java">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
-          <caret line="132" column="55" selection-start-line="132" selection-start-column="55" selection-end-line="132" selection-end-column="55" />
+          <caret line="86" column="0" selection-start-line="86" selection-start-column="0" selection-end-line="86" selection-end-column="0" />
           <folding>
             <element signature="e#1978#1979#0" expanded="true" />
             <element signature="e#2011#2012#0" expanded="true" />
@@ -1449,16 +1418,55 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/src/TagController.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="15" column="30" selection-start-line="15" selection-start-column="30" selection-end-line="15" selection-end-column="30" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/MainFrame.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="84" column="44" selection-start-line="84" selection-start-column="44" selection-end-line="84" selection-end-column="44" />
+          <folding>
+            <element signature="n#!!doc" expanded="true" />
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/Magnet.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="42" column="10" selection-start-line="42" selection-start-column="10" selection-end-line="42" selection-end-column="10" />
+          <folding>
+            <element signature="imports" expanded="true" />
+            <element signature="e#809#810#0" expanded="true" />
+            <element signature="e#836#837#0" expanded="true" />
+            <element signature="e#1734#1735#0" expanded="true" />
+            <element signature="e#1812#1813#0" expanded="true" />
+            <element signature="e#1839#1840#0" expanded="true" />
+            <element signature="e#1866#1867#0" expanded="true" />
+            <element signature="e#1893#1894#0" expanded="true" />
+            <element signature="e#1920#1921#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/src/LightTable.java">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.61538464">
-          <caret line="360" column="0" selection-start-line="360" selection-start-column="0" selection-end-line="360" selection-end-column="0" />
+          <caret line="358" column="0" selection-start-line="358" selection-start-column="0" selection-end-line="358" selection-end-column="0" />
           <folding>
             <element signature="imports" expanded="true" />
-            <element signature="e#8748#8749#0" expanded="true" />
-            <element signature="e#8781#8782#0" expanded="true" />
-            <element signature="e#9180#9181#0" expanded="true" />
-            <element signature="e#9232#9233#0" expanded="true" />
+            <element signature="e#8827#8828#0" expanded="true" />
+            <element signature="e#8860#8861#0" expanded="true" />
+            <element signature="e#9259#9260#0" expanded="true" />
+            <element signature="e#9311#9312#0" expanded="true" />
+            <element signature="e#10373#10374#0" expanded="true" />
+            <element signature="e#10402#10403#0" expanded="true" />
           </folding>
         </state>
       </provider>

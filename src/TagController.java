@@ -20,14 +20,14 @@ public class TagController {
 
     }
     public void updateTags(boolean[] tags, LightTable lt){ //updates tags accordingly
-        if(tags != null) {
-            vacationToggle.setSelected(tags[0]);
-            workToggle.setSelected(tags[1]);
-            schoolToggle.setSelected(tags[2]);
-            familyToggle.setSelected(tags[3]);
+
+            vacationToggle.setSelected(lt.getVacationTag());
+            workToggle.setSelected(lt.getWorkTag());
+            schoolToggle.setSelected(lt.getSchoolTag());
+            familyToggle.setSelected(lt.getFamilyTag());
 
             lt.transferTagsToThumbnails();
-        }
+
 
     }
 

@@ -36,11 +36,11 @@ public class Magnet extends JLabel implements MouseListener, MouseMotionListener
 
     public void mousePressed(MouseEvent e) {
         drag = new Point(e.getX(),e.getY());
-        System.out.println("m");
+
     }
 
     public void mouseReleased(MouseEvent e) {
-        lightTable.attraction();
+        //lightTable.attraction();
 
     }
 
@@ -66,6 +66,8 @@ public class Magnet extends JLabel implements MouseListener, MouseMotionListener
         Point position = new Point(mouseOnScreen.x - parentOnScreen.x -
                 anchorX, mouseOnScreen.y - parentOnScreen.y - anchorY);
         setLocation(position);
+
+        //lightTable.attraction();
 
     }
 

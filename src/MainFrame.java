@@ -84,7 +84,7 @@ public class MainFrame extends JFrame implements MenuListener, ActionListener, K
         //Status bar that changes on "Draw Mode" and "Text Mode" controls
         statusLabel = new JLabel("Status:");
 
-        tagController = new TagController(vacationToggle, familyToggle, workToggle, schoolToggle, statusLabel);
+        tagController = new TagController(vacationToggle, familyToggle, schoolToggle, workToggle, statusLabel);
 
         modeController = new ModeController();
         lightTable = new LightTable(modeController, tagController);
