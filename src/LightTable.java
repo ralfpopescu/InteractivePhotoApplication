@@ -312,6 +312,7 @@ public class LightTable extends JComponent implements MouseListener, ActionListe
             magnets.remove(index);
             updateComponent();
         }
+        timer.start();
     }
 
     public void transferTagsToThumbnails(){
@@ -352,31 +353,59 @@ public class LightTable extends JComponent implements MouseListener, ActionListe
             }
 
             if(delta_x > 2){
+                int speed = 3;
+                if(delta_x > 100){
+                    speed = 20;
+                }
+                if(delta_x > 50){
+                    speed = 10;
+                }
                 if(Math.abs(delta_x) < Math.abs(delta_y)) {
-                    tn.setLocation(tn.getX() + 3, tn.getY());
+                    tn.setLocation(tn.getX() + speed, tn.getY());
                 } else {
-                    tn.setLocation(tn.getX() + 2, tn.getY());
+                    tn.setLocation(tn.getX() + speed/2, tn.getY());
                 }
             }
             if(delta_x < 2){
+                int speed = 3;
+                if(delta_x < 100){
+                    speed = 20;
+                }
+                if(delta_x < 50){
+                    speed = 10;
+                }
                 if(Math.abs(delta_x) < Math.abs(delta_y)) {
-                    tn.setLocation(tn.getX() - 3, tn.getY());
+                    tn.setLocation(tn.getX() - speed, tn.getY());
                 } else {
-                    tn.setLocation(tn.getX() - 2, tn.getY());
+                    tn.setLocation(tn.getX() - speed/2, tn.getY());
                 }
             }
             if(delta_y > 2){
+                int speed = 3;
+                if(delta_y > 100){
+                    speed = 20;
+                }
+                if(delta_y > 50){
+                    speed = 10;
+                }
                 if(Math.abs(delta_x) < Math.abs(delta_y)) {
-                    tn.setLocation(tn.getX(), tn.getY() + 3);
+                    tn.setLocation(tn.getX(), tn.getY() + speed);
                 } else {
-                    tn.setLocation(tn.getX(), tn.getY() + 2);
+                    tn.setLocation(tn.getX(), tn.getY() + speed/2);
                 }
             }
             if(delta_y < 2){
+                int speed = 3;
+                if(delta_y <100){
+                    speed = 20;
+                }
+                if(delta_y < 50){
+                    speed = 10;
+                }
                 if(Math.abs(delta_x) < Math.abs(delta_y)) {
-                    tn.setLocation(tn.getX(), tn.getY() - 3);
+                    tn.setLocation(tn.getX(), tn.getY() - speed);
                 } else {
-                    tn.setLocation(tn.getX(), tn.getY() - 2);
+                    tn.setLocation(tn.getX(), tn.getY() - speed/2);
                 }
             }
 
