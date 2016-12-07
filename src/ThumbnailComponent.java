@@ -133,6 +133,9 @@ public class ThumbnailComponent extends JComponent implements MouseListener, Mou
             final_x = final_x/magnetsThatMatter.size();
             final_y = final_y/magnetsThatMatter.size();
 
+            final_x -= photoWidth/2 - 25;
+            final_y -= photoHeight/2 - 12;
+
             return new Point(final_x,final_y);
         } else {
             return this.getLocation();

@@ -400,7 +400,7 @@ public class MainFrame extends JFrame implements MenuListener, ActionListener, K
     private void initUI() {
 
         setTitle("Ralf's Photo Application");
-        setSize(800, 500);
+        setSize(1100, 600);
         setLocationRelativeTo(null);
         setDefaultCloseOperation(EXIT_ON_CLOSE);
     }

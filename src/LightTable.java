@@ -78,6 +78,23 @@ public class LightTable extends JComponent implements MouseListener, ActionListe
                 Random rng = new Random();
                 panel.setPreferredSize(new Dimension(500, 500));
 
+                int layer = 0; //determines layer of item
+                for (Magnet mag: magnets){
+                    mag.setSize(50,25);
+
+                    if(mc.getInitialMagModeSwitch()) {
+                        double rx = rng.nextDouble();
+                        double ry = rng.nextDouble();
+
+                        int randomx = (int) (rx * 400); //randomly positions thumbnails on magnet mode
+                        int randomy = (int) (ry * 400);
+
+                        mag.setLocation(randomx, randomy);
+
+                    }
+                    panel.add(mag);
+                    layer++;
+                }
 
                 for (int i = 0; i < thumbnails.size(); i++) { //adds all thumbnails
                     ThumbnailComponent j = thumbnails.get(i);
@@ -86,6 +103,7 @@ public class LightTable extends JComponent implements MouseListener, ActionListe
                     j.setSize(size);
                     j.deselect();
                     panel.add(j);
+                    layer++;
 
                     j.setSize(size);
                     if(mc.getInitialMagModeSwitch()) { //makes sure we only randomize on initial mode switch
@@ -101,21 +119,7 @@ public class LightTable extends JComponent implements MouseListener, ActionListe
                     }
                 }
 
-                for (Magnet mag: magnets){
-                    mag.setSize(50,25);
 
-                    if(mc.getInitialMagModeSwitch()) {
-                        double rx = rng.nextDouble();
-                        double ry = rng.nextDouble();
-
-                        int randomx = (int) (rx * 400); //randomly positions thumbnails on magnet mode
-                        int randomy = (int) (ry * 400);
-
-                        mag.setLocation(randomx, randomy);
-
-                    }
-                    panel.add(mag);
-                }
 
                 main.add(panel);
                 mc.setInitialMagModeSwitch(false); //turn off initial switch, only turns on again if you switch magnet mode or add magnet
@@ -351,57 +355,63 @@ public class LightTable extends JComponent implements MouseListener, ActionListe
             if(newPos.equals(tn.getLocation())){
                 return;
             }
+            if(Math.abs(delta_x) < 5 && Math.abs(delta_y) < 5){
+                return;
+            }
 
-            if(delta_x > 2){
-                int speed = 3;
-                if(delta_x > 100){
+            if(delta_x > 4){
+                int speed = 4;
+                if(delta_x > 70){
                     speed = 20;
                 }
-                if(delta_x > 50){
+                if(delta_x > 40 && delta_y < 70){
                     speed = 10;
                 }
-                if(Math.abs(delta_x) < Math.abs(delta_y)) {
+                if(Math.abs(delta_x) > Math.abs(delta_y)) {
                     tn.setLocation(tn.getX() + speed, tn.getY());
                 } else {
                     tn.setLocation(tn.getX() + speed/2, tn.getY());
                 }
             }
-            if(delta_x < 2){
-                int speed = 3;
-                if(delta_x < 100){
+            if(delta_x < 4){
+                int speed = 4;
+                if(delta_x < 70){
                     speed = 20;
                 }
-                if(delta_x < 50){
+                if(delta_x < 40 && delta_x > 10){
                     speed = 10;
                 }
-                if(Math.abs(delta_x) < Math.abs(delta_y)) {
+                if(Math.abs(delta_x) > Math.abs(delta_y)) {
                     tn.setLocation(tn.getX() - speed, tn.getY());
                 } else {
                     tn.setLocation(tn.getX() - speed/2, tn.getY());
                 }
             }
-            if(delta_y > 2){
-                int speed = 3;
-                if(delta_y > 100){
+            if(delta_y > 4){
+                int speed = 4;
+                if(delta_y > 70){
                     speed = 20;
                 }
-                if(delta_y > 50){
+                if(delta_y > 40 && delta_y < 70){
                     speed = 10;
                 }
+
                 if(Math.abs(delta_x) < Math.abs(delta_y)) {
                     tn.setLocation(tn.getX(), tn.getY() + speed);
                 } else {
                     tn.setLocation(tn.getX(), tn.getY() + speed/2);
                 }
+
             }
-            if(delta_y < 2){
-                int speed = 3;
-                if(delta_y <100){
+            if(delta_y < 4){
+                int speed = 4;
+                if(delta_y < 70){
                     speed = 20;
                 }
-                if(delta_y < 50){
+                if(delta_y < 40 && delta_y > 10){
                     speed = 10;
                 }
+
                 if(Math.abs(delta_x) < Math.abs(delta_y)) {
                     tn.setLocation(tn.getX(), tn.getY() - speed);
                 } else {
