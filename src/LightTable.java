@@ -360,10 +360,10 @@ public class LightTable extends JComponent implements MouseListener, ActionListe
             if(delta_x > 4){
                 int speed = 4;
                 if(delta_x > 70){
-                    speed = 20;
+                    speed = 14;
                 }
                 if(delta_x > 40 && delta_y < 70){
-                    speed = 10;
+                    speed = 7;
                 }
                 if(Math.abs(delta_x) > Math.abs(delta_y)) {
                     tn.setLocation(tn.getX() + speed, tn.getY());
@@ -374,10 +374,10 @@ public class LightTable extends JComponent implements MouseListener, ActionListe
             if(delta_x < 4){
                 int speed = 4;
                 if(delta_x < 70){
-                    speed = 20;
+                    speed = 14;
                 }
                 if(delta_x < 40 && delta_x > 10){
-                    speed = 10;
+                    speed = 7;
                 }
                 if(Math.abs(delta_x) > Math.abs(delta_y)) {
                     tn.setLocation(tn.getX() - speed, tn.getY());
@@ -388,10 +388,10 @@ public class LightTable extends JComponent implements MouseListener, ActionListe
             if(delta_y > 4){
                 int speed = 4;
                 if(delta_y > 70){
-                    speed = 20;
+                    speed = 14;
                 }
                 if(delta_y > 40 && delta_y < 70){
-                    speed = 10;
+                    speed = 7;
                 }
 
                 if(Math.abs(delta_x) < Math.abs(delta_y)) {
@@ -404,10 +404,10 @@ public class LightTable extends JComponent implements MouseListener, ActionListe
             if(delta_y < 4){
                 int speed = 4;
                 if(delta_y < 70){
-                    speed = 20;
+                    speed = 14;
                 }
                 if(delta_y < 40 && delta_y > 10){
-                    speed = 10;
+                    speed = 7;
                 }
 
                 if(Math.abs(delta_x) < Math.abs(delta_y)) {
