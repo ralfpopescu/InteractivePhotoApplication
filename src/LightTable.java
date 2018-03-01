@@ -99,6 +99,8 @@ public class LightTable extends JComponent implements MouseListener, ActionListe
 
                 for (int i = 0; i < thumbnails.size(); i++) { //adds all thumbnails
                     ThumbnailComponent j = thumbnails.get(i);
+                    j.addMouseListener(j);
+                    j.addMouseMotionListener(j);
                     Dimension size = j.getPreferredSize();
 
                     j.setSize(size);
@@ -136,6 +138,8 @@ public class LightTable extends JComponent implements MouseListener, ActionListe
                 flow.setPreferredSize(new Dimension(500, 500));
                 for (int i = 0; i < thumbnails.size(); i++) { //adds all thumbnails
                     ThumbnailComponent j = thumbnails.get(i);
+                    j.removeMouseListener(j);
+                    j.removeMouseMotionListener(j);
                     j.deselect();
                     flow.add(j);
                 }
@@ -155,7 +159,6 @@ public class LightTable extends JComponent implements MouseListener, ActionListe
             main.removeAll();
             JPanel border = new JPanel(new BorderLayout());
             JPanel flow = new JPanel(new FlowLayout(FlowLayout.LEADING, 10, 10));
-
 
 
             flow.addMouseListener(this);
